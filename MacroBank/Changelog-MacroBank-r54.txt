@@ -1,0 +1,22 @@
+------------------------------------------------------------------------
+r54 | Odlaw | 2010-09-09 18:34:58 +0000 (Thu, 09 Sep 2010) | 2 lines
+Changed paths:
+   M /trunk/MacroBank.lua
+
+- Added right-click dropdown menu for Categories:  Change Category, Load Category
+- Fixed loading categories when you shift-clicked the load button.
+------------------------------------------------------------------------
+r53 | Odlaw | 2010-09-03 19:13:09 +0000 (Fri, 03 Sep 2010) | 2 lines
+Changed paths:
+   M /trunk/MacroBank.lua
+   M /trunk/MacroBank.toc
+
+Added support for categories within categories.  (Category1\Category2\Category3\etc.)
+ToC Update: X-Compatible-With: 40000
+------------------------------------------------------------------------
+r52 | Odlaw | 2010-05-03 21:47:36 +0000 (Mon, 03 May 2010) | 1 line
+Changed paths:
+   M /trunk/MacroBank.toc
+
+zhCN update (thanks wowuicn)
+------------------------------------------------------------------------
