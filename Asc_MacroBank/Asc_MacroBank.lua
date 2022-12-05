@@ -1105,7 +1105,8 @@ function Addon:UNIT_SPELLCAST_SUCCEEDED(event, unit, spellName, spellRank)
 				self:LoadCategory(Value, "Global")
 			end
 			if ActionBarSaver then -- if we have a saved ABS profile, restore it after updating the macros
-				self:RegisterEvent("CHAT_MSG_SYSTEM")
+				Addon:GetABSGroupList() -- Make sure we have the latest list of saved profiles
+				self:RegisterEvent("CHAT_MSG_SYSTEM") -- wait for spec swap to finish
 			end
 		end
 	end
@@ -1115,7 +1116,7 @@ function Addon:CHAT_MSG_SYSTEM(event, msg)
 	local rank = msg:match("changed to Specialization (.*)%.")
 	if rank then
 		self:UnregisterEvent("CHAT_MSG_SYSTEM")
-		if self.db.profile.Options.AutoLoad["Spec_"..rank.."_ABS"] ~= "none" then
+		if self.db.profile.Options.AutoLoad["Spec_"..rank.."_ABS"] ~= "none"  and tContains(self.db.profile.Options.ABSOptions, self.db.profile.Options.AutoLoad["Spec_"..rank.."_ABS"]) then -- if a loadout is set and still in ActionBarSaver
 			ActionBarSaver:RestoreProfile(self.db.profile.Options.AutoLoad["Spec_"..rank.."_ABS"])
 		end
 	end
