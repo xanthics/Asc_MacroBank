@@ -1,4 +1,4 @@
-﻿local L = LibStub("AceLocale-3.0"):NewLocale("MacroBank", "ruRU", false);
+﻿local L = LibStub("AceLocale-3.0"):NewLocale("MacroBank", "ruRU", false)
 if not L then return end
 L["AcceptIcon"] = "Принять"
 L["AcceptIconDesc"] = "Принять эту иконку."

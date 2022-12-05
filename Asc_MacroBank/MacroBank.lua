@@ -1,7 +1,7 @@
-﻿-- UIParentLoadAddOn("Blizzard_MacroUI");
-local Addon = LibStub("AceAddon-3.0"):NewAddon("MacroBank", "AceEvent-3.0", "AceConsole-3.0");
-MacroBank = Addon;
-local L = LibStub("AceLocale-3.0"):GetLocale("MacroBank");
+﻿-- UIParentLoadAddOn("Blizzard_MacroUI")
+local Addon = LibStub("AceAddon-3.0"):NewAddon("MacroBank", "AceEvent-3.0", "AceConsole-3.0")
+MacroBank = Addon
+local L = LibStub("AceLocale-3.0"):GetLocale("MacroBank")
 
 local CmdOptions = {
 	["type"] = "group",
@@ -31,7 +31,7 @@ local CmdOptions = {
 			},
 		},
 	},
-};
+}
 local MenuOptions = {
 	["type"] = "group",
 	["handler"] = MacroBank,
@@ -278,7 +278,7 @@ local MenuOptions = {
 			},
 		},
 	},
-};
+}
 local defaults = {
 	["global"] = {
 		["Macros"] = {
@@ -325,13 +325,13 @@ local defaults = {
 			},
 		},
 	},
-};
-local FontGold = "|cffffcc00";
-local FontWhite = "|cffffffff";
+}
+local FontGold = "|cffffcc00"
+local FontWhite = "|cffffffff"
 local IconChoice = {
 	["NumLines"] = 10,
 	["NumColumns"] = 10,
-};
+}
 StaticPopupDialogs.MacroBank_Accept = {
 	["text"] = L["Accept new Macro from %s?"],
 	["button1"] = YES,
@@ -356,7 +356,7 @@ StaticPopupDialogs.MacroBank_Accept = {
 		end
 		self.MacroBankData = nil
 	end,
-};
+}
 
 StaticPopupDialogs.MacroBank_SendTo = {
 	["text"] = L["Send selected macro to"],
@@ -376,7 +376,7 @@ StaticPopupDialogs.MacroBank_SendTo = {
 	["OnCancel"] = function(self)
 		self.MacroBankData = nil
 	end,
-};
+}
 
 StaticPopupDialogs.MacroBank_DeleteMacro = {
 	["text"] = L["Delete Macro %s?"],
@@ -394,7 +394,7 @@ StaticPopupDialogs.MacroBank_DeleteMacro = {
 	["OnCancel"] = function(self)
 		self.MacroBankData = nil
 	end,
-};
+}
 
 StaticPopupDialogs.MacroBank_SaveAllMacros = {
 	["text"] = L["Category?"],
@@ -407,7 +407,7 @@ StaticPopupDialogs.MacroBank_SaveAllMacros = {
 	["OnAccept"] = function(self)
 		MacroBank:SaveAllMacros(self.editBox:GetText())
 	end,
-};
+}
 
 StaticPopupDialogs.MacroBank_ChangeCategory = {
 	["text"] = L["Category Name"],
@@ -436,7 +436,7 @@ StaticPopupDialogs.MacroBank_ChangeCategory = {
 	["OnCancel"] = function(self)
 		self.MacroBankData = nil
 	end,
-};
+}
 
 -- I could do a multi-level dropdown by making an entry added with hasArrow, and adding a table of 'menuList'
 Addon.EasyMenu_Send = {
@@ -513,7 +513,7 @@ Addon.EasyMenu_Send = {
 		["disabled"] = false,
 		["notCheckable"] = true,
 	},
-};
+}
 
 Addon.EasyMenu_Category = {
 	{
@@ -540,9 +540,9 @@ Addon.EasyMenu_Category = {
 		["tooltipText"] = L["Change Category Description"],
 		["func"] = function(frame, arg)
 			if ( arg ) then
-				local Dialog = StaticPopup_Show("MacroBank_ChangeCategory");
+				local Dialog = StaticPopup_Show("MacroBank_ChangeCategory")
 				if Dialog then
-					Dialog.MacroBankData = arg;
+					Dialog.MacroBankData = arg
 					Dialog.editBox:SetScript("OnEnterPressed",  function(t) Dialog.button1:Click() end)
 				end
 			end
@@ -561,96 +561,96 @@ Addon.EasyMenu_Category = {
 		["disabled"] = false,
 		["notCheckable"] = true,
 	},
-};
+}
 
 function Addon:OnInitialize()
 -- self:Print("OnInit()")
-	self.db = LibStub("AceDB-3.0"):New("MacroBankDB", defaults, L["Default"]);
-	-- self.db.RegisterCallback(self, "OnProfileChanged", "OnProfileChanged");
-	-- self.db.RegisterCallback(self, "OnProfileCopied", "OnProfileChanged");
-	-- self.db.RegisterCallback(self, "OnProfileReset", "OnProfileChanged");
-	-- self.db.RegisterCallback(self, "OnProfileDeleted", "OnProfileNewOrDelete");
-	-- self.db.RegisterCallback(self, "OnNewSet", "OnProfileNewOrDelete");
+	self.db = LibStub("AceDB-3.0"):New("MacroBankDB", defaults, L["Default"])
+	-- self.db.RegisterCallback(self, "OnProfileChanged", "OnProfileChanged")
+	-- self.db.RegisterCallback(self, "OnProfileCopied", "OnProfileChanged")
+	-- self.db.RegisterCallback(self, "OnProfileReset", "OnProfileChanged")
+	-- self.db.RegisterCallback(self, "OnProfileDeleted", "OnProfileNewOrDelete")
+	-- self.db.RegisterCallback(self, "OnNewSet", "OnProfileNewOrDelete")
 	LibStub("AceConfig-3.0"):RegisterOptionsTable("MacroBank CmdLine", CmdOptions, {L["SlashCmd1"], L["SlashCmd2"]})
-	MenuOptions.args.Profiles = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db);
-	LibStub("AceConfig-3.0"):RegisterOptionsTable(L["MacroBank"], MenuOptions);
-	self.MainFrame = self:CreateMainFrame();
-	self.DropDownFrame = CreateFrame("Frame", "MacroBank_DropDownMenu", nil, "UIDropDownMenuTemplate");
+	MenuOptions.args.Profiles = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db)
+	LibStub("AceConfig-3.0"):RegisterOptionsTable(L["MacroBank"], MenuOptions)
+	self.MainFrame = self:CreateMainFrame()
+	self.DropDownFrame = CreateFrame("Frame", "MacroBank_DropDownMenu", nil, "UIDropDownMenuTemplate")
 	self.ExpandedTree = {
 		-- [CategoryTable] = nil or true,
-	};
-	self.CategoryList = {};  -- A list of Category Names   ie - [1] = "Category1", [2] = "Category2\Category3"
+	}
+	self.CategoryList = {}  -- A list of Category Names   ie - [1] = "Category1", [2] = "Category2\Category3"
 	self.CategoryNameToTable = {  -- A list of Category names to the CategoryIndex tables.
 		-- ["Category Name1\Name2"] = CategoryTable,
-	};
+	}
 	self.CategoryTableToName = {
 		-- [CategoryTable] = "Category Name1\Name2",
-	};
-	self.CurrentMacro = 0;
-	self:UpgradeDatabase();
-	self:RegisterEvent("ADDON_LOADED");
-	self:RegisterEvent("PLAYER_TALENT_UPDATE");
-	self:RegisterEvent("CHAT_MSG_ADDON");
-	self:RegisterEvent("PLAYER_ENTERING_WORLD");
+	}
+	self.CurrentMacro = 0
+	self:UpgradeDatabase()
+	self:RegisterEvent("ADDON_LOADED")
+	self:RegisterEvent("PLAYER_TALENT_UPDATE")
+	self:RegisterEvent("CHAT_MSG_ADDON")
+	self:RegisterEvent("PLAYER_ENTERING_WORLD")
 end
 
 function Addon:OnEnable()
 	-- if ( IsAddOnLoaded("Blizzard_MacroUI") ) then
-		-- self:ADDON_LOADED(nil, "Blizzard_MacroUI");
+		-- self:ADDON_LOADED(nil, "Blizzard_MacroUI")
 	-- else
-		-- UIParentLoadAddOn("Blizzard_MacroUI");
+		-- UIParentLoadAddOn("Blizzard_MacroUI")
 	-- end
-	-- self.IconToIndex = {};
+	-- self.IconToIndex = {}
 	-- for Index = 1, GetNumMacroIcons() do
-		-- self.IconToIndex[GetMacroIconInfo(Index)] = Index;
+		-- self.IconToIndex[GetMacroIconInfo(Index)] = Index
 	-- end
-	-- self:SetStartingEndingIndex();
-	-- self:BuildMacroGroupList();
-	-- self:CheckAutoLoad();
-	-- self.CurrentTalents = GetActiveTalentGroup();
-	-- self.AllowAutoLoadTalents = true;
+	-- self:SetStartingEndingIndex()
+	-- self:BuildMacroGroupList()
+	-- self:CheckAutoLoad()
+	-- self.CurrentTalents = GetActiveTalentGroup()
+	-- self.AllowAutoLoadTalents = true
 end
 
 function Addon:PLAYER_ENTERING_WORLD()
 	if ( IsAddOnLoaded("Blizzard_MacroUI") ) then
-		self:ADDON_LOADED(nil, "Blizzard_MacroUI");
+		self:ADDON_LOADED(nil, "Blizzard_MacroUI")
 	else
-		UIParentLoadAddOn("Blizzard_MacroUI");
+		UIParentLoadAddOn("Blizzard_MacroUI")
 	end
-	self.IconToIndex = {};
+	self.IconToIndex = {}
 	for Index = 1, GetNumMacroIcons() do
-		self.IconToIndex[GetMacroIconInfo(Index)] = Index;
+		self.IconToIndex[GetMacroIconInfo(Index)] = Index
 	end
-	self:SetStartingEndingIndex();
-	self:BuildMacroGroupList();
-	self:CheckAutoLoad();
-	self.CurrentTalents = GetActiveTalentGroup();
-	self.AllowAutoLoadTalents = true;
-	self:AutoLoadOnLogin();
-	self:UnregisterEvent("PLAYER_ENTERING_WORLD");
+	self:SetStartingEndingIndex()
+	self:BuildMacroGroupList()
+	self:CheckAutoLoad()
+	self.CurrentTalents = GetActiveTalentGroup()
+	self.AllowAutoLoadTalents = true
+	self:AutoLoadOnLogin()
+	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 end
 
 function Addon:SetStartingEndingIndex()
-	self.StartingIndex, self.EndingIndex = {}, {};
-	self.StartingIndex.Global = 1;
+	self.StartingIndex, self.EndingIndex = {}, {}
+	self.StartingIndex.Global = 1
 	if ( select(4, GetBuildInfo()) < 30000 ) then
-		self.EndingIndex.Global = MAX_MACROS or 18;
-		self.StartingIndex.Char = (MAX_MACROS or 18) + 1;
-		self.EndingIndex.Char = self.StartingIndex.Char + (MAX_MACROS or 18) - 1;
+		self.EndingIndex.Global = MAX_MACROS or 18
+		self.StartingIndex.Char = (MAX_MACROS or 18) + 1
+		self.EndingIndex.Char = self.StartingIndex.Char + (MAX_MACROS or 18) - 1
 	else
-		self.EndingIndex.Global = MAX_ACCOUNT_MACROS or 36;
-		self.StartingIndex.Char = (MAX_ACCOUNT_MACROS or 36) + 1;
-		self.EndingIndex.Char = self.StartingIndex.Char + (MAX_CHARACTER_MACROS or 18) - 1;
+		self.EndingIndex.Global = MAX_ACCOUNT_MACROS or 36
+		self.StartingIndex.Char = (MAX_ACCOUNT_MACROS or 36) + 1
+		self.EndingIndex.Char = self.StartingIndex.Char + (MAX_CHARACTER_MACROS or 18) - 1
 	end
 end
 
 -- function Addon:OnDisable()
-	-- self:UnregisterEvent("ADDON_LOADED");
+	-- self:UnregisterEvent("ADDON_LOADED")
 -- end
 
 -- function Addon:OnProfileChanged()
 	-- this is called every time your profile changes (after the change)
-	-- self:OnProfileNewOrDelete();
+	-- self:OnProfileNewOrDelete()
 -- end
 
 -- function Addon:OnProfileNewOrDelete()
@@ -659,125 +659,125 @@ end
 function Addon:ADDON_LOADED(Event, Addon)
 	if ( Addon == "Blizzard_MacroUI" ) then
 -- self:Print("macro ui was loaed")
-		self:SetStartingEndingIndex();
+		self:SetStartingEndingIndex()
 		-- MacroBank toggle button
-		self.MacroBankToggleButton = CreateFrame("Button", nil, MacroFrame, "UIPanelButtonTemplate");
-		-- self.MacroBankToggleButton:SetPoint("RIGHT", MacroFrameCloseButton, "LEFT", 3, 1);
-		self.MacroBankToggleButton:SetPoint("TOPRIGHT", MacroButtonScrollFrame, "BOTTOMRIGHT", 25, -9);
-		self.MacroBankToggleButton:SetWidth(90);
-		self.MacroBankToggleButton:SetHeight(22);
-		self.MacroBankToggleButton:SetText(L["MacroBank"]);
+		self.MacroBankToggleButton = CreateFrame("Button", nil, MacroFrame, "UIPanelButtonTemplate")
+		-- self.MacroBankToggleButton:SetPoint("RIGHT", MacroFrameCloseButton, "LEFT", 3, 1)
+		self.MacroBankToggleButton:SetPoint("TOPRIGHT", MacroButtonScrollFrame, "BOTTOMRIGHT", 25, -9)
+		self.MacroBankToggleButton:SetWidth(90)
+		self.MacroBankToggleButton:SetHeight(22)
+		self.MacroBankToggleButton:SetText(L["MacroBank"])
 		self.MacroBankToggleButton:SetScript("OnClick", function()
 			if ( self.MainFrame:IsVisible() ) then
 				self.MainFrame:Hide()
 			else
 				self.MainFrame:Show()
 			end
-		end);
-		self.MacroBankToggleButton:Show();
+		end)
+		self.MacroBankToggleButton:Show()
 		
-		self.OnShowFrame = CreateFrame("Frame", nil, MacroFrame);  -- Instead of hooking the OnShow event.  (Less intrusive)
+		self.OnShowFrame = CreateFrame("Frame", nil, MacroFrame)  -- Instead of hooking the OnShow event.  (Less intrusive)
 		self.OnShowFrame:SetScript("OnShow", function(...)
 			if ( self.db.profile.Options.AutoOpenMacroBank ) then
 				self.MainFrame:Show()
 			else
 				self.MainFrame:Hide()
 			end
-		end);
-		self.MainFrame:SetParent(MacroFrame);
-		self:DisplayAtAnchor();
-		self:DisplayMacro();
-		self:UnregisterEvent("ADDON_LOADED");
+		end)
+		self.MainFrame:SetParent(MacroFrame)
+		self:DisplayAtAnchor()
+		self:DisplayMacro()
+		self:UnregisterEvent("ADDON_LOADED")
 	end
 end
 
 function Addon:PLAYER_TALENT_UPDATE(Event)
 	if ( GetActiveTalentGroup() ~= self.CurrentTalents and self.AllowAutoLoadTalents ) then  -- We switched talents
-		self.CurrentTalents = GetActiveTalentGroup();
-		local DeletedGlobal, DeletedChar;
+		self.CurrentTalents = GetActiveTalentGroup()
+		local DeletedGlobal, DeletedChar
 		if ( self.CurrentTalents == 1 ) then  -- Primary Talents
 			for Key, Value in pairs(self.db.profile.Options.AutoLoad.PrimaryTalentsChar) do
 				if ( self.db.profile.Options.AutoLoad.DeleteCharOnTalentSwap and not DeletedChar ) then
-					self:DeleteActiveMacros("Char");
-					DeletedChar = true;
+					self:DeleteActiveMacros("Char")
+					DeletedChar = true
 				end
-				self:LoadCategory(Value, "Char");
+				self:LoadCategory(Value, "Char")
 			end
 			for Key, Value in pairs(self.db.profile.Options.AutoLoad.PrimaryTalentsGlobal) do
 				if ( self.db.profile.Options.AutoLoad.DeleteGlobalOnTalentSwap and not DeletedGlobal ) then
-					self:DeleteActiveMacros("Global");
-					DeletedGlobal = true;
+					self:DeleteActiveMacros("Global")
+					DeletedGlobal = true
 				end
-				self:LoadCategory(Value, "Global");
+				self:LoadCategory(Value, "Global")
 			end
 		else  -- Secondary Talents
 			for Key, Value in pairs (self.db.profile.Options.AutoLoad.SecondaryTalentsChar) do
 				if ( self.db.profile.Options.AutoLoad.DeleteCharOnTalentSwap and not DeletedChar ) then
-					self:DeleteActiveMacros("Char");
-					DeletedChar = true;
+					self:DeleteActiveMacros("Char")
+					DeletedChar = true
 				end
-				self:LoadCategory(Value, "Char");
+				self:LoadCategory(Value, "Char")
 			end
 			for Key, Value in pairs (self.db.profile.Options.AutoLoad.SecondaryTalentsGlobal) do
 				if ( self.db.profile.Options.AutoLoad.DeleteGlobalOnTalentSwap and not DeletedGlobal ) then
-					self:DeleteActiveMacros("Global");
-					DeletedGlobal = true;
+					self:DeleteActiveMacros("Global")
+					DeletedGlobal = true
 				end
-				self:LoadCategory(Value, "Global");
+				self:LoadCategory(Value, "Global")
 			end
 		end
 	end
 end
 
 function Addon:AutoLoadOnLogin()
-	local DeletedGlobal, DeletedChar;
+	local DeletedGlobal, DeletedChar
 	for Key, Value in pairs(self.db.profile.Options.AutoLoad.LoginChar) do
 		if ( self.db.profile.Options.AutoLoad.DeleteCharOnLogin and not DeletedChar ) then
-			self:DeleteActiveMacros("Char");
-			DeletedChar = true;
+			self:DeleteActiveMacros("Char")
+			DeletedChar = true
 		end
-		self:LoadCategory(Value, "Char");
+		self:LoadCategory(Value, "Char")
 	end
 	for Key, Value in pairs(self.db.profile.Options.AutoLoad.LoginGlobal) do
 		if ( self.db.profile.Options.AutoLoad.DeleteGlobalOnLogin and not DeletedGlobal ) then
-			self:DeleteActiveMacros("Global");
-			DeletedGlobal = true;
+			self:DeleteActiveMacros("Global")
+			DeletedGlobal = true
 		end
-		self:LoadCategory(Value, "Global");
+		self:LoadCategory(Value, "Global")
 	end
 end
 
-Addon.ReceivingMacro = {};
+Addon.ReceivingMacro = {}
 function Addon:CHAT_MSG_ADDON(Event, Prefix, Message, DistributionType, Sender)
-	-- print(Event.." "..DistributionType.." "..Sender.." "..Prefix.." "..Message);
-	local MessageID = string.match(Prefix, "MacroBank(.*)");
+	-- print(Event.." "..DistributionType.." "..Sender.." "..Prefix.." "..Message)
+	local MessageID = string.match(Prefix, "MacroBank(.*)")
 	if ( Sender == UnitName("player") or not MessageID ) then
-		return;
+		return
 	end
-	local Output;
+	local Output
 	if ( MessageID == "Accepted" ) then
-		Output = string.gsub(L["%s Accepted your macro"], "%%s", Sender);
-		self:Print(Output);
+		Output = string.gsub(L["%s Accepted your macro"], "%%s", Sender)
+		self:Print(Output)
 	elseif ( MessageID == "Rejected" ) then
-		Output = string.gsub(L["%s Rejected your macro"], "%%s", Sender);
-		self:Print(Output);
+		Output = string.gsub(L["%s Rejected your macro"], "%%s", Sender)
+		self:Print(Output)
 	else
 		if ( not self.ReceivingMacro[MessageID] ) then
 			self.ReceivingMacro[MessageID] = {
 				["Category"] = string.gsub(self.db.profile.Options.ReceivedCategory, "%%s", Sender)
-			};
+			}
 		end
 		if ( Message ~= "" ) then
 			if ( not self.ReceivingMacro[MessageID].Description ) then
-				self.ReceivingMacro[MessageID].Description = Message;
+				self.ReceivingMacro[MessageID].Description = Message
 			elseif ( not self.ReceivingMacro[MessageID].Name ) then
-				self.ReceivingMacro[MessageID].Name = Message;
+				self.ReceivingMacro[MessageID].Name = Message
 			elseif ( not self.ReceivingMacro[MessageID].IconTexture ) then
-				self.ReceivingMacro[MessageID].IconTexture = Message;
+				self.ReceivingMacro[MessageID].IconTexture = Message
 			elseif ( not self.ReceivingMacro[MessageID].Body ) then
-				self.ReceivingMacro[MessageID].Body = Message;
+				self.ReceivingMacro[MessageID].Body = Message
 			else
-				self.ReceivingMacro[MessageID].Body = self.ReceivingMacro[MessageID].Body..Message;
+				self.ReceivingMacro[MessageID].Body = self.ReceivingMacro[MessageID].Body..Message
 			end
 		else
 			local MacroBankData = {
@@ -787,68 +787,68 @@ function Addon:CHAT_MSG_ADDON(Event, Prefix, Message, DistributionType, Sender)
 				["IconTexture"] = self.ReceivingMacro[MessageID].IconTexture,
 				["Body"] = self.ReceivingMacro[MessageID].Body,
 				["Sender"] = Sender,
-			};
-			self.ReceivingMacro[MessageID] = nil;
-			local Dialog = StaticPopup_Show("MacroBank_Accept", Sender);
+			}
+			self.ReceivingMacro[MessageID] = nil
+			local Dialog = StaticPopup_Show("MacroBank_Accept", Sender)
 			if ( Dialog ) then
-				Dialog.MacroBankData = MacroBankData;
+				Dialog.MacroBankData = MacroBankData
 			end
 		end
 	end
 end
 
 function Addon:StringSplit(str, patt)
-	local vals = {};
-	local valindex = 1;
-	local word = "";
+	local vals = {}
+	local valindex = 1
+	local word = ""
 	-- need to add a trailing separator to catch the last value.
-	str = str..patt;
+	str = str..patt
 	for i = 1, string.len(str) do
-		cha = string.sub(str, i, i);
+		cha = string.sub(str, i, i)
 		if cha ~= patt then
-			word = word..cha;
+			word = word..cha
 		else
 			if word ~= nil then
-				vals[valindex] = word;
-				valindex = valindex + 1;
-				word = "";
+				vals[valindex] = word
+				valindex = valindex + 1
+				word = ""
 			else
 				-- in case we get a line with no data.
-				break;
+				break
 			end
 		end 
 	end	
-	return vals, valindex-1;
+	return vals, valindex-1
 end
 
 function Addon:SendMacro(Data, Channel, Name)
 	if ( Data.OtherMacroBankUser ) then
-		local MessageID = "MacroBank"..tostring(time());
-		local DataSize = 254 - string.len(MessageID);
-		SendAddonMessage(MessageID, Data.Description, Channel, Name);
-		SendAddonMessage(MessageID, Data.Name, Channel, Name);
-		SendAddonMessage(MessageID, Data.IconTexture, Channel, Name);
+		local MessageID = "MacroBank"..tostring(time())
+		local DataSize = 254 - string.len(MessageID)
+		SendAddonMessage(MessageID, Data.Description, Channel, Name)
+		SendAddonMessage(MessageID, Data.Name, Channel, Name)
+		SendAddonMessage(MessageID, Data.IconTexture, Channel, Name)
 		for Index = 1, string.len(Data.Body), DataSize do
-			SendAddonMessage(MessageID, string.sub(Data.Body, Index, Index + DataSize - 1), Channel, Name);
+			SendAddonMessage(MessageID, string.sub(Data.Body, Index, Index + DataSize - 1), Channel, Name)
 		end
-		SendAddonMessage(MessageID, "", Channel, Name);  -- Signal that we are done sending the macro body text.
+		SendAddonMessage(MessageID, "", Channel, Name)  -- Signal that we are done sending the macro body text.
 	else
-		local Message = string.gsub(Data.Body, string.char(13), string.char(10));  -- Convert \013 to \010
-		-- Message = string.gsub(Message, "|", "||");  -- Convert | to ||
-		local Segments, NumSegments = self:StringSplit(Message, string.char(10));  -- Split on \010
+		local Message = string.gsub(Data.Body, string.char(13), string.char(10))  -- Convert \013 to \010
+		-- Message = string.gsub(Message, "|", "||")  -- Convert | to ||
+		local Segments, NumSegments = self:StringSplit(Message, string.char(10))  -- Split on \010
 		for i = 1, NumSegments do
 			if ( Segments[i] and Segments[i] ~= "" ) then
-				SendChatMessage(Segments[i], Channel, nil, Name);
+				SendChatMessage(Segments[i], Channel, nil, Name)
 			end
 		end
 	end
 end
 
 function Addon:SendMacro_ToPlayer(OtherMacroBankUser)
-	self.MainFrame.Macros.MacroBody.Text:ClearFocus();  -- Save current body text.
-	local CategoryTable, MacroIndex, Expanded, Indent = self:GetMacroIndex(self.CurrentMacro);
+	self.MainFrame.Macros.MacroBody.Text:ClearFocus()  -- Save current body text.
+	local CategoryTable, MacroIndex, Expanded, Indent = self:GetMacroIndex(self.CurrentMacro)
 	if ( self.CurrentMacro == 0 or MacroIndex == 0 ) then
-		return;
+		return
 	end
 	local Dialog = StaticPopup_Show("MacroBank_SendTo")
 	if Dialog then
@@ -858,16 +858,16 @@ function Addon:SendMacro_ToPlayer(OtherMacroBankUser)
 			["IconTexture"] = CategoryTable[2][MacroIndex][3],
 			["Body"] = CategoryTable[2][MacroIndex][4],
 			["OtherMacroBankUser"] = OtherMacroBankUser,
-		};
+		}
 		Dialog.editBox:SetScript("OnEnterPressed",  function(t) Dialog.button1:Click() end)
 	end
 end
 
 function Addon:SendMacro_ToChannel(Channel, OtherMacroBankUser)
-	self.MainFrame.Macros.MacroBody.Text:ClearFocus();  -- Save current body text.
-	local CategoryTable, MacroIndex, Expanded, Indent = self:GetMacroIndex(self.CurrentMacro);
+	self.MainFrame.Macros.MacroBody.Text:ClearFocus()  -- Save current body text.
+	local CategoryTable, MacroIndex, Expanded, Indent = self:GetMacroIndex(self.CurrentMacro)
 	if ( self.CurrentMacro == 0 or MacroIndex == 0 ) then
-		return;
+		return
 	end
 	local MacroBankData = {
 		["Description"] = CategoryTable[2][MacroIndex][1],
@@ -875,616 +875,616 @@ function Addon:SendMacro_ToChannel(Channel, OtherMacroBankUser)
 		["IconTexture"] = CategoryTable[2][MacroIndex][3],
 		["Body"] = CategoryTable[2][MacroIndex][4],
 		["OtherMacroBankUser"] = OtherMacroBankUser,
-	};
-	self:SendMacro(MacroBankData, Channel, nil);
+	}
+	self:SendMacro(MacroBankData, Channel, nil)
 end
 
 function Addon:OptionsSet(Info, Value)
-	local Table = self.db.profile.Options;
+	local Table = self.db.profile.Options
 	for Key = 1, (#Info.arg - 1) do
 		if ( not Table[Info.arg[Key]] ) then
-			Table[Info.arg[Key]] = {};
+			Table[Info.arg[Key]] = {}
 		end
-		Table = Table[Info.arg[Key]];
+		Table = Table[Info.arg[Key]]
 	end
-	Table[Info.arg[#Info.arg]] = Value;
+	Table[Info.arg[#Info.arg]] = Value
 end
 
 function Addon:OptionsGet(Info)
-	local Table = self.db.profile.Options;
+	local Table = self.db.profile.Options
 	for Key = 1, (#Info.arg - 1) do
 		if ( not Table[Info.arg[Key]] ) then
-			Table[Info.arg[Key]] = {};
+			Table[Info.arg[Key]] = {}
 		end
-		Table = Table[Info.arg[Key]];
+		Table = Table[Info.arg[Key]]
 	end
-	return Table[Info.arg[#Info.arg]];
+	return Table[Info.arg[#Info.arg]]
 end
 
 function Addon:SetAutoLoadOptions(Info, Index, Value)
 	-- Since I don't want to upgrade db...
-	local CategoryToChange = self.CategoryList[Index];
+	local CategoryToChange = self.CategoryList[Index]
 	for AutoLoadKey, AutoLoadValue in pairs(self.db.profile.Options.AutoLoad[Info.arg]) do
 		if ( AutoLoadValue == CategoryToChange ) then
-			table.remove(self.db.profile.Options.AutoLoad[Info.arg], AutoLoadKey);
-			return;
+			table.remove(self.db.profile.Options.AutoLoad[Info.arg], AutoLoadKey)
+			return
 		end
 	end
-	table.insert(self.db.profile.Options.AutoLoad[Info.arg], CategoryToChange);
+	table.insert(self.db.profile.Options.AutoLoad[Info.arg], CategoryToChange)
 end
 
 function Addon:GetAutoLoadOptions(Info, Index)
-	local Category = self.CategoryList[Index];
+	local Category = self.CategoryList[Index]
 	for AutoLoadKey, AutoLoadValue in pairs(self.db.profile.Options.AutoLoad[Info.arg]) do
 		if ( AutoLoadValue == Category ) then
-			return true;
+			return true
 		end
 	end
 end
 
 function Addon:GetMacroGroupList()
-	return self.CategoryList;
+	return self.CategoryList
 end
 
 
 function Addon:BuildMacroGroupList()
 	for Key, Value in pairs(self.CategoryList) do
-		self.CategoryList[Key] = nil;
+		self.CategoryList[Key] = nil
 	end
 	for Key, Value in pairs(self.CategoryNameToTable) do
-		self.CategoryNameToTable[Key] = nil;
+		self.CategoryNameToTable[Key] = nil
 	end
 	for Key, Value in pairs(self.CategoryTableToName) do
-		self.CategoryTableToName[Key] = nil;
+		self.CategoryTableToName[Key] = nil
 	end
-	self:BuildMacroGroupListAtCategory(self.db.global.Macros);
+	self:BuildMacroGroupListAtCategory(self.db.global.Macros)
 	-- for Key, Value in ipairs(self.db.global.Macros) do
-		-- table.insert(self.CategoryList, self:GetCategoryName(Key));
+		-- table.insert(self.CategoryList, self:GetCategoryName(Key))
 	-- end
-	-- table.sort(self.CategoryList);
-	LibStub("AceConfigRegistry-3.0"):NotifyChange(L["MacroBank"]);
+	-- table.sort(self.CategoryList)
+	LibStub("AceConfigRegistry-3.0"):NotifyChange(L["MacroBank"])
 end
 
 function Addon:BuildMacroGroupListAtCategory(CategoryTable, CurrentCategory)
-	local Name;
+	local Name
 	for Key, Value in ipairs(CategoryTable) do
 		if ( CurrentCategory ) then
-			Name = CurrentCategory.."\\"..Value[1];
+			Name = CurrentCategory.."\\"..Value[1]
 		else
-			Name = Value[1];
+			Name = Value[1]
 		end
-		table.insert(self.CategoryList, Name);
-		self.CategoryNameToTable[Name] = Value;
-		self.CategoryTableToName[Value] = Name;
+		table.insert(self.CategoryList, Name)
+		self.CategoryNameToTable[Name] = Value
+		self.CategoryTableToName[Value] = Name
 		if ( Value[3] ) then
-			self:BuildMacroGroupListAtCategory(Value[3], Name);
+			self:BuildMacroGroupListAtCategory(Value[3], Name)
 		end
 	end
-	return;
+	return
 end
 
 function Addon:ImportPreMadeMacros()
-	local Category, Desc, Name, IconTexture, Body;
+	local Category, Desc, Name, IconTexture, Body
 	for Key, Value in pairs(self.PreMadeMacros) do
 		if ( Value.body ) then
-			Category = Value.category or self.db.profile.Options.NewCategory;
-			Description = Value.desc or self.db.profile.Options.NewDescription;
-			Name = string.sub((Value.name or self.db.profile.Options.NewName), 1, 16);
-			IconTexture = GetMacroIconInfo(1);
-			Body = string.sub(Value.body, 1, 255);
+			Category = Value.category or self.db.profile.Options.NewCategory
+			Description = Value.desc or self.db.profile.Options.NewDescription
+			Name = string.sub((Value.name or self.db.profile.Options.NewName), 1, 16)
+			IconTexture = GetMacroIconInfo(1)
+			Body = string.sub(Value.body, 1, 255)
 			self:CreateMacro(Category, Description, Name, IconTexture, Value.body)
 		end
 	end
 end
 
 function Addon:LoadCategoryFromAce(Info, Value)
-	self:LoadCategory(Value, Info[#Info]);
+	self:LoadCategory(Value, Info[#Info])
 end
 
 function Addon:LoadCategory(CategoryName, MacroSet)
 	-- Save the macro in the macro bank first.
-	self.MainFrame.Macros.MacroBody.Text:ClearFocus();  -- Save by clearing focus (the on focus clear will save it)
+	self.MainFrame.Macros.MacroBody.Text:ClearFocus()  -- Save by clearing focus (the on focus clear will save it)
 	if ( UnitAffectingCombat("player") ) then
-		self:Print(L["Can't load macros in combat"]);
-		return;
+		self:Print(L["Can't load macros in combat"])
+		return
 	end
-	local CategoryTable = self.CategoryNameToTable[CategoryName];
-	-- local CategoryIndex;
+	local CategoryTable = self.CategoryNameToTable[CategoryName]
+	-- local CategoryIndex
 	-- for CategoryKey, CategoryValue in ipairs(self.db.global.Macros) do
 		-- if ( CategoryName == CategoryValue[1] ) then
-			-- CategoryIndex = CategoryKey;
-			-- break;
+			-- CategoryIndex = CategoryKey
+			-- break
 		-- end
 	-- end
 	if ( not CategoryTable ) then
-		self:Print(L["Can't find category"]);
-		return;
+		self:Print(L["Can't find category"])
+		return
 	end
-	local Name, Icon, Body, ErrorInfo;
+	local Name, Icon, Body, ErrorInfo
 	for MacroKey, MacroValue in ipairs(CategoryTable[2]) do
-		Name = MacroValue[2];
-		Icon = MacroValue[3];
+		Name = MacroValue[2]
+		Icon = MacroValue[3]
 		-- Convert to icon #.
-		Icon = self.IconToIndex[Icon] or self.IconToIndex[string.gsub(Icon, "%.blp", "")] or 1;
-		Body = MacroValue[4];
-		ErrorInfo = self:LoadMacro(Name, Icon, Body, MacroSet);
+		Icon = self.IconToIndex[Icon] or self.IconToIndex[string.gsub(Icon, "%.blp", "")] or 1
+		Body = MacroValue[4]
+		ErrorInfo = self:LoadMacro(Name, Icon, Body, MacroSet)
 		if ( ErrorInfo ) then
-			self:Print(ErrorInfo.." "..Name);
+			self:Print(ErrorInfo.." "..Name)
 		end
 	end
 end
 
 function Addon:LoadMacro(Name, Icon, Body, MacroSet, MacroIndex)
-	local IsCharMacro;
+	local IsCharMacro
 	if ( MacroSet == "Global" ) then
-		IsCharMacro = false;
+		IsCharMacro = false
 	elseif ( MacroSet == "Char" ) then
-		IsCharMacro = true;
+		IsCharMacro = true
 	else
-		return;
+		return
 	end
 	-- If we were not given a MacroIndex, see if we can find a MacroIndex with our Name
 	if ( not MacroIndex ) then
-		local MacroName;
+		local MacroName
 		for Index = self.StartingIndex[MacroSet], self.EndingIndex[MacroSet] do
-			MacroName, _, _, _ = GetMacroInfo(Index);
+			MacroName, _, _, _ = GetMacroInfo(Index)
 			if ( MacroName == Name ) then
-				MacroIndex = Index;
-				break;
+				MacroIndex = Index
+				break
 			end
 		end
 	end
 	-- Now, if we found a MacroIndex, we edit the macro, otherwise check if there's room and create one
 	if ( MacroIndex ) then
-		EditMacro(MacroIndex, Name, Icon, Body, 1, IsCharMacro);
+		EditMacro(MacroIndex, Name, Icon, Body, 1, IsCharMacro)
 	else
-		local NumMacros = {};
-		NumMacros.Global, NumMacros.Char = GetNumMacros();
+		local NumMacros = {}
+		NumMacros.Global, NumMacros.Char = GetNumMacros()
 		if ( NumMacros[MacroSet] < (self.EndingIndex[MacroSet] - self.StartingIndex[MacroSet] + 1) ) then
 			if ( select(4, GetBuildInfo()) < 30000 ) then
-				CreateMacro(Name, Icon, Body, 1, IsCharMacro);
+				CreateMacro(Name, Icon, Body, 1, IsCharMacro)
 			else
-				CreateMacro(Name, Icon, Body, IsCharMacro);
+				CreateMacro(Name, Icon, Body, IsCharMacro)
 			end
 		else
-			return L["Not enough room to load macro"];
+			return L["Not enough room to load macro"]
 		end
 	end
 	if ( MacroFrame_Update ) then
-		MacroFrame_Update();
+		MacroFrame_Update()
 	end
 end
 
 function Addon:Load_OnClick(ReplaceSelected)
 	-- Save the macro in the macro bank first.
-	self.MainFrame.Macros.MacroBody.Text:ClearFocus();  -- Save by clearing focus (the on focus clear will save it)
+	self.MainFrame.Macros.MacroBody.Text:ClearFocus()  -- Save by clearing focus (the on focus clear will save it)
 	-- Now load/replace
 	if ( UnitAffectingCombat("player") ) then
-		self:Print(L["Can't load macros in combat"]);
-		return;
+		self:Print(L["Can't load macros in combat"])
+		return
 	end
-	local CurrentlySelected = {};
-	CurrentlySelected.CategoryTable, CurrentlySelected.MacroIndex, CurrentlySelected.Expanded, CurrentlySelected.Indent = self:GetMacroIndex(self.CurrentMacro);
+	local CurrentlySelected = {}
+	CurrentlySelected.CategoryTable, CurrentlySelected.MacroIndex, CurrentlySelected.Expanded, CurrentlySelected.Indent = self:GetMacroIndex(self.CurrentMacro)
 	if ( CurrentlySelected.MacroIndex == 0 ) then
-		return;
+		return
 	end
 	
-	local MacroSet;
+	local MacroSet
 	if ( MacroFrame.selectedTab == 1 ) then
-		MacroSet = "Global";
+		MacroSet = "Global"
 	else
-		MacroSet = "Char";
+		MacroSet = "Char"
 	end
 	if ( IsShiftKeyDown() and not ReplaceSelected and CurrentlySelected.CategoryTable ) then
-		local CategoryName = self.CategoryTableToName[CurrentlySelected.CategoryTable];
-		self:LoadCategory(CategoryName, MacroSet);
-		return;
+		local CategoryName = self.CategoryTableToName[CurrentlySelected.CategoryTable]
+		self:LoadCategory(CategoryName, MacroSet)
+		return
 	end
 
-	CurrentlySelected.Name = CurrentlySelected.CategoryTable[2][CurrentlySelected.MacroIndex][2];
-	CurrentlySelected.Icon = CurrentlySelected.CategoryTable[2][CurrentlySelected.MacroIndex][3];
+	CurrentlySelected.Name = CurrentlySelected.CategoryTable[2][CurrentlySelected.MacroIndex][2]
+	CurrentlySelected.Icon = CurrentlySelected.CategoryTable[2][CurrentlySelected.MacroIndex][3]
 	-- Convert to icon #.
-	CurrentlySelected.Icon = self.IconToIndex[CurrentlySelected.Icon] or self.IconToIndex[string.gsub(CurrentlySelected.Icon, "%.blp", "")] or 1;
-	CurrentlySelected.Body = CurrentlySelected.CategoryTable[2][CurrentlySelected.MacroIndex][4];
-	local MacroIndex;
+	CurrentlySelected.Icon = self.IconToIndex[CurrentlySelected.Icon] or self.IconToIndex[string.gsub(CurrentlySelected.Icon, "%.blp", "")] or 1
+	CurrentlySelected.Body = CurrentlySelected.CategoryTable[2][CurrentlySelected.MacroIndex][4]
+	local MacroIndex
 	if ( ReplaceSelected and MacroFrame.selectedMacro ) then
-		MacroIndex = MacroFrame.selectedMacro;
-		local OriginalName, OriginalIcon, _, _ = GetMacroInfo(MacroFrame.selectedMacro);
+		MacroIndex = MacroFrame.selectedMacro
+		local OriginalName, OriginalIcon, _, _ = GetMacroInfo(MacroFrame.selectedMacro)
 		if ( not self.db.profile.Options.ReplaceName ) then
-			CurrentlySelected.Name = OriginalName;
+			CurrentlySelected.Name = OriginalName
 		end
 		if ( not self.db.profile.Options.ReplaceIcon ) then
-			CurrentlySelected.Icon = OriginalIcon;
+			CurrentlySelected.Icon = OriginalIcon
 		end
 	end
-	local ErrorInfo = self:LoadMacro(CurrentlySelected.Name, CurrentlySelected.Icon, CurrentlySelected.Body, MacroSet, MacroIndex);
+	local ErrorInfo = self:LoadMacro(CurrentlySelected.Name, CurrentlySelected.Icon, CurrentlySelected.Body, MacroSet, MacroIndex)
 	if ( ErrorInfo ) then
-		self:Print(ErrorInfo);
+		self:Print(ErrorInfo)
 	end
 end
 
 function Addon:Save_OnClick()
 	if ( not MacroFrame.selectedMacro ) then
-		return;
+		return
 	end
-	MacroFrame_SaveMacro();  -- Save whatever changes they have done, so they don't have to press escape to save
+	MacroFrame_SaveMacro()  -- Save whatever changes they have done, so they don't have to press escape to save
 	if ( IsShiftKeyDown() ) then
-		local Dialog = StaticPopup_Show("MacroBank_SaveAllMacros");
-		return;
+		local Dialog = StaticPopup_Show("MacroBank_SaveAllMacros")
+		return
 	end
-	local Name, IconTexture, Body, _ = GetMacroInfo(MacroFrame.selectedMacro);
-	-- local Icon = self.IconToIndex[IconTexture] or self.IconToIndex[string.gsub(IconTexture, "%.blp", "")] or 1;
-	local Category;
+	local Name, IconTexture, Body, _ = GetMacroInfo(MacroFrame.selectedMacro)
+	-- local Icon = self.IconToIndex[IconTexture] or self.IconToIndex[string.gsub(IconTexture, "%.blp", "")] or 1
+	local Category
 	if ( self.CurrentMacro > 0 ) then
-		local CategoryTable, MacroIndex, Expanded, Indent = self:GetMacroIndex(self.CurrentMacro);
-		Category = self.CategoryTableToName[CategoryTable];
+		local CategoryTable, MacroIndex, Expanded, Indent = self:GetMacroIndex(self.CurrentMacro)
+		Category = self.CategoryTableToName[CategoryTable]
 	else
-		Category = self.db.profile.Options.NewCategory;
+		Category = self.db.profile.Options.NewCategory
 	end
-	local Description;
+	local Description
 	if ( self.db.profile.Options.UseNameForDescription ) then
-		Description = Name;
+		Description = Name
 	else
-		Description = self.db.profile.Options.NewDescription;
+		Description = self.db.profile.Options.NewDescription
 	end
-	self:CreateMacro(Category, Description, Name, IconTexture, Body);
+	self:CreateMacro(Category, Description, Name, IconTexture, Body)
 end
 
 function Addon:SaveAllMacros(Category)
-	local Start, End;
-	local NumGlobal, NumChar = GetNumMacros();
+	local Start, End
+	local NumGlobal, NumChar = GetNumMacros()
 	if ( MacroFrame.selectedMacro <= self.EndingIndex.Global ) then
-		Start = self.StartingIndex.Global;
-		End = Start + NumGlobal - 1;
+		Start = self.StartingIndex.Global
+		End = Start + NumGlobal - 1
 	else
-		Start = self.StartingIndex.Char;
-		End = Start + NumChar - 1;
+		Start = self.StartingIndex.Char
+		End = Start + NumChar - 1
 	end
-	local Name, IconTexture, Body, Description;
+	local Name, IconTexture, Body, Description
 	for Index = Start, End do
-		Name, IconTexture, Body, _ = GetMacroInfo(Index);
+		Name, IconTexture, Body, _ = GetMacroInfo(Index)
 		if ( self.db.profile.Options.UseNameForDescription ) then
-			Description = Name;
+			Description = Name
 		else
-			Description = self.db.profile.Options.NewDescription;
+			Description = self.db.profile.Options.NewDescription
 		end
-		self:CreateMacro(Category, Description, Name, IconTexture, Body);
+		self:CreateMacro(Category, Description, Name, IconTexture, Body)
 	end
 end
 
 
 function Addon:DeleteMacro(CategoryTable, MacroIndex, NoUpdateDisplay)
-	-- local CategoryIndex, MacroIndex, Expanded, Indent = self:GetMacroIndex(self.CurrentMacro);
+	-- local CategoryIndex, MacroIndex, Expanded, Indent = self:GetMacroIndex(self.CurrentMacro)
 	-- if ( self.CurrentMacro == 0 or MacroIndex == 0 ) then
 	if ( not CategoryTable or not MacroIndex or not CategoryTable[2][MacroIndex] ) then
-		return;
+		return
 	end
-	table.remove(CategoryTable[2], MacroIndex);
+	table.remove(CategoryTable[2], MacroIndex)
 	if ( #CategoryTable[2] == 0 and (not CategoryTable[3] or #CategoryTable[3] == 0) ) then
-		self:PruneCategories(self.db.global.Macros);
-		self:BuildMacroGroupList();
+		self:PruneCategories(self.db.global.Macros)
+		self:BuildMacroGroupList()
 	end
-	self.CurrentMacro = 0;
+	self.CurrentMacro = 0
 	if ( not NoUpdateDisplay ) then
-		self:DisplayMacro();
+		self:DisplayMacro()
 	end
-	self:CheckAutoLoad();
+	self:CheckAutoLoad()
 end
 
 function Addon:PruneCategories(CategoryTable)
-	local NumMacros, ChildMacros;
-	local TotalMacros = 0;
+	local NumMacros, ChildMacros
+	local TotalMacros = 0
 	for Index = #CategoryTable, 1, -1 do
-		NumMacros = #CategoryTable[Index][2];
+		NumMacros = #CategoryTable[Index][2]
 		if ( CategoryTable[Index][3] ) then
-			ChildMacros = self:PruneCategories(CategoryTable[Index][3]);
+			ChildMacros = self:PruneCategories(CategoryTable[Index][3])
 			if ( ChildMacros == 0 ) then
-				CategoryTable[Index][3] = nil;
+				CategoryTable[Index][3] = nil
 			end
 		else
-			ChildMacros = 0;
+			ChildMacros = 0
 		end
-		NumMacros = NumMacros + ChildMacros;
-		TotalMacros = TotalMacros + NumMacros;
+		NumMacros = NumMacros + ChildMacros
+		TotalMacros = TotalMacros + NumMacros
 		if ( NumMacros == 0 ) then
-			table.remove(CategoryTable, Index);
+			table.remove(CategoryTable, Index)
 		end
 	end
-	return TotalMacros;
+	return TotalMacros
 end
 
 local function SortByIndexOne(a, b)
 	return string.lower(a[1]) < string.lower(b[1])
 end
 function Addon:CreateMacro(Category, Description, Name, IconTexture, Body, NoUpdateDisplay)
-	local CurrentlySelected = {};
-	CurrentlySelected.CategoryTable, CurrentlySelected.MacroIndex, CurrentlySelected.Expanded, CurrentlySelected.Indent = self:GetMacroIndex(self.CurrentMacro);
+	local CurrentlySelected = {}
+	CurrentlySelected.CategoryTable, CurrentlySelected.MacroIndex, CurrentlySelected.Expanded, CurrentlySelected.Indent = self:GetMacroIndex(self.CurrentMacro)
 	if ( self.CurrentMacro > 0 and CurrentlySelected.MacroIndex > 0 ) then
-		-- CurrentlySelected.Category = CurrentlySelected.CategoryTable[1];
-		CurrentlySelected.Description = CurrentlySelected.CategoryTable[2][CurrentlySelected.MacroIndex][1];
-		CurrentlySelected.Name = CurrentlySelected.CategoryTable[2][CurrentlySelected.MacroIndex][2];
-		CurrentlySelected.Icon = CurrentlySelected.CategoryTable[2][CurrentlySelected.MacroIndex][3];
-		CurrentlySelected.Body = CurrentlySelected.CategoryTable[2][CurrentlySelected.MacroIndex][4];
+		-- CurrentlySelected.Category = CurrentlySelected.CategoryTable[1]
+		CurrentlySelected.Description = CurrentlySelected.CategoryTable[2][CurrentlySelected.MacroIndex][1]
+		CurrentlySelected.Name = CurrentlySelected.CategoryTable[2][CurrentlySelected.MacroIndex][2]
+		CurrentlySelected.Icon = CurrentlySelected.CategoryTable[2][CurrentlySelected.MacroIndex][3]
+		CurrentlySelected.Body = CurrentlySelected.CategoryTable[2][CurrentlySelected.MacroIndex][4]
 	end
-	local CategoryTable, NeedRebuild = self:FindOrCreateCategory(Category);
+	local CategoryTable, NeedRebuild = self:FindOrCreateCategory(Category)
 	local NewMacro = {
 		[1] = Description,
 		[2] = Name,
 		[3] = IconTexture,
 		[4] = Body,
-	};
+	}
 	if ( CategoryTable ) then
-		table.insert(CategoryTable[2], NewMacro);
-		table.sort(CategoryTable[2], SortByIndexOne);
+		table.insert(CategoryTable[2], NewMacro)
+		table.sort(CategoryTable[2], SortByIndexOne)
 	end
 	if ( NeedRebuild ) then
-		self:BuildMacroGroupList();
+		self:BuildMacroGroupList()
 	end
 	if ( self.CurrentMacro > 0 and CurrentlySelected.MacroIndex > 0 ) then
-		self.CurrentMacro = self:FindMacroIndex(CurrentlySelected.CategoryTable, CurrentlySelected.Description, CurrentlySelected.Name, CurrentlySelected.Icon, CurrentlySelected.Body);
+		self.CurrentMacro = self:FindMacroIndex(CurrentlySelected.CategoryTable, CurrentlySelected.Description, CurrentlySelected.Name, CurrentlySelected.Icon, CurrentlySelected.Body)
 	end
 	if ( not NoUpdateDisplay ) then
-		self:DisplayMacro();
+		self:DisplayMacro()
 	end
 end
 
 function Addon:FindOrCreateCategory(Category)
-	local Segments, NumSegments = self:StringSplit(Category, "\\");
-	local CurrentCategory, CategoryTable, TempTable;
-	local CategorySegment, CategoryIndex, NeedRebuild;
+	local Segments, NumSegments = self:StringSplit(Category, "\\")
+	local CurrentCategory, CategoryTable, TempTable
+	local CategorySegment, CategoryIndex, NeedRebuild
 	for i = 1, NumSegments do
-		CategorySegment = Segments[i];
+		CategorySegment = Segments[i]
 		if ( CategorySegment and CategorySegment ~= "" ) then
 			-- Create an ever increasing CategoryName:  "Category1" -> "Category1\Category2" -> "Category1\Category2\Category3"
 			if ( CurrentCategory ) then
-				CurrentCategory = CurrentCategory.."\\"..CategorySegment;
+				CurrentCategory = CurrentCategory.."\\"..CategorySegment
 			else
-				CurrentCategory = CategorySegment;
+				CurrentCategory = CategorySegment
 			end
 			-- Check if we have the CategoryTable already created.
 			if ( self.CategoryNameToTable[CurrentCategory] ) then
-				CategoryTable = self.CategoryNameToTable[CurrentCategory];
+				CategoryTable = self.CategoryNameToTable[CurrentCategory]
 			else
-				NeedRebuild = true;
+				NeedRebuild = true
 				-- We don't have a table for the CurrentCategory Name, so check if we have the Table of the last CurrentCategory Name.
 				if ( CategoryTable ) then
 					-- We have it, so create a category here.
-					CategoryTable[3] = CategoryTable[3] or {};
-					CategoryIndex = #CategoryTable[3] + 1;
+					CategoryTable[3] = CategoryTable[3] or {}
+					CategoryIndex = #CategoryTable[3] + 1
 					CategoryTable[3][CategoryIndex] = {
 						[1] = CategorySegment,
 						[2] = {},
-					};
-					TempTable = CategoryTable[3][CategoryIndex];
-					table.sort(CategoryTable[3], SortByIndexOne);
-					CategoryTable = TempTable;
+					}
+					TempTable = CategoryTable[3][CategoryIndex]
+					table.sort(CategoryTable[3], SortByIndexOne)
+					CategoryTable = TempTable
 				else
 					-- We don't have the last table.. so we must be at the base Category List.
-					CategoryIndex = #self.db.global.Macros + 1;
+					CategoryIndex = #self.db.global.Macros + 1
 					self.db.global.Macros[CategoryIndex] = {
 						[1] = CategorySegment,
 						[2] = {},
-					};
-					CategoryTable = self.db.global.Macros[CategoryIndex];
-					table.sort(self.db.global.Macros, SortByIndexOne);
+					}
+					CategoryTable = self.db.global.Macros[CategoryIndex]
+					table.sort(self.db.global.Macros, SortByIndexOne)
 				end
 			end
 		end
 	end
-	return CategoryTable, NeedRebuild;
+	return CategoryTable, NeedRebuild
 end
 
 function Addon:DeleteActiveMacros(Which)
-	local GlobalMacros, CharMacros = GetNumMacros();
+	local GlobalMacros, CharMacros = GetNumMacros()
 	if ( Which == "Global" ) then
 		for Index = GlobalMacros, 1, -1 do
-			DeleteMacro(Index);
+			DeleteMacro(Index)
 		end
 	else
 		for Index = CharMacros, 1, -1 do
-			DeleteMacro(Index + self.StartingIndex.Char - 1);
+			DeleteMacro(Index + self.StartingIndex.Char - 1)
 		end
 	end
 end
 
 function Addon:ShowTooltip(...)
 	if ( select("#", ...) == 0 ) then
-		return;
+		return
 	end
-	GameTooltip:SetOwner(self.MainFrame, "ANCHOR_TOPLEFT");
-	GameTooltip:SetText(FontWhite..select(1, ...));
+	GameTooltip:SetOwner(self.MainFrame, "ANCHOR_TOPLEFT")
+	GameTooltip:SetText(FontWhite..select(1, ...))
 	for i = 2, select("#", ...) do
-		GameTooltip:AddLine(FontGold..select(i, ...));
+		GameTooltip:AddLine(FontGold..select(i, ...))
 	end
-	GameTooltip:Show();
+	GameTooltip:Show()
 end
 
 function Addon:DisplayMacro()
-	local CategoryTable, MacroIndex, Expanded, Indent = self:GetMacroIndex(self.CurrentMacro);
+	local CategoryTable, MacroIndex, Expanded, Indent = self:GetMacroIndex(self.CurrentMacro)
 	if ( self.CurrentMacro == 0 or MacroIndex == 0 ) then
-		self.MainFrame.Macros.FromMacroBank:Hide();
-		-- self.MainFrame.Macros.LoadButton:Hide();
-		-- self.MainFrame.Macros.ReplaceButton:Hide();
-		self.MainFrame.Macros.DeleteButton:Hide();
-		self.MainFrame.Macros.MacroCategory:Hide();
-		self.MainFrame.Macros.MacroDescription:Hide();
-		self.MainFrame.Macros.MacroName:Hide();
-		self.MainFrame.Macros.MacroIcon:Hide();
-		self.MainFrame.Macros.MacroBody:Hide();
-		self.MainFrame.Macros.SendToButton:Hide();
+		self.MainFrame.Macros.FromMacroBank:Hide()
+		-- self.MainFrame.Macros.LoadButton:Hide()
+		-- self.MainFrame.Macros.ReplaceButton:Hide()
+		self.MainFrame.Macros.DeleteButton:Hide()
+		self.MainFrame.Macros.MacroCategory:Hide()
+		self.MainFrame.Macros.MacroDescription:Hide()
+		self.MainFrame.Macros.MacroName:Hide()
+		self.MainFrame.Macros.MacroIcon:Hide()
+		self.MainFrame.Macros.MacroBody:Hide()
+		self.MainFrame.Macros.SendToButton:Hide()
 	else
-		self.MainFrame.Macros.FromMacroBank:Show();
-		-- self.MainFrame.Macros.LoadButton:Show();
-		-- self.MainFrame.Macros.ReplaceButton:Show();
-		self.MainFrame.Macros.DeleteButton:Show();
-		self.MainFrame.Macros.MacroCategory:Show();
-		self.MainFrame.Macros.MacroDescription:Show();
-		self.MainFrame.Macros.MacroName:Show();
-		self.MainFrame.Macros.MacroIcon:Show();
-		self.MainFrame.Macros.MacroBody:Show();
-		self.MainFrame.Macros.MacroCategory:SetText(self.CategoryTableToName[CategoryTable]);
-		self.MainFrame.Macros.MacroDescription:SetText(CategoryTable[2][MacroIndex][1]);
-		self.MainFrame.Macros.MacroName:SetText(CategoryTable[2][MacroIndex][2]);
+		self.MainFrame.Macros.FromMacroBank:Show()
+		-- self.MainFrame.Macros.LoadButton:Show()
+		-- self.MainFrame.Macros.ReplaceButton:Show()
+		self.MainFrame.Macros.DeleteButton:Show()
+		self.MainFrame.Macros.MacroCategory:Show()
+		self.MainFrame.Macros.MacroDescription:Show()
+		self.MainFrame.Macros.MacroName:Show()
+		self.MainFrame.Macros.MacroIcon:Show()
+		self.MainFrame.Macros.MacroBody:Show()
+		self.MainFrame.Macros.MacroCategory:SetText(self.CategoryTableToName[CategoryTable])
+		self.MainFrame.Macros.MacroDescription:SetText(CategoryTable[2][MacroIndex][1])
+		self.MainFrame.Macros.MacroName:SetText(CategoryTable[2][MacroIndex][2])
 		-- self.MainFrame.Macros.MacroIcon.NormalTexture:SetTexture(GetMacroIconInfo(CategoryTable[2][MacroIndex][3]))
 		self.MainFrame.Macros.MacroIcon.NormalTexture:SetTexture(CategoryTable[2][MacroIndex][3])
-		self.MainFrame.Macros.MacroBody.Text:SetText(CategoryTable[2][MacroIndex][4]);
-		self.MainFrame.Macros.SendToButton:Show();
+		self.MainFrame.Macros.MacroBody.Text:SetText(CategoryTable[2][MacroIndex][4])
+		self.MainFrame.Macros.SendToButton:Show()
 	end
-	self:MacroList_OnScroll();
+	self:MacroList_OnScroll()
 end
 
 function Addon:SetMacroCategory(Category)
-	local CategoryTable, MacroIndex, Expanded, Indent = self:GetMacroIndex(self.CurrentMacro);
+	local CategoryTable, MacroIndex, Expanded, Indent = self:GetMacroIndex(self.CurrentMacro)
 	if ( self.CurrentMacro == 0 or MacroIndex == 0 ) then
-		return;
+		return
 	end
-	local Description = CategoryTable[2][MacroIndex][1];
-	local Name = CategoryTable[2][MacroIndex][2];
-	local Icon = CategoryTable[2][MacroIndex][3];
-	local Body = CategoryTable[2][MacroIndex][4];
-	self:DeleteMacro(CategoryTable, MacroIndex, true);
-	self:CreateMacro(Category, Description, Name, Icon, Body, true);
-	self:DisplayMacro();
+	local Description = CategoryTable[2][MacroIndex][1]
+	local Name = CategoryTable[2][MacroIndex][2]
+	local Icon = CategoryTable[2][MacroIndex][3]
+	local Body = CategoryTable[2][MacroIndex][4]
+	self:DeleteMacro(CategoryTable, MacroIndex, true)
+	self:CreateMacro(Category, Description, Name, Icon, Body, true)
+	self:DisplayMacro()
 end
 
 function Addon:SetMacroDescription(Description)
-	local CategoryTable, MacroIndex, Expanded, Indent = self:GetMacroIndex(self.CurrentMacro);
+	local CategoryTable, MacroIndex, Expanded, Indent = self:GetMacroIndex(self.CurrentMacro)
 	if ( self.CurrentMacro == 0 or MacroIndex == 0 ) then
-		return;
+		return
 	end
-	-- local Category = CategoryTable[1];
-	CategoryTable[2][MacroIndex][1] = Description;
-	local Name = CategoryTable[2][MacroIndex][2];
-	local Icon = CategoryTable[2][MacroIndex][3];
-	local Body = CategoryTable[2][MacroIndex][4];
-	table.sort(CategoryTable[2], SortByIndexOne);
-	self.CurrentMacro = self:FindMacroIndex(CategoryTable, Description, Name, Icon, Body);
-	self:DisplayMacro();
+	-- local Category = CategoryTable[1]
+	CategoryTable[2][MacroIndex][1] = Description
+	local Name = CategoryTable[2][MacroIndex][2]
+	local Icon = CategoryTable[2][MacroIndex][3]
+	local Body = CategoryTable[2][MacroIndex][4]
+	table.sort(CategoryTable[2], SortByIndexOne)
+	self.CurrentMacro = self:FindMacroIndex(CategoryTable, Description, Name, Icon, Body)
+	self:DisplayMacro()
 end
 
 function Addon:SetMacroName(Name)
-	local CategoryTable, MacroIndex, Expanded, Indent = self:GetMacroIndex(self.CurrentMacro);
+	local CategoryTable, MacroIndex, Expanded, Indent = self:GetMacroIndex(self.CurrentMacro)
 	if ( self.CurrentMacro == 0 or MacroIndex == 0 ) then
-		return;
+		return
 	end
-	CategoryTable[2][MacroIndex][2] = Name;
+	CategoryTable[2][MacroIndex][2] = Name
 end
 
 function Addon:SetMacroIcon(Icon)
-	local CategoryTable, MacroIndex, Expanded, Indent = self:GetMacroIndex(self.CurrentMacro);
+	local CategoryTable, MacroIndex, Expanded, Indent = self:GetMacroIndex(self.CurrentMacro)
 	if ( self.CurrentMacro == 0 or MacroIndex == 0 ) then
-		return;
+		return
 	end
-	-- CategoryTable[2][MacroIndex][3] = Icon;
-	CategoryTable[2][MacroIndex][3] = GetMacroIconInfo(Icon);
+	-- CategoryTable[2][MacroIndex][3] = Icon
+	CategoryTable[2][MacroIndex][3] = GetMacroIconInfo(Icon)
 end
 
 function Addon:SetMacroBody(Body)
-	local CategoryTable, MacroIndex, Expanded, Indent = self:GetMacroIndex(self.CurrentMacro);
+	local CategoryTable, MacroIndex, Expanded, Indent = self:GetMacroIndex(self.CurrentMacro)
 	if ( self.CurrentMacro == 0 or MacroIndex == 0 ) then
-		return;
+		return
 	end
-	CategoryTable[2][MacroIndex][4] = Body;
+	CategoryTable[2][MacroIndex][4] = Body
 end
 
 function Addon:GetMacroIndex(LineNum)
 	if ( not LineNum ) then
-		return;
+		return
 	end
-	local NumEntries = 0;
-	local NumLines, ReturnTable, ReturnMacroIndex, ReturnExpanded, ReturnIndent;
-	local NumMacros;
+	local NumEntries = 0
+	local NumLines, ReturnTable, ReturnMacroIndex, ReturnExpanded, ReturnIndent
+	local NumMacros
 	for CategoryKey, CategoryValue in ipairs(self.db.global.Macros) do
 		-- Add 1 for the base entry, and if it's expanded, the # of macros for the entry.
-		NumEntries = NumEntries + 1;
-		NumLines, ReturnTable, ReturnMacroIndex, ReturnExpanded, ReturnIndent = self:GetMacroEntryOfLineNum(CategoryValue, NumEntries, LineNum, 0);
-		NumEntries = NumEntries + NumLines;
+		NumEntries = NumEntries + 1
+		NumLines, ReturnTable, ReturnMacroIndex, ReturnExpanded, ReturnIndent = self:GetMacroEntryOfLineNum(CategoryValue, NumEntries, LineNum, 0)
+		NumEntries = NumEntries + NumLines
 		if ( LineNum <= NumEntries ) then
-			return ReturnTable, ReturnMacroIndex, ReturnExpanded, ReturnIndent;
+			return ReturnTable, ReturnMacroIndex, ReturnExpanded, ReturnIndent
 		end
 	end
 end
 
 function Addon:GetMacroEntryOfLineNum(CategoryTable, NumEntries, TargetLine, Indent)
 	if ( NumEntries == TargetLine ) then
-		return 0, CategoryTable, 0, self.ExpandedTree[CategoryTable], Indent;
+		return 0, CategoryTable, 0, self.ExpandedTree[CategoryTable], Indent
 	end
-	local NumLines, TempNum = 0, 0;
-	local ReturnTable, ReturnMacroIndex, ReturnExpanded, ReturnIndent;
-	Indent = Indent + 1;
+	local NumLines, TempNum = 0, 0
+	local ReturnTable, ReturnMacroIndex, ReturnExpanded, ReturnIndent
+	Indent = Indent + 1
 	if ( self.ExpandedTree[CategoryTable] ) then
 		if ( CategoryTable[3] ) then
 			for Key, Value in ipairs(CategoryTable[3]) do
-				NumLines = NumLines + 1;
-				NumEntries = NumEntries + 1;
+				NumLines = NumLines + 1
+				NumEntries = NumEntries + 1
 				if ( TargetLine == NumEntries ) then
-					return NumLines, Value, 0, self.ExpandedTree[Value], Indent;
+					return NumLines, Value, 0, self.ExpandedTree[Value], Indent
 				end
-				TempNum, ReturnTable, ReturnMacroIndex, ReturnExpanded, ReturnIndent = self:GetMacroEntryOfLineNum(Value, NumEntries, TargetLine, Indent);
-				NumLines = NumLines + TempNum;
-				NumEntries = NumEntries + TempNum;
+				TempNum, ReturnTable, ReturnMacroIndex, ReturnExpanded, ReturnIndent = self:GetMacroEntryOfLineNum(Value, NumEntries, TargetLine, Indent)
+				NumLines = NumLines + TempNum
+				NumEntries = NumEntries + TempNum
 				if ( TargetLine <= NumEntries ) then
-					return NumLines, ReturnTable, ReturnMacroIndex, ReturnExpanded, ReturnIndent;
+					return NumLines, ReturnTable, ReturnMacroIndex, ReturnExpanded, ReturnIndent
 				end
 			end
 		end
-		TempNum = #CategoryTable[2];
+		TempNum = #CategoryTable[2]
 	end
-	NumLines = NumLines + TempNum;
-	NumEntries = NumEntries + TempNum;
+	NumLines = NumLines + TempNum
+	NumEntries = NumEntries + TempNum
 	if ( TargetLine <= NumEntries ) then
-		return NumLines, CategoryTable, TargetLine - (NumEntries - TempNum), self.ExpandedTree[CategoryTable], Indent;
+		return NumLines, CategoryTable, TargetLine - (NumEntries - TempNum), self.ExpandedTree[CategoryTable], Indent
 	else
-		return NumLines;
+		return NumLines
 	end
 end
 
 function Addon:GetNumDisplayedMacros()
-	local NumEntries = 0;
+	local NumEntries = 0
 	for CategoryKey, CategoryValue in ipairs(self.db.global.Macros) do
-		NumEntries = NumEntries + 1;
+		NumEntries = NumEntries + 1
 		if ( self.ExpandedTree[CategoryValue] ) then
-			NumEntries = NumEntries + self:GetNumLinesInCategory(CategoryValue);
+			NumEntries = NumEntries + self:GetNumLinesInCategory(CategoryValue)
 		end
 	end
-	return NumEntries;
+	return NumEntries
 end
 
 -- Simple version of GetMacroEntryOfLineNum() - It just counts lines of expanded trees, starting at CategoryTable.
 function Addon:GetNumLinesInCategory(CategoryTable)
-	local NumLines, TempNum = 0, 0;
+	local NumLines, TempNum = 0, 0
 	if ( self.ExpandedTree[CategoryTable] ) then
 		if ( CategoryTable[3] ) then
 			for Key, Value in ipairs(CategoryTable[3]) do
-				NumLines = NumLines + 1;
-				TempNum = self:GetLineNumOfCategoryTable(Value);
-				NumLines = NumLines + TempNum;
+				NumLines = NumLines + 1
+				TempNum = self:GetLineNumOfCategoryTable(Value)
+				NumLines = NumLines + TempNum
 			end
 		end
-		TempNum = #CategoryTable[2];
+		TempNum = #CategoryTable[2]
 	end
-	NumLines = NumLines + TempNum;
-	return NumLines;
+	NumLines = NumLines + TempNum
+	return NumLines
 end
 
 function Addon:FindMacroIndex(CategoryTable, Description, Name, Icon, Body)
-	local NumEntries = 0;
-	local NumLines, ReturnTable;
+	local NumEntries = 0
+	local NumLines, ReturnTable
 	for CategoryKey, CategoryValue in ipairs(self.db.global.Macros) do
-		NumEntries = NumEntries + 1;
-		NumLines, ReturnTable = self:GetLineNumOfCategoryTable(CategoryValue, CategoryTable);
-		NumEntries = NumEntries + NumLines;
+		NumEntries = NumEntries + 1
+		NumLines, ReturnTable = self:GetLineNumOfCategoryTable(CategoryValue, CategoryTable)
+		NumEntries = NumEntries + NumLines
 		if ( ReturnTable ) then
 			if ( self.ExpandedTree[ReturnTable] ) then
 				-- Line is expanded, iterate through the macros till we find it.
 				for MacroKey, MacroValue in ipairs(ReturnTable[2]) do
-					NumEntries = NumEntries + 1;
+					NumEntries = NumEntries + 1
 					if ( Description == MacroValue[1] and Name == MacroValue[2] and Icon == MacroValue[3] and Body == MacroValue[4] ) then
-						return NumEntries;
+						return NumEntries
 					end
 				end
 			else
-				return 0;  -- Line isn't expanded, but this was the category we were given.
+				return 0  -- Line isn't expanded, but this was the category we were given.
 			end
 		end
 	end
@@ -1494,85 +1494,85 @@ end
 -- However, this function has to make sure that if we find the CategoryTable, to return the Line # of the macro that we were passed.
 -- So count the line numbers before the Category, as well as the number of lines until we reach our macros in the category.
 function Addon:GetLineNumOfCategoryTable(CategoryTable, TargetCategoryTable)
-	local NumLines, TempNum = 0, 0;
-	local ReturnTable;
+	local NumLines, TempNum = 0, 0
+	local ReturnTable
 	if ( self.ExpandedTree[CategoryTable] ) then
 		if ( CategoryTable[3] ) then
 			for Key, Value in ipairs(CategoryTable[3]) do
-				NumLines = NumLines + 1;
-				TempNum, ReturnTable = self:GetLineNumOfCategoryTable(Value, TargetCategoryTable);
-				NumLines = NumLines + TempNum;
+				NumLines = NumLines + 1
+				TempNum, ReturnTable = self:GetLineNumOfCategoryTable(Value, TargetCategoryTable)
+				NumLines = NumLines + TempNum
 				if ( ReturnTable ) then
-					return NumLines, ReturnTable;
+					return NumLines, ReturnTable
 				end
 			end
 		end
 		-- Only count the macros if we are not the CategoryTable we are looking for
 		if ( TargetCategoryTable ~= CategoryTable ) then
-			TempNum = #CategoryTable[2];
+			TempNum = #CategoryTable[2]
 		else
-			TempNum = 0;
+			TempNum = 0
 		end
 	end
-	NumLines = NumLines + TempNum;
+	NumLines = NumLines + TempNum
 	if ( TargetCategoryTable == CategoryTable ) then
-		return NumLines, CategoryTable;
+		return NumLines, CategoryTable
 	else
-		return NumLines, ReturnTable;
+		return NumLines, ReturnTable
 	end
 end
 
 --[=[ Unused function - was for ExpandCollapse_OnClick advanced function
 function Addon:FindCategoryIndex(CategoryIndex)
-	local NumEntries = 0;
-	local NumMacros;
+	local NumEntries = 0
+	local NumMacros
 	for CategoryKey, CategoryValue in ipairs(self.db.global.Macros) do
 		-- Add 1 for the base entry, and if it's expanded, the # of macros for the entry.
-		NumEntries = NumEntries + 1;
+		NumEntries = NumEntries + 1
 		if ( CategoryKey == CategoryIndex ) then
-			return NumEntries;
+			return NumEntries
 		else
 			if ( self.ExpandedTree[CategoryValue] ) then
-				NumMacros = #CategoryValue[2];
+				NumMacros = #CategoryValue[2]
 			else
-				NumMacros = 0;
+				NumMacros = 0
 			end
-			NumEntries = NumEntries + NumMacros;
+			NumEntries = NumEntries + NumMacros
 		end
 	end
-	return 0;
+	return 0
 end
 ]=]
 
 function Addon:ScrollLineLeftClick(LineNum)
-	self.MainFrame.Macros.MacroBody.Text:ClearFocus();  -- Save by clearing focus (the on focus clear will save it)
-	local LineOffset = LineNum + FauxScrollFrame_GetOffset(self.MainFrame.Macros.MacroList.ScrollFrame);
-	local CategoryTable, MacroIndex, Expanded, Indent = self:GetMacroIndex(LineOffset);
-	self.CurrentMacro = LineOffset;
+	self.MainFrame.Macros.MacroBody.Text:ClearFocus()  -- Save by clearing focus (the on focus clear will save it)
+	local LineOffset = LineNum + FauxScrollFrame_GetOffset(self.MainFrame.Macros.MacroList.ScrollFrame)
+	local CategoryTable, MacroIndex, Expanded, Indent = self:GetMacroIndex(LineOffset)
+	self.CurrentMacro = LineOffset
 	if ( MacroIndex == 0 ) then
-		-- self.ExpandedTree[self.db.global.Macros[CategoryIndex][1]] = not self.ExpandedTree[self.db.global.Macros[CategoryIndex][1]];
-		self.ExpandedTree[CategoryTable] = not self.ExpandedTree[CategoryTable];
+		-- self.ExpandedTree[self.db.global.Macros[CategoryIndex][1]] = not self.ExpandedTree[self.db.global.Macros[CategoryIndex][1]]
+		self.ExpandedTree[CategoryTable] = not self.ExpandedTree[CategoryTable]
 	end
-	self:DisplayMacro();
+	self:DisplayMacro()
 end
 
 function Addon:ScrollLineRightClick(LineNum)
-	self.MainFrame.Macros.MacroBody.Text:ClearFocus();  -- Save by clearing focus (the on focus clear will save it)
-	local LineOffset = LineNum + FauxScrollFrame_GetOffset(self.MainFrame.Macros.MacroList.ScrollFrame);
-	local CategoryTable, MacroIndex, Expanded, Indent = self:GetMacroIndex(LineOffset);
-	self.CurrentMacro = LineOffset;
-	self:DisplayMacro();
+	self.MainFrame.Macros.MacroBody.Text:ClearFocus()  -- Save by clearing focus (the on focus clear will save it)
+	local LineOffset = LineNum + FauxScrollFrame_GetOffset(self.MainFrame.Macros.MacroList.ScrollFrame)
+	local CategoryTable, MacroIndex, Expanded, Indent = self:GetMacroIndex(LineOffset)
+	self.CurrentMacro = LineOffset
+	self:DisplayMacro()
 	if ( CategoryTable ) then
-		local MacroSet;
+		local MacroSet
 		if ( MacroFrame.selectedTab == 1 ) then
-			MacroSet = "Global";
+			MacroSet = "Global"
 		else
-			MacroSet = "Char";
+			MacroSet = "Char"
 		end
 		if ( MacroIndex == 0 ) then
-			self.EasyMenu_Category[1].arg1 = { self.CategoryTableToName[CategoryTable], MacroSet };
-			self.EasyMenu_Category[2].arg1 = CategoryTable;
-			EasyMenu(self.EasyMenu_Category, self.DropDownFrame, "cursor", nil, nil, "MENU");
+			self.EasyMenu_Category[1].arg1 = { self.CategoryTableToName[CategoryTable], MacroSet }
+			self.EasyMenu_Category[2].arg1 = CategoryTable
+			EasyMenu(self.EasyMenu_Category, self.DropDownFrame, "cursor", nil, nil, "MENU")
 		else
 		end
 	end
@@ -1580,203 +1580,203 @@ end
 
 --[=[ No longer used, as it was deemed to confusing for people saving/creating macros and not know where they are ending up.
 function Addon:ExpandCollapse_OnClick(LineNum)
-	self.MainFrame.Macros.MacroBody.Text:ClearFocus();  -- Save by clearing focus (the on focus clear will save it)
-	local LineOffset = LineNum + FauxScrollFrame_GetOffset(self.MainFrame.Macros.MacroList.ScrollFrame);
+	self.MainFrame.Macros.MacroBody.Text:ClearFocus()  -- Save by clearing focus (the on focus clear will save it)
+	local LineOffset = LineNum + FauxScrollFrame_GetOffset(self.MainFrame.Macros.MacroList.ScrollFrame)
 	local CategoryTable, MacroIndex, Expanded, Indent = self:GetMacroIndex(LineOffset)
-	local CurrentlySelected = {};
-	CurrentlySelected.CategoryTable, CurrentlySelected.MacroIndex, CurrentlySelected.Expanded, CurrentlySelected.Indent = self:GetMacroIndex(self.CurrentMacro);
+	local CurrentlySelected = {}
+	CurrentlySelected.CategoryTable, CurrentlySelected.MacroIndex, CurrentlySelected.Expanded, CurrentlySelected.Indent = self:GetMacroIndex(self.CurrentMacro)
 	if ( CurrentlySelected.MacroIndex > 0 ) then
-		CurrentlySelected.Category = CurrentlySelected.CategoryTable[1];
-		CurrentlySelected.Description = CurrentlySelected.CategoryTable[2][CurrentlySelected.MacroIndex][1];
-		CurrentlySelected.Name = CurrentlySelected.CategoryTable[2][CurrentlySelected.MacroIndex][2];
-		CurrentlySelected.Icon = CurrentlySelected.CategoryTable[2][CurrentlySelected.MacroIndex][3];
-		CurrentlySelected.Body = CurrentlySelected.CategoryTable[2][CurrentlySelected.MacroIndex][4];
+		CurrentlySelected.Category = CurrentlySelected.CategoryTable[1]
+		CurrentlySelected.Description = CurrentlySelected.CategoryTable[2][CurrentlySelected.MacroIndex][1]
+		CurrentlySelected.Name = CurrentlySelected.CategoryTable[2][CurrentlySelected.MacroIndex][2]
+		CurrentlySelected.Icon = CurrentlySelected.CategoryTable[2][CurrentlySelected.MacroIndex][3]
+		CurrentlySelected.Body = CurrentlySelected.CategoryTable[2][CurrentlySelected.MacroIndex][4]
 	end
-	self.ExpandedTree[CategoryTable] = not self.ExpandedTree[CategoryTable];
+	self.ExpandedTree[CategoryTable] = not self.ExpandedTree[CategoryTable]
 	if ( self.CurrentMacro ~= 0 ) then  -- We had something selected (category or specific macro)
 		if ( CurrentlySelected.MacroIndex > 0 ) then -- We had a specific macro selected
-			self.CurrentMacro = self:FindMacroIndex(CurrentlySelected.Category, CurrentlySelected.Description, CurrentlySelected.Name, CurrentlySelected.Icon, CurrentlySelected.Body);
+			self.CurrentMacro = self:FindMacroIndex(CurrentlySelected.Category, CurrentlySelected.Description, CurrentlySelected.Name, CurrentlySelected.Icon, CurrentlySelected.Body)
 		else -- We had a category selected
-			self.CurrentMacro = self:FindCategoryIndex(CurrentlySelected.CategoryTable);
+			self.CurrentMacro = self:FindCategoryIndex(CurrentlySelected.CategoryTable)
 		end
 	end
-	self:DisplayMacro();
+	self:DisplayMacro()
 end
 ]=]
 
 function Addon:CheckAutoLoad()
-	local Found;
-	local Categories = { "PrimaryTalentsChar", "PrimaryTalentsGlobal", "SecondaryTalentsChar", "SecondaryTalentsGlobal", "LoginGlobal", "LoginChar" };
+	local Found
+	local Categories = { "PrimaryTalentsChar", "PrimaryTalentsGlobal", "SecondaryTalentsChar", "SecondaryTalentsGlobal", "LoginGlobal", "LoginChar" }
 	for CategoryKey, CategoryValue in pairs(Categories) do
 		for CategoryIndex = #self.db.profile.Options.AutoLoad[CategoryValue], 1, -1 do
-			-- Found = false;
+			-- Found = false
 			-- for Key, Value in pairs(self.db.global.Macros) do
 				-- if ( Value[1] == self.db.profile.Options.AutoLoad[CategoryValue][CategoryIndex] ) then
-					-- Found = true;
-					-- break;
+					-- Found = true
+					-- break
 				-- end
 			-- end
 			-- if ( not Found ) then
 			if ( not self.CategoryNameToTable[self.db.profile.Options.AutoLoad[CategoryValue][CategoryIndex]] ) then
-				-- self:Print("Removed non-existant Group: "..(self.db.profile.Options.AutoLoad[CategoryValue][CategoryIndex] or "nil"));
-				table.remove(self.db.profile.Options.AutoLoad[CategoryValue], CategoryIndex);
+				-- self:Print("Removed non-existant Group: "..(self.db.profile.Options.AutoLoad[CategoryValue][CategoryIndex] or "nil"))
+				table.remove(self.db.profile.Options.AutoLoad[CategoryValue], CategoryIndex)
 			end
 		end
 	end
-	LibStub("AceConfigRegistry-3.0"):NotifyChange(L["MacroBank"]);
+	LibStub("AceConfigRegistry-3.0"):NotifyChange(L["MacroBank"])
 end
 
 -- In case I want to save them all whenever I do something, instead of only when pressing enter
 -- function Addon:SaveMacroTexts()
-	-- self:SetMacroCategory(self.MainFrame.Macros.MacroCategory:GetText());
-	-- self:SetMacroDescription(self.MainFrame.Macros.MacroDescription:GetText());
-	-- self:SetMacroName(self.MainFrame.Macros.MacroName:GetText());
-	-- self.MainFrame.Macros.MacroBody.Text:ClearFocus();  -- Save by clearing focus (the on focus clear will save it)
+	-- self:SetMacroCategory(self.MainFrame.Macros.MacroCategory:GetText())
+	-- self:SetMacroDescription(self.MainFrame.Macros.MacroDescription:GetText())
+	-- self:SetMacroName(self.MainFrame.Macros.MacroName:GetText())
+	-- self.MainFrame.Macros.MacroBody.Text:ClearFocus()  -- Save by clearing focus (the on focus clear will save it)
 -- end
 
 function Addon:ResetAnchor()
-	self.db.profile.Options.Anchor.X = nil;
-	self.db.profile.Options.Anchor.Y = nil;
-	self:DisplayAtAnchor();
+	self.db.profile.Options.Anchor.X = nil
+	self.db.profile.Options.Anchor.Y = nil
+	self:DisplayAtAnchor()
 end
 
 function Addon:DisplayAtAnchor()
-	self.MainFrame:ClearAllPoints();
+	self.MainFrame:ClearAllPoints()
 	if ( self.db.profile.Options.Anchor.X and self.db.profile.Options.Anchor.Y ) then
-		local Scale = self.MainFrame:GetEffectiveScale();
-		self.MainFrame:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", self.db.profile.Options.Anchor.X / Scale, self.db.profile.Options.Anchor.Y / Scale);
+		local Scale = self.MainFrame:GetEffectiveScale()
+		self.MainFrame:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", self.db.profile.Options.Anchor.X / Scale, self.db.profile.Options.Anchor.Y / Scale)
 	else
-		self.MainFrame:SetPoint("TOPLEFT", MacroFrame, "TOPRIGHT", 0, -10);
+		self.MainFrame:SetPoint("TOPLEFT", MacroFrame, "TOPRIGHT", 0, -10)
 	end
 end
 
 function Addon:CreateCheckBox()
-	local Frame = CreateFrame("CheckButton");
-	Frame:SetHeight(24);
-	Frame:SetWidth(24);
-	Frame:SetNormalTexture("Interface\\Buttons\\UI-CheckBox-Up");
-	Frame:SetPushedTexture("Interface\\Buttons\\UI-CheckBox-Down");
-	Frame:SetHighlightTexture("Interface\\Buttons\\UI-CheckBox-Highlight");
-	Frame:SetCheckedTexture("Interface\\Buttons\\UI-CheckBox-Check");
-	Frame.Text = Frame:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall");
-	Frame.Text:SetPoint("LEFT", Frame, "RIGHT", -2, 0);
-	return Frame;
+	local Frame = CreateFrame("CheckButton")
+	Frame:SetHeight(24)
+	Frame:SetWidth(24)
+	Frame:SetNormalTexture("Interface\\Buttons\\UI-CheckBox-Up")
+	Frame:SetPushedTexture("Interface\\Buttons\\UI-CheckBox-Down")
+	Frame:SetHighlightTexture("Interface\\Buttons\\UI-CheckBox-Highlight")
+	Frame:SetCheckedTexture("Interface\\Buttons\\UI-CheckBox-Check")
+	Frame.Text = Frame:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
+	Frame.Text:SetPoint("LEFT", Frame, "RIGHT", -2, 0)
+	return Frame
 end
 
 function Addon:MacroList_OnScroll()
-	local LineNum, LineOffset;
-	local NumEntries = self:GetNumDisplayedMacros();
-	local NumScrollLines = 11;
-	local LineHeight = 16;
-	local CategoryTable, MacroIndex, Expanded, Indent;
-	FauxScrollFrame_Update(self.MainFrame.Macros.MacroList.ScrollFrame, NumEntries, NumScrollLines, LineHeight);
+	local LineNum, LineOffset
+	local NumEntries = self:GetNumDisplayedMacros()
+	local NumScrollLines = 11
+	local LineHeight = 16
+	local CategoryTable, MacroIndex, Expanded, Indent
+	FauxScrollFrame_Update(self.MainFrame.Macros.MacroList.ScrollFrame, NumEntries, NumScrollLines, LineHeight)
 	for LineNum = 1, NumScrollLines do
-		LineOffset = LineNum + FauxScrollFrame_GetOffset(self.MainFrame.Macros.MacroList.ScrollFrame);
+		LineOffset = LineNum + FauxScrollFrame_GetOffset(self.MainFrame.Macros.MacroList.ScrollFrame)
 		if ( LineOffset <= NumEntries) then
-			CategoryTable, MacroIndex, Expanded, Indent = self:GetMacroIndex(LineOffset);
-			Indent = string.rep("  ", Indent);
+			CategoryTable, MacroIndex, Expanded, Indent = self:GetMacroIndex(LineOffset)
+			Indent = string.rep("  ", Indent)
 			if ( MacroIndex == 0 ) then
-				self.MainFrame.Macros.MacroList["ScrollLine"..LineNum].Text:SetText(Indent..CategoryTable[1]);
+				self.MainFrame.Macros.MacroList["ScrollLine"..LineNum].Text:SetText(Indent..CategoryTable[1])
 				if ( Expanded ) then
-					self.MainFrame.Macros.MacroList["ScrollLine"..LineNum].ExpandCollapse:SetNormalTexture("Interface\\Buttons\\UI-MinusButton-Up");
-					self.MainFrame.Macros.MacroList["ScrollLine"..LineNum].ExpandCollapse:SetPushedTexture("Interface\\Buttons\\UI-MinusButton-Down");
+					self.MainFrame.Macros.MacroList["ScrollLine"..LineNum].ExpandCollapse:SetNormalTexture("Interface\\Buttons\\UI-MinusButton-Up")
+					self.MainFrame.Macros.MacroList["ScrollLine"..LineNum].ExpandCollapse:SetPushedTexture("Interface\\Buttons\\UI-MinusButton-Down")
 				else
-					self.MainFrame.Macros.MacroList["ScrollLine"..LineNum].ExpandCollapse:SetNormalTexture("Interface\\Buttons\\UI-PlusButton-Up");
-					self.MainFrame.Macros.MacroList["ScrollLine"..LineNum].ExpandCollapse:SetPushedTexture("Interface\\Buttons\\UI-PlusButton-Down");
+					self.MainFrame.Macros.MacroList["ScrollLine"..LineNum].ExpandCollapse:SetNormalTexture("Interface\\Buttons\\UI-PlusButton-Up")
+					self.MainFrame.Macros.MacroList["ScrollLine"..LineNum].ExpandCollapse:SetPushedTexture("Interface\\Buttons\\UI-PlusButton-Down")
 				end
-				self.MainFrame.Macros.MacroList["ScrollLine"..LineNum].ExpandCollapse:Show();
+				self.MainFrame.Macros.MacroList["ScrollLine"..LineNum].ExpandCollapse:Show()
 			else
-				self.MainFrame.Macros.MacroList["ScrollLine"..LineNum].Text:SetText(Indent..CategoryTable[2][MacroIndex][1]);
-				self.MainFrame.Macros.MacroList["ScrollLine"..LineNum].ExpandCollapse:Hide();
+				self.MainFrame.Macros.MacroList["ScrollLine"..LineNum].Text:SetText(Indent..CategoryTable[2][MacroIndex][1])
+				self.MainFrame.Macros.MacroList["ScrollLine"..LineNum].ExpandCollapse:Hide()
 			end -- MacroIndex == 0
 			if ( LineOffset == self.CurrentMacro ) then
-				self.MainFrame.Macros.MacroList["ScrollLine"..LineNum].Highlight:Show();
+				self.MainFrame.Macros.MacroList["ScrollLine"..LineNum].Highlight:Show()
 			else
-				self.MainFrame.Macros.MacroList["ScrollLine"..LineNum].Highlight:Hide();
+				self.MainFrame.Macros.MacroList["ScrollLine"..LineNum].Highlight:Hide()
 			end
-			self.MainFrame.Macros.MacroList["ScrollLine"..LineNum]:Show();
+			self.MainFrame.Macros.MacroList["ScrollLine"..LineNum]:Show()
 		else
-			self.MainFrame.Macros.MacroList["ScrollLine"..LineNum]:Hide();
+			self.MainFrame.Macros.MacroList["ScrollLine"..LineNum]:Hide()
 		end -- LineNum <= NumEntries
 	end
 end
 
 function Addon:IconChoice_OnScroll()
-	local LineNum, LineOffset;
-	local NumEntries = math.ceil(GetNumMacroIcons() / IconChoice.NumColumns);
-	local NumScrollLines = IconChoice.NumLines;
-	local LineHeight = 36;
-	FauxScrollFrame_Update(self.MainFrame.Macros.IconChoice.ScrollFrame, NumEntries, NumScrollLines, LineHeight);
+	local LineNum, LineOffset
+	local NumEntries = math.ceil(GetNumMacroIcons() / IconChoice.NumColumns)
+	local NumScrollLines = IconChoice.NumLines
+	local LineHeight = 36
+	FauxScrollFrame_Update(self.MainFrame.Macros.IconChoice.ScrollFrame, NumEntries, NumScrollLines, LineHeight)
 	for LineNum = 1, NumScrollLines do
-		LineOffset = LineNum + FauxScrollFrame_GetOffset(self.MainFrame.Macros.IconChoice.ScrollFrame);
+		LineOffset = LineNum + FauxScrollFrame_GetOffset(self.MainFrame.Macros.IconChoice.ScrollFrame)
 		if ( LineOffset <= NumEntries) then
 			-- If Start of each line <= Icon Choice <= End of each line   ( LineOffset * 5 - 4 <= Choice <= LineOffset * 5)
 			if ( LineOffset * IconChoice.NumColumns - (IconChoice.NumColumns - 1) <= self.MainFrame.Macros.IconChoice.Choice and self.MainFrame.Macros.IconChoice.Choice <= LineOffset * IconChoice.NumColumns ) then
-				self.MainFrame.Macros.IconChoice["ScrollLine"..LineNum]:HighlightIcon(self.MainFrame.Macros.IconChoice.Choice - (LineOffset - 1) * IconChoice.NumColumns);
+				self.MainFrame.Macros.IconChoice["ScrollLine"..LineNum]:HighlightIcon(self.MainFrame.Macros.IconChoice.Choice - (LineOffset - 1) * IconChoice.NumColumns)
 			else
-				self.MainFrame.Macros.IconChoice["ScrollLine"..LineNum]:HighlightIcon(0);
+				self.MainFrame.Macros.IconChoice["ScrollLine"..LineNum]:HighlightIcon(0)
 			end
 			for Index = 1, IconChoice.NumColumns do
 				if ( (LineOffset - 1) * IconChoice.NumColumns + Index <= GetNumMacroIcons() ) then
-					self.MainFrame.Macros.IconChoice["ScrollLine"..LineNum]["Icon"..Index].NormalTexture:SetTexture(GetMacroIconInfo((LineOffset - 1) * IconChoice.NumColumns + Index));
-					self.MainFrame.Macros.IconChoice["ScrollLine"..LineNum]["Icon"..Index]:Show();
+					self.MainFrame.Macros.IconChoice["ScrollLine"..LineNum]["Icon"..Index].NormalTexture:SetTexture(GetMacroIconInfo((LineOffset - 1) * IconChoice.NumColumns + Index))
+					self.MainFrame.Macros.IconChoice["ScrollLine"..LineNum]["Icon"..Index]:Show()
 				else
-					self.MainFrame.Macros.IconChoice["ScrollLine"..LineNum]["Icon"..Index]:Hide();
+					self.MainFrame.Macros.IconChoice["ScrollLine"..LineNum]["Icon"..Index]:Hide()
 				end
 			end
-			self.MainFrame.Macros.IconChoice["ScrollLine"..LineNum]:Show();
+			self.MainFrame.Macros.IconChoice["ScrollLine"..LineNum]:Show()
 		else
-			self.MainFrame.Macros.IconChoice["ScrollLine"..LineNum]:Hide();
+			self.MainFrame.Macros.IconChoice["ScrollLine"..LineNum]:Hide()
 		end
 	end
 end
 
 function Addon:CreateScrollLine()
-	local Frame = CreateFrame("Button");
-	Frame:SetHeight(16);
-	Frame:SetWidth(160);
-	Frame:SetScript("OnEnter", function() self:ShowTooltip(L["MacroScrollLine"], L["MacroScrollLineDesc"]) end);
-	Frame:SetScript("OnLeave", function() GameTooltip:Hide() end);
+	local Frame = CreateFrame("Button")
+	Frame:SetHeight(16)
+	Frame:SetWidth(160)
+	Frame:SetScript("OnEnter", function() self:ShowTooltip(L["MacroScrollLine"], L["MacroScrollLineDesc"]) end)
+	Frame:SetScript("OnLeave", function() GameTooltip:Hide() end)
 	Frame:SetScript("OnClick", function(frame, button, down)
 		if ( button == "LeftButton" ) then
 			self:ScrollLineLeftClick(Frame.LineNum)
 		else
 			self:ScrollLineRightClick(Frame.LineNum)
 		end
-	end);
-	Frame:RegisterForClicks("LeftButtonUp", "RightButtonUp");
+	end)
+	Frame:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 	
-	Frame.Highlight = Frame:CreateTexture(nil, "BACKGROUND");
-	Frame.Highlight:SetTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight");
-	Frame.Highlight:SetHeight(16);
-	Frame.Highlight:SetWidth(170);
-	Frame.Highlight:SetAllPoints(Frame);
-	Frame.Highlight:SetBlendMode("ADD");
-	Frame.Highlight:Hide();
+	Frame.Highlight = Frame:CreateTexture(nil, "BACKGROUND")
+	Frame.Highlight:SetTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight")
+	Frame.Highlight:SetHeight(16)
+	Frame.Highlight:SetWidth(170)
+	Frame.Highlight:SetAllPoints(Frame)
+	Frame.Highlight:SetBlendMode("ADD")
+	Frame.Highlight:Hide()
 	
-	Frame.ExpandCollapse = CreateFrame("Button", nil, Frame);
-	Frame.ExpandCollapse:SetHeight(16);
-	Frame.ExpandCollapse:SetWidth(16);
-	Frame.ExpandCollapse:SetPoint("TOPLEFT", Frame, "TOPLEFT");
-	Frame.ExpandCollapse:SetNormalTexture("Interface\\Buttons\\UI-PlusButton-Up");
-	Frame.ExpandCollapse:SetPushedTexture("Interface\\Buttons\\UI-PlusButton-Down");
-	-- Frame.ExpandCollapse:SetScript("OnClick", function() self:ExpandCollapse_OnClick(Frame.LineNum) end);
-	Frame.ExpandCollapse:SetScript("OnClick", function() self:ScrollLineLeftClick(Frame.LineNum) end);
+	Frame.ExpandCollapse = CreateFrame("Button", nil, Frame)
+	Frame.ExpandCollapse:SetHeight(16)
+	Frame.ExpandCollapse:SetWidth(16)
+	Frame.ExpandCollapse:SetPoint("TOPLEFT", Frame, "TOPLEFT")
+	Frame.ExpandCollapse:SetNormalTexture("Interface\\Buttons\\UI-PlusButton-Up")
+	Frame.ExpandCollapse:SetPushedTexture("Interface\\Buttons\\UI-PlusButton-Down")
+	-- Frame.ExpandCollapse:SetScript("OnClick", function() self:ExpandCollapse_OnClick(Frame.LineNum) end)
+	Frame.ExpandCollapse:SetScript("OnClick", function() self:ScrollLineLeftClick(Frame.LineNum) end)
 	
-	Frame.Text = Frame:CreateFontString(nil, "BACKGROUND", "ChatFontNormal");
-	Frame.Text:SetPoint("TOPLEFT", Frame.ExpandCollapse, "TOPRIGHT", 3, 0);
-	Frame.Text:SetHeight(16);
-	Frame.Text:SetWidth(Frame:GetWidth() - Frame.ExpandCollapse:GetWidth() - 3);
-	Frame.Text:SetJustifyH("LEFT");
+	Frame.Text = Frame:CreateFontString(nil, "BACKGROUND", "ChatFontNormal")
+	Frame.Text:SetPoint("TOPLEFT", Frame.ExpandCollapse, "TOPRIGHT", 3, 0)
+	Frame.Text:SetHeight(16)
+	Frame.Text:SetWidth(Frame:GetWidth() - Frame.ExpandCollapse:GetWidth() - 3)
+	Frame.Text:SetJustifyH("LEFT")
 	
-	return Frame;
+	return Frame
 end
 
 function Addon:CreateEditBox()
-	local Frame = CreateFrame("EditBox");
-	Frame:SetAutoFocus(false);
-	Frame:EnableMouse(true);
-	Frame:SetMaxLetters(200);
+	local Frame = CreateFrame("EditBox")
+	Frame:SetAutoFocus(false)
+	Frame:EnableMouse(true)
+	Frame:SetMaxLetters(200)
 	Frame:SetBackdrop({
 		["bgFile"] = "Interface\\Tooltips\\UI-Tooltip-Background",
 		["edgeFile"] = "Interface\\Tooltips\\UI-Tooltip-Border",
@@ -1789,22 +1789,22 @@ function Addon:CreateEditBox()
 		},
 		["tileSize"] = 32,
 		["edgeSize"] = 16,
-	});
-	Frame.Title = Frame:CreateFontString(nil, "BACKGROUND", "GameFontNormalSmall");
-	Frame.Title:SetPoint("BOTTOMLEFT", Frame, "TOPLEFT", 3, 0);
-	Frame:SetBackdropColor(0, 0, 0, 0.95);
-	Frame:SetScript("OnEditFocusLost", function(frame) frame:HighlightText(0, 0) end);
-	Frame:SetScript("OnEditFocusGained", function(frame) frame:HighlightText() end);
-	Frame:SetScript("OnLeave", function() GameTooltip:Hide() end);
-	Frame:SetFontObject(ChatFontNormal);
-	Frame:SetTextInsets(6, 6, 6, 6);
-	return Frame;
+	})
+	Frame.Title = Frame:CreateFontString(nil, "BACKGROUND", "GameFontNormalSmall")
+	Frame.Title:SetPoint("BOTTOMLEFT", Frame, "TOPLEFT", 3, 0)
+	Frame:SetBackdropColor(0, 0, 0, 0.95)
+	Frame:SetScript("OnEditFocusLost", function(frame) frame:HighlightText(0, 0) end)
+	Frame:SetScript("OnEditFocusGained", function(frame) frame:HighlightText() end)
+	Frame:SetScript("OnLeave", function() GameTooltip:Hide() end)
+	Frame:SetFontObject(ChatFontNormal)
+	Frame:SetTextInsets(6, 6, 6, 6)
+	return Frame
 end
 
 function Addon:CreateMainFrame()
-	local Frame = CreateFrame("Frame");
-	Frame:SetWidth(341);
-	Frame:SetHeight(457);
+	local Frame = CreateFrame("Frame")
+	Frame:SetWidth(341)
+	Frame:SetHeight(457)
 	Frame:SetBackdrop({
 		["bgFile"] = "Interface\\DialogFrame\\UI-DialogBox-Background",
 		["edgeFile"] = "Interface\\DialogFrame\\UI-DialogBox-Border",
@@ -1817,10 +1817,10 @@ function Addon:CreateMainFrame()
 		},
 		["tileSize"] = 32,
 		["edgeSize"] = 32,
-	});
-	Frame:EnableMouse(true);
-	Frame:SetMovable(true);
-	Frame:SetScript("OnMouseDown", function() Frame:StartMoving() end);
+	})
+	Frame:EnableMouse(true)
+	Frame:SetMovable(true)
+	Frame:SetScript("OnMouseDown", function() Frame:StartMoving() end)
 	Frame:SetScript("OnMouseUp", function()
 		Frame:StopMovingOrSizing()
 		if ( self.db.profile.Options.Anchor.Remember ) then
@@ -1828,56 +1828,56 @@ function Addon:CreateMainFrame()
 			self.db.profile.Options.Anchor.X = Frame:GetLeft() * s
 			self.db.profile.Options.Anchor.Y = Frame:GetTop() * s
 		end
-	end);
-	Frame:SetClampedToScreen(true);
+	end)
+	Frame:SetClampedToScreen(true)
 	Frame:SetClampRectInsets(250, -250, -350, 350)
-	Frame:Hide();
+	Frame:Hide()
 	
-	Frame.HeaderTexture = Frame:CreateTexture(nil, "ARTWORK");
-	Frame.HeaderTexture:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Header");
-	Frame.HeaderTexture:SetWidth(256);
-	Frame.HeaderTexture:SetHeight(64);
-	Frame.HeaderTexture:SetPoint("TOP", Frame, "TOP", 0, 12);
+	Frame.HeaderTexture = Frame:CreateTexture(nil, "ARTWORK")
+	Frame.HeaderTexture:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Header")
+	Frame.HeaderTexture:SetWidth(256)
+	Frame.HeaderTexture:SetHeight(64)
+	Frame.HeaderTexture:SetPoint("TOP", Frame, "TOP", 0, 12)
 
-	Frame.HeaderText = Frame:CreateFontString(nil, "ARTWORK", "GameFontNormal");
-	Frame.HeaderText:SetPoint("TOP", Frame.HeaderTexture, "TOP", 0, -14);
-	Frame.HeaderText:SetText(L["MacroBank"]);
+	Frame.HeaderText = Frame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	Frame.HeaderText:SetPoint("TOP", Frame.HeaderTexture, "TOP", 0, -14)
+	Frame.HeaderText:SetText(L["MacroBank"])
 
-	Frame.Macros = self:CreateMacrosFrame();
-	Frame.Macros:SetParent(Frame);
-	Frame.Macros:SetPoint("CENTER");
-	Frame.Macros:Show();
+	Frame.Macros = self:CreateMacrosFrame()
+	Frame.Macros:SetParent(Frame)
+	Frame.Macros:SetPoint("CENTER")
+	Frame.Macros:Show()
 	
-	return Frame;
+	return Frame
 end
 
 function Addon:CreateMacrosFrame()
-	local Frame = CreateFrame("Frame");
-	Frame:SetWidth(341);
-	Frame:SetHeight(457);
+	local Frame = CreateFrame("Frame")
+	Frame:SetWidth(341)
+	Frame:SetHeight(457)
 
-	Frame.ToMacroBank = self:CreateToMacroBankFrame();
-	Frame.ToMacroBank:SetParent(Frame);
-	Frame.ToMacroBank:SetPoint("TOPLEFT", Frame, "TOPLEFT", 20, -62);
+	Frame.ToMacroBank = self:CreateToMacroBankFrame()
+	Frame.ToMacroBank:SetParent(Frame)
+	Frame.ToMacroBank:SetPoint("TOPLEFT", Frame, "TOPLEFT", 20, -62)
 
-	Frame.FromMacroBank = self:CreateFromMacroBankFrame();
-	Frame.FromMacroBank:SetParent(Frame);
-	Frame.FromMacroBank:SetPoint("TOP", Frame.ToMacroBank, "BOTTOM", 0, -5);
-	Frame.FromMacroBank:Hide();
+	Frame.FromMacroBank = self:CreateFromMacroBankFrame()
+	Frame.FromMacroBank:SetParent(Frame)
+	Frame.FromMacroBank:SetPoint("TOP", Frame.ToMacroBank, "BOTTOM", 0, -5)
+	Frame.FromMacroBank:Hide()
 	
-	Frame.DeleteButton = CreateFrame("Button", nil, Frame, "UIPanelButtonTemplate");
-	Frame.DeleteButton:SetPoint("TOP", Frame.FromMacroBank, "BOTTOM", 0, -10);
-	Frame.DeleteButton:SetWidth(90);
-	Frame.DeleteButton:SetHeight(22);
-	Frame.DeleteButton:SetText(L["Delete"]);
-	Frame.DeleteButton:SetScript("OnEnter", function() self:ShowTooltip(L["Delete"], L["DeleteDesc"]) end);
-	Frame.DeleteButton:SetScript("OnLeave", function() GameTooltip:Hide() end);
+	Frame.DeleteButton = CreateFrame("Button", nil, Frame, "UIPanelButtonTemplate")
+	Frame.DeleteButton:SetPoint("TOP", Frame.FromMacroBank, "BOTTOM", 0, -10)
+	Frame.DeleteButton:SetWidth(90)
+	Frame.DeleteButton:SetHeight(22)
+	Frame.DeleteButton:SetText(L["Delete"])
+	Frame.DeleteButton:SetScript("OnEnter", function() self:ShowTooltip(L["Delete"], L["DeleteDesc"]) end)
+	Frame.DeleteButton:SetScript("OnLeave", function() GameTooltip:Hide() end)
 	Frame.DeleteButton:SetScript("OnClick", function()
-		local CategoryTable, MacroIndex, Expanded, Indent = self:GetMacroIndex(self.CurrentMacro);
+		local CategoryTable, MacroIndex, Expanded, Indent = self:GetMacroIndex(self.CurrentMacro)
 		if ( self.CurrentMacro == 0 or MacroIndex == 0 ) then
-			return;
+			return
 		end
-		local Dialog = StaticPopup_Show("MacroBank_DeleteMacro", CategoryTable[2][MacroIndex][1]);
+		local Dialog = StaticPopup_Show("MacroBank_DeleteMacro", CategoryTable[2][MacroIndex][1])
 		if ( Dialog ) then
 			Dialog.MacroBankData = {
 				["CategoryTable"] = CategoryTable,
@@ -1885,31 +1885,31 @@ function Addon:CreateMacrosFrame()
 			}
 		end
 		-- self:DeleteMacro()
-	end);
-	Frame.DeleteButton:Hide();
+	end)
+	Frame.DeleteButton:Hide()
 
-	Frame.OptionsButton = CreateFrame("Button", nil, Frame, "UIPanelButtonTemplate");
-	Frame.OptionsButton:SetPoint("BOTTOM", Frame.ToMacroBank, "TOP", 0, 5);
-	Frame.OptionsButton:SetWidth(90);
-	Frame.OptionsButton:SetHeight(22);
-	Frame.OptionsButton:SetText(L["Options"]);
-	Frame.OptionsButton:SetScript("OnEnter", function() self:ShowTooltip(L["Options"], L["OptionsDesc"]) end);
-	Frame.OptionsButton:SetScript("OnLeave", function() GameTooltip:Hide() end);
+	Frame.OptionsButton = CreateFrame("Button", nil, Frame, "UIPanelButtonTemplate")
+	Frame.OptionsButton:SetPoint("BOTTOM", Frame.ToMacroBank, "TOP", 0, 5)
+	Frame.OptionsButton:SetWidth(90)
+	Frame.OptionsButton:SetHeight(22)
+	Frame.OptionsButton:SetText(L["Options"])
+	Frame.OptionsButton:SetScript("OnEnter", function() self:ShowTooltip(L["Options"], L["OptionsDesc"]) end)
+	Frame.OptionsButton:SetScript("OnLeave", function() GameTooltip:Hide() end)
 	Frame.OptionsButton:SetScript("OnClick", function()
-		LibStub("AceConfigDialog-3.0"):Open(L["MacroBank"]);
-	end);
+		LibStub("AceConfigDialog-3.0"):Open(L["MacroBank"])
+	end)
 
-	Frame.MacroList = self:CreateMacroList();
-	Frame.MacroList:SetParent(Frame);
-	Frame.MacroList:SetPoint("TOPRIGHT", Frame, "TOPRIGHT", -20, -62);
+	Frame.MacroList = self:CreateMacroList()
+	Frame.MacroList:SetParent(Frame)
+	Frame.MacroList:SetPoint("TOPRIGHT", Frame, "TOPRIGHT", -20, -62)
 	
-	Frame.SendToButton = CreateFrame("Button", nil, Frame, "UIPanelButtonTemplate");
-	Frame.SendToButton:SetPoint("BOTTOM", Frame.MacroList, "TOP", 0, 5);
-	Frame.SendToButton:SetWidth(90);
-	Frame.SendToButton:SetHeight(22);
-	Frame.SendToButton:SetText(L["SendTo"]);
-	Frame.SendToButton:SetScript("OnEnter", function() self:ShowTooltip(L["SendTo"], L["Sends the currently selected macro to another user."]) end);
-	Frame.SendToButton:SetScript("OnLeave", function() GameTooltip:Hide() end);
+	Frame.SendToButton = CreateFrame("Button", nil, Frame, "UIPanelButtonTemplate")
+	Frame.SendToButton:SetPoint("BOTTOM", Frame.MacroList, "TOP", 0, 5)
+	Frame.SendToButton:SetWidth(90)
+	Frame.SendToButton:SetHeight(22)
+	Frame.SendToButton:SetText(L["SendTo"])
+	Frame.SendToButton:SetScript("OnEnter", function() self:ShowTooltip(L["SendTo"], L["Sends the currently selected macro to another user."]) end)
+	Frame.SendToButton:SetScript("OnLeave", function() GameTooltip:Hide() end)
 	Frame.SendToButton:SetScript("OnClick", function()
 		self.EasyMenu_Send[3].disabled = (GetNumPartyMembers() == 0)
 		self.EasyMenu_Send[4].disabled = (not UnitInRaid("player"))
@@ -1918,69 +1918,69 @@ function Addon:CreateMacrosFrame()
 		self.EasyMenu_Send[10].disabled = (not UnitInRaid("player"))
 		self.EasyMenu_Send[11].disabled = (not IsInGuild())
 		EasyMenu(self.EasyMenu_Send, self.DropDownFrame, "cursor", nil, nil, "MENU")
-	end);
-	Frame.SendToButton:Hide();
+	end)
+	Frame.SendToButton:Hide()
 
-	Frame.MacroCategory = self:CreateEditBox();
-	Frame.MacroCategory:SetParent(Frame);
-	Frame.MacroCategory:SetWidth(120);
-	Frame.MacroCategory:SetHeight(26);
-	Frame.MacroCategory:SetPoint("TOPRIGHT", Frame, "TOP", -10, -260);
-	Frame.MacroCategory.Title:SetText(L["Category"]);
-	Frame.MacroCategory:SetScript("OnEnter", function() self:ShowTooltip(L["Category"], L["CategoryDesc"]) end);
-	Frame.MacroCategory:SetScript("OnEnterPressed", function(frame) self:SetMacroCategory(frame:GetText()) frame:ClearFocus() end);
-	Frame.MacroCategory:SetScript("OnEscapePressed", function(frame) frame:ClearFocus() self:DisplayMacro() end);
+	Frame.MacroCategory = self:CreateEditBox()
+	Frame.MacroCategory:SetParent(Frame)
+	Frame.MacroCategory:SetWidth(120)
+	Frame.MacroCategory:SetHeight(26)
+	Frame.MacroCategory:SetPoint("TOPRIGHT", Frame, "TOP", -10, -260)
+	Frame.MacroCategory.Title:SetText(L["Category"])
+	Frame.MacroCategory:SetScript("OnEnter", function() self:ShowTooltip(L["Category"], L["CategoryDesc"]) end)
+	Frame.MacroCategory:SetScript("OnEnterPressed", function(frame) self:SetMacroCategory(frame:GetText()) frame:ClearFocus() end)
+	Frame.MacroCategory:SetScript("OnEscapePressed", function(frame) frame:ClearFocus() self:DisplayMacro() end)
 
-	Frame.MacroDescription = self:CreateEditBox();
-	Frame.MacroDescription:SetParent(Frame);
-	Frame.MacroDescription:SetWidth(120);
-	Frame.MacroDescription:SetHeight(26);
-	Frame.MacroDescription:SetPoint("TOPLEFT", Frame, "TOP", 10, -260);
-	Frame.MacroDescription.Title:SetText(L["Description"]);
-	Frame.MacroDescription:SetScript("OnEnter", function() self:ShowTooltip(L["Description"], L["DescriptionDesc"]) end);
-	Frame.MacroDescription:SetScript("OnEnterPressed", function(frame) self:SetMacroDescription(frame:GetText()) frame:ClearFocus() end);
-	Frame.MacroDescription:SetScript("OnEscapePressed", function(frame) frame:ClearFocus() self:DisplayMacro() end);
+	Frame.MacroDescription = self:CreateEditBox()
+	Frame.MacroDescription:SetParent(Frame)
+	Frame.MacroDescription:SetWidth(120)
+	Frame.MacroDescription:SetHeight(26)
+	Frame.MacroDescription:SetPoint("TOPLEFT", Frame, "TOP", 10, -260)
+	Frame.MacroDescription.Title:SetText(L["Description"])
+	Frame.MacroDescription:SetScript("OnEnter", function() self:ShowTooltip(L["Description"], L["DescriptionDesc"]) end)
+	Frame.MacroDescription:SetScript("OnEnterPressed", function(frame) self:SetMacroDescription(frame:GetText()) frame:ClearFocus() end)
+	Frame.MacroDescription:SetScript("OnEscapePressed", function(frame) frame:ClearFocus() self:DisplayMacro() end)
 
-	Frame.MacroName = self:CreateEditBox();
-	Frame.MacroName:SetParent(Frame);
-	Frame.MacroName:SetWidth(160);
-	Frame.MacroName:SetHeight(26);
-	Frame.MacroName:SetPoint("TOPLEFT", Frame.MacroCategory, "BOTTOMLEFT", 0, -15);
-	Frame.MacroName.Title:SetText(L["Name"]);
-	Frame.MacroName:SetScript("OnEnter", function() self:ShowTooltip(L["Name"], L["NameDesc"]) end);
-	Frame.MacroName:SetScript("OnEnterPressed", function(frame) self:SetMacroName(frame:GetText()) frame:ClearFocus() end);
-	Frame.MacroName:SetScript("OnEscapePressed", function(frame) frame:ClearFocus() self:DisplayMacro() end);
-	Frame.MacroName:SetMaxLetters(16);
+	Frame.MacroName = self:CreateEditBox()
+	Frame.MacroName:SetParent(Frame)
+	Frame.MacroName:SetWidth(160)
+	Frame.MacroName:SetHeight(26)
+	Frame.MacroName:SetPoint("TOPLEFT", Frame.MacroCategory, "BOTTOMLEFT", 0, -15)
+	Frame.MacroName.Title:SetText(L["Name"])
+	Frame.MacroName:SetScript("OnEnter", function() self:ShowTooltip(L["Name"], L["NameDesc"]) end)
+	Frame.MacroName:SetScript("OnEnterPressed", function(frame) self:SetMacroName(frame:GetText()) frame:ClearFocus() end)
+	Frame.MacroName:SetScript("OnEscapePressed", function(frame) frame:ClearFocus() self:DisplayMacro() end)
+	Frame.MacroName:SetMaxLetters(16)
 	
-	Frame.MacroIcon = self:CreateIconButton();
-	Frame.MacroIcon:SetParent(Frame);
-	Frame.MacroIcon:SetPoint("BOTTOMLEFT", Frame.MacroName, "BOTTOMRIGHT", 10, 0);
+	Frame.MacroIcon = self:CreateIconButton()
+	Frame.MacroIcon:SetParent(Frame)
+	Frame.MacroIcon:SetPoint("BOTTOMLEFT", Frame.MacroName, "BOTTOMRIGHT", 10, 0)
 	Frame.MacroIcon:SetScript("OnClick", function()
 		self.MainFrame.Macros.MacroBody.Text:ClearFocus()  -- Save current body text.
 		Frame.IconChoice:Show()
-	end);
+	end)
 	Frame.MacroIcon:SetScript("OnEnter", function(frame)
 		frame.HighlightTexture:Show()
 		self:ShowTooltip(L["Icon"], L["IconDesc"])
-	end);
+	end)
 	Frame.MacroIcon:SetScript("OnLeave", function(frame)
 		frame.HighlightTexture:Hide()
 		GameTooltip:Hide()
-	end);
+	end)
 	
-	Frame.IconChoice = self:CreateIconChoiceFrame();
-	Frame.IconChoice:SetParent(Frame);
+	Frame.IconChoice = self:CreateIconChoiceFrame()
+	Frame.IconChoice:SetParent(Frame)
 
-	Frame.MacroBody = self:CreateMacroBody();
-	Frame.MacroBody:SetParent(Frame);
-	Frame.MacroBody:SetPoint("BOTTOM", Frame, "BOTTOM", 0, 25);
-	return Frame;
+	Frame.MacroBody = self:CreateMacroBody()
+	Frame.MacroBody:SetParent(Frame)
+	Frame.MacroBody:SetPoint("BOTTOM", Frame, "BOTTOM", 0, 25)
+	return Frame
 end
 
 function Addon:CreateToMacroBankFrame()
-	local Frame = CreateFrame("Frame");
-	Frame:SetHeight(73);
-	Frame:SetWidth(100);
+	local Frame = CreateFrame("Frame")
+	Frame:SetHeight(73)
+	Frame:SetWidth(100)
 	Frame:SetBackdrop({
 		["bgFile"] = "Interface\\DialogFrame\\UI-DialogBox-Background",
 		["edgeFile"] = "Interface\\Tooltips\\UI-Tooltip-Border",
@@ -1993,19 +1993,19 @@ function Addon:CreateToMacroBankFrame()
 		},
 		["tileSize"] = 32,
 		["edgeSize"] = 16,
-	});
+	})
 
-	Frame.ToLabel = Frame:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall");
-	Frame.ToLabel:SetPoint("TOP", Frame, "TOP", 0, -3);
-	Frame.ToLabel:SetText(L["ToMacroBank"]);
+	Frame.ToLabel = Frame:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
+	Frame.ToLabel:SetPoint("TOP", Frame, "TOP", 0, -3)
+	Frame.ToLabel:SetText(L["ToMacroBank"])
 	
-	Frame.CreateButton = CreateFrame("Button", nil, Frame, "UIPanelButtonTemplate");
-	Frame.CreateButton:SetPoint("TOP", Frame.ToLabel, "BOTTOM", 0, -2);
-	Frame.CreateButton:SetWidth(90);
-	Frame.CreateButton:SetHeight(22);
-	Frame.CreateButton:SetText(L["Create"]);
-	Frame.CreateButton:SetScript("OnEnter", function() self:ShowTooltip(L["Create"], L["CreateDesc"]) end);
-	Frame.CreateButton:SetScript("OnLeave", function() GameTooltip:Hide() end);
+	Frame.CreateButton = CreateFrame("Button", nil, Frame, "UIPanelButtonTemplate")
+	Frame.CreateButton:SetPoint("TOP", Frame.ToLabel, "BOTTOM", 0, -2)
+	Frame.CreateButton:SetWidth(90)
+	Frame.CreateButton:SetHeight(22)
+	Frame.CreateButton:SetText(L["Create"])
+	Frame.CreateButton:SetScript("OnEnter", function() self:ShowTooltip(L["Create"], L["CreateDesc"]) end)
+	Frame.CreateButton:SetScript("OnLeave", function() GameTooltip:Hide() end)
 	Frame.CreateButton:SetScript("OnClick", function()
 		local Category
 		if ( self.CurrentMacro > 0 ) then
@@ -2015,23 +2015,23 @@ function Addon:CreateToMacroBankFrame()
 			Category = self.db.profile.Options.NewCategory
 		end
 		self:CreateMacro(Category, self.db.profile.Options.NewDescription, self.db.profile.Options.NewName, GetMacroIconInfo(1), "")
-	end);
+	end)
 
-	Frame.SaveButton = CreateFrame("Button", nil, Frame, "UIPanelButtonTemplate");
-	Frame.SaveButton:SetPoint("TOP", Frame.CreateButton, "BOTTOM", 0, -5);
-	Frame.SaveButton:SetWidth(90);
-	Frame.SaveButton:SetHeight(22);
-	Frame.SaveButton:SetText(L["Save"]);
-	Frame.SaveButton:SetScript("OnEnter", function() self:ShowTooltip(L["Save"], L["SaveDesc"]) end);
-	Frame.SaveButton:SetScript("OnLeave", function() GameTooltip:Hide() end);
-	Frame.SaveButton:SetScript("OnClick", function() self:Save_OnClick() end);
-	return Frame;  
+	Frame.SaveButton = CreateFrame("Button", nil, Frame, "UIPanelButtonTemplate")
+	Frame.SaveButton:SetPoint("TOP", Frame.CreateButton, "BOTTOM", 0, -5)
+	Frame.SaveButton:SetWidth(90)
+	Frame.SaveButton:SetHeight(22)
+	Frame.SaveButton:SetText(L["Save"])
+	Frame.SaveButton:SetScript("OnEnter", function() self:ShowTooltip(L["Save"], L["SaveDesc"]) end)
+	Frame.SaveButton:SetScript("OnLeave", function() GameTooltip:Hide() end)
+	Frame.SaveButton:SetScript("OnClick", function() self:Save_OnClick() end)
+	return Frame  
 end
 
 function Addon:CreateFromMacroBankFrame()
-	local Frame = CreateFrame("Frame");
-	Frame:SetHeight(73);
-	Frame:SetWidth(100);
+	local Frame = CreateFrame("Frame")
+	Frame:SetHeight(73)
+	Frame:SetWidth(100)
 	Frame:SetBackdrop({
 		["bgFile"] = "Interface\\DialogFrame\\UI-DialogBox-Background",
 		["edgeFile"] = "Interface\\Tooltips\\UI-Tooltip-Border",
@@ -2044,37 +2044,37 @@ function Addon:CreateFromMacroBankFrame()
 		},
 		["tileSize"] = 32,
 		["edgeSize"] = 16,
-	});
+	})
 
-	Frame.FromLabel = Frame:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall");
-	Frame.FromLabel:SetPoint("TOP", Frame, "TOP", 0, -3);
-	Frame.FromLabel:SetText(L["FromMacroBank"]);
+	Frame.FromLabel = Frame:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
+	Frame.FromLabel:SetPoint("TOP", Frame, "TOP", 0, -3)
+	Frame.FromLabel:SetText(L["FromMacroBank"])
 
-	Frame.LoadButton = CreateFrame("Button", nil, Frame, "UIPanelButtonTemplate");
-	Frame.LoadButton:SetPoint("TOP", Frame.FromLabel, "BOTTOM", 0, -2);
-	Frame.LoadButton:SetWidth(90);
-	Frame.LoadButton:SetHeight(22);
-	Frame.LoadButton:SetText(L["Load"]);
-	Frame.LoadButton:SetScript("OnEnter", function() self:ShowTooltip(L["Load"], L["LoadDesc"]) end);
-	Frame.LoadButton:SetScript("OnLeave", function() GameTooltip:Hide() end);
-	Frame.LoadButton:SetScript("OnClick", function() self:Load_OnClick() end);
+	Frame.LoadButton = CreateFrame("Button", nil, Frame, "UIPanelButtonTemplate")
+	Frame.LoadButton:SetPoint("TOP", Frame.FromLabel, "BOTTOM", 0, -2)
+	Frame.LoadButton:SetWidth(90)
+	Frame.LoadButton:SetHeight(22)
+	Frame.LoadButton:SetText(L["Load"])
+	Frame.LoadButton:SetScript("OnEnter", function() self:ShowTooltip(L["Load"], L["LoadDesc"]) end)
+	Frame.LoadButton:SetScript("OnLeave", function() GameTooltip:Hide() end)
+	Frame.LoadButton:SetScript("OnClick", function() self:Load_OnClick() end)
 
-	Frame.ReplaceButton = CreateFrame("Button", nil, Frame, "UIPanelButtonTemplate");
-	Frame.ReplaceButton:SetPoint("TOP", Frame.LoadButton, "BOTTOM", 0, -5);
-	Frame.ReplaceButton:SetWidth(90);
-	Frame.ReplaceButton:SetHeight(22);
-	Frame.ReplaceButton:SetText(L["Replace"]);
-	Frame.ReplaceButton:SetScript("OnEnter", function() self:ShowTooltip(L["Replace"], L["ReplaceDesc"]) end);
-	Frame.ReplaceButton:SetScript("OnLeave", function() GameTooltip:Hide() end);
-	Frame.ReplaceButton:SetScript("OnClick", function() self:Load_OnClick(true) end);
+	Frame.ReplaceButton = CreateFrame("Button", nil, Frame, "UIPanelButtonTemplate")
+	Frame.ReplaceButton:SetPoint("TOP", Frame.LoadButton, "BOTTOM", 0, -5)
+	Frame.ReplaceButton:SetWidth(90)
+	Frame.ReplaceButton:SetHeight(22)
+	Frame.ReplaceButton:SetText(L["Replace"])
+	Frame.ReplaceButton:SetScript("OnEnter", function() self:ShowTooltip(L["Replace"], L["ReplaceDesc"]) end)
+	Frame.ReplaceButton:SetScript("OnLeave", function() GameTooltip:Hide() end)
+	Frame.ReplaceButton:SetScript("OnClick", function() self:Load_OnClick(true) end)
 
-	return Frame;
+	return Frame
 end
 	
 function Addon:CreateMacroList()
-	local Frame = CreateFrame("Frame");
-	Frame:SetHeight(186);
-	Frame:SetWidth(192);
+	local Frame = CreateFrame("Frame")
+	Frame:SetHeight(186)
+	Frame:SetWidth(192)
 	Frame:SetBackdrop({
 		["bgFile"] = "Interface\\DialogFrame\\UI-DialogBox-Background",
 		["edgeFile"] = "Interface\\Tooltips\\UI-Tooltip-Border",
@@ -2087,34 +2087,34 @@ function Addon:CreateMacroList()
 		},
 		["tileSize"] = 32,
 		["edgeSize"] = 16,
-	});
-	Frame.ScrollFrame = CreateFrame("ScrollFrame", "MacroBank_MacroListScrollFrame", Frame, "FauxScrollFrameTemplate");
-	Frame.ScrollFrame:SetPoint("TOPLEFT", Frame, "TOPLEFT", 5, -5);
-	Frame.ScrollFrame:SetHeight(176);
-	Frame.ScrollFrame:SetWidth(160);
+	})
+	Frame.ScrollFrame = CreateFrame("ScrollFrame", "MacroBank_MacroListScrollFrame", Frame, "FauxScrollFrameTemplate")
+	Frame.ScrollFrame:SetPoint("TOPLEFT", Frame, "TOPLEFT", 5, -5)
+	Frame.ScrollFrame:SetHeight(176)
+	Frame.ScrollFrame:SetWidth(160)
 	if ( select(4, GetBuildInfo()) < 30000 ) then
-		Frame.ScrollFrame:SetScript("OnVerticalScroll", function() FauxScrollFrame_OnVerticalScroll(16, function() self:MacroList_OnScroll() end) end);
+		Frame.ScrollFrame:SetScript("OnVerticalScroll", function() FauxScrollFrame_OnVerticalScroll(16, function() self:MacroList_OnScroll() end) end)
 	else
-		Frame.ScrollFrame:SetScript("OnVerticalScroll", function(frame, offset) FauxScrollFrame_OnVerticalScroll(frame, offset, 16, function() self:MacroList_OnScroll() end) end);
+		Frame.ScrollFrame:SetScript("OnVerticalScroll", function(frame, offset) FauxScrollFrame_OnVerticalScroll(frame, offset, 16, function() self:MacroList_OnScroll() end) end)
 	end
 	
-	Frame.ScrollLine1 = self:CreateScrollLine();
-	Frame.ScrollLine1:SetParent(Frame);
-	Frame.ScrollLine1:SetPoint("TOPLEFT", Frame.ScrollFrame, "TOPLEFT", 0, 0);
-	Frame.ScrollLine1.LineNum = 1;
+	Frame.ScrollLine1 = self:CreateScrollLine()
+	Frame.ScrollLine1:SetParent(Frame)
+	Frame.ScrollLine1:SetPoint("TOPLEFT", Frame.ScrollFrame, "TOPLEFT", 0, 0)
+	Frame.ScrollLine1.LineNum = 1
 	for Index = 2, 11 do
-		Frame["ScrollLine"..Index] = self:CreateScrollLine();
-		Frame["ScrollLine"..Index]:SetParent(Frame);
-		Frame["ScrollLine"..Index]:SetPoint("TOPLEFT", Frame["ScrollLine"..(Index - 1)], "BOTTOMLEFT", 0, 0);
-		Frame["ScrollLine"..Index].LineNum = Index;
+		Frame["ScrollLine"..Index] = self:CreateScrollLine()
+		Frame["ScrollLine"..Index]:SetParent(Frame)
+		Frame["ScrollLine"..Index]:SetPoint("TOPLEFT", Frame["ScrollLine"..(Index - 1)], "BOTTOMLEFT", 0, 0)
+		Frame["ScrollLine"..Index].LineNum = Index
 	end
-	return Frame;
+	return Frame
 end
 
 function Addon:CreateMacroBody()
-	local Frame = CreateFrame("Frame");
-	Frame:SetHeight(95);
-	Frame:SetWidth(319);
+	local Frame = CreateFrame("Frame")
+	Frame:SetHeight(95)
+	Frame:SetWidth(319)
 	Frame:SetBackdrop({
 		["bgFile"] = "Interface\\DialogFrame\\UI-DialogBox-Background",
 		["edgeFile"] = "Interface\\Tooltips\\UI-Tooltip-Border",
@@ -2127,25 +2127,25 @@ function Addon:CreateMacroBody()
 		},
 		["tileSize"] = 32,
 		["edgeSize"] = 16,
-	});
+	})
 	
-	Frame.ScrollFrame = CreateFrame("ScrollFrame", "MacroBank_MacroBodyScrollFrame", Frame, "UIPanelScrollFrameTemplate");
-	Frame.ScrollFrame:SetHeight(85);
-	Frame.ScrollFrame:SetWidth(286);  -- WowUI was 286
-	Frame.ScrollFrame:SetPoint("TOPLEFT", Frame, "TOPLEFT", 7, -5);
+	Frame.ScrollFrame = CreateFrame("ScrollFrame", "MacroBank_MacroBodyScrollFrame", Frame, "UIPanelScrollFrameTemplate")
+	Frame.ScrollFrame:SetHeight(85)
+	Frame.ScrollFrame:SetWidth(286)  -- WowUI was 286
+	Frame.ScrollFrame:SetPoint("TOPLEFT", Frame, "TOPLEFT", 7, -5)
 
-	Frame.Text = CreateFrame("EditBox", nil, Frame.ScrollFrame);
-	Frame.Text:SetHeight(85);
-	Frame.Text:SetWidth(286);  -- WowUI was 286
-	Frame.Text:SetAllPoints(Frame.ScrollFrame);
-	Frame.Text:SetMultiLine(true);
-	Frame.Text:SetAutoFocus(false);
-	Frame.Text:SetMaxLetters(255);  -- Can't use MACROFRAME_CHAR_LIMIT at creation, as the MacroUI hasn't loaded.
-	Frame.Text:SetFontObject(GameFontHighlightSmall);
-	Frame.Text:SetScript("OnEscapePressed", function(frame) frame:ClearFocus() end);
-	Frame.Text:SetScript("OnEditFocusLost", function(frame) frame:HighlightText(0, 0) self:SetMacroBody(frame:GetText()) end);
-	Frame.Text:SetScript("OnEnter", function() self:ShowTooltip(L["Macro"], L["MacroDesc"]) end);
-	Frame.Text:SetScript("OnLeave", function() GameTooltip:Hide() end);
+	Frame.Text = CreateFrame("EditBox", nil, Frame.ScrollFrame)
+	Frame.Text:SetHeight(85)
+	Frame.Text:SetWidth(286)  -- WowUI was 286
+	Frame.Text:SetAllPoints(Frame.ScrollFrame)
+	Frame.Text:SetMultiLine(true)
+	Frame.Text:SetAutoFocus(false)
+	Frame.Text:SetMaxLetters(255)  -- Can't use MACROFRAME_CHAR_LIMIT at creation, as the MacroUI hasn't loaded.
+	Frame.Text:SetFontObject(GameFontHighlightSmall)
+	Frame.Text:SetScript("OnEscapePressed", function(frame) frame:ClearFocus() end)
+	Frame.Text:SetScript("OnEditFocusLost", function(frame) frame:HighlightText(0, 0) self:SetMacroBody(frame:GetText()) end)
+	Frame.Text:SetScript("OnEnter", function() self:ShowTooltip(L["Macro"], L["MacroDesc"]) end)
+	Frame.Text:SetScript("OnLeave", function() GameTooltip:Hide() end)
 	
 	if ( select(4, GetBuildInfo()) < 30000 ) then
 		Frame.Text:SetScript("OnTextChanged", function(frame)
@@ -2156,70 +2156,70 @@ function Addon:CreateMacroBody()
 				frame.max = Max
 				ScrollBar:SetValue(Max)
 			end
-		end);
-		Frame.Text:SetScript("OnCursorChanged", function() ScrollingEdit_OnCursorChanged(arg1, arg2, arg3, arg4) end);
-		Frame.Text:SetScript("OnUpdate", function() ScrollingEdit_OnUpdate(Frame.ScrollFrame) end);
+		end)
+		Frame.Text:SetScript("OnCursorChanged", function() ScrollingEdit_OnCursorChanged(arg1, arg2, arg3, arg4) end)
+		Frame.Text:SetScript("OnUpdate", function() ScrollingEdit_OnUpdate(Frame.ScrollFrame) end)
 	else
 		Frame.Text:SetScript("OnTextChanged", function(frame)
 			Frame.CharLimitText:SetFormattedText(MACROFRAME_CHAR_LIMIT, frame:GetNumLetters())
 			ScrollingEdit_OnTextChanged(frame, frame:GetParent())
-		end);
-		Frame.Text:SetScript("OnCursorChanged", function(frame, x, y, w, h) ScrollingEdit_OnCursorChanged(frame, x, y, w, h) end);
-		Frame.Text:SetScript("OnUpdate", function(frame, elapsed) ScrollingEdit_OnUpdate(frame, elapsed, frame:GetParent()) end);
+		end)
+		Frame.Text:SetScript("OnCursorChanged", function(frame, x, y, w, h) ScrollingEdit_OnCursorChanged(frame, x, y, w, h) end)
+		Frame.Text:SetScript("OnUpdate", function(frame, elapsed) ScrollingEdit_OnUpdate(frame, elapsed, frame:GetParent()) end)
 	end
-	Frame.ScrollFrame:SetScrollChild(Frame.Text);
+	Frame.ScrollFrame:SetScrollChild(Frame.Text)
 
-	Frame.FocusButton = CreateFrame("Button", nil, Frame);
-	Frame.FocusButton:SetAllPoints(Frame.ScrollFrame);
-	Frame.FocusButton:SetScript("OnClick", function() Frame.Text:SetFocus() end);
-	Frame.FocusButton:SetScript("OnEnter", function() self:ShowTooltip(L["Macro"], L["MacroDesc"]) end);
-	Frame.FocusButton:SetScript("OnLeave", function() GameTooltip:Hide() end);
+	Frame.FocusButton = CreateFrame("Button", nil, Frame)
+	Frame.FocusButton:SetAllPoints(Frame.ScrollFrame)
+	Frame.FocusButton:SetScript("OnClick", function() Frame.Text:SetFocus() end)
+	Frame.FocusButton:SetScript("OnEnter", function() self:ShowTooltip(L["Macro"], L["MacroDesc"]) end)
+	Frame.FocusButton:SetScript("OnLeave", function() GameTooltip:Hide() end)
 	
-	Frame.CharLimitText = Frame:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall");
-	Frame.CharLimitText:SetPoint("TOP", Frame, "BOTTOM", 0, -3);
+	Frame.CharLimitText = Frame:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
+	Frame.CharLimitText:SetPoint("TOP", Frame, "BOTTOM", 0, -3)
 	
-	return Frame;
+	return Frame
 end
 
 function Addon:CreateIconButton()
-	local Frame = CreateFrame("Button");
-	Frame:SetHeight(36);
-	Frame:SetWidth(36);
-	Frame:SetScript("OnEnter", function() Frame.HighlightTexture:Show() end);
-	Frame:SetScript("OnLeave", function() Frame.HighlightTexture:Hide() end);
+	local Frame = CreateFrame("Button")
+	Frame:SetHeight(36)
+	Frame:SetWidth(36)
+	Frame:SetScript("OnEnter", function() Frame.HighlightTexture:Show() end)
+	Frame:SetScript("OnLeave", function() Frame.HighlightTexture:Hide() end)
 	
-	Frame.BackgroundTexture = Frame:CreateTexture(nil, "BACKGROUND");
-	Frame.BackgroundTexture:SetTexture("Interface\\Buttons\\UI-EmptySlot-Disabled");
-	Frame.BackgroundTexture:SetWidth(64);
-	Frame.BackgroundTexture:SetHeight(64);
-	Frame.BackgroundTexture:SetPoint("CENTER", Frame, "CENTER", 0, -1);
+	Frame.BackgroundTexture = Frame:CreateTexture(nil, "BACKGROUND")
+	Frame.BackgroundTexture:SetTexture("Interface\\Buttons\\UI-EmptySlot-Disabled")
+	Frame.BackgroundTexture:SetWidth(64)
+	Frame.BackgroundTexture:SetHeight(64)
+	Frame.BackgroundTexture:SetPoint("CENTER", Frame, "CENTER", 0, -1)
 
-	Frame.NormalTexture = Frame:CreateTexture(nil, "ARTWORK");
-	Frame.NormalTexture:SetWidth(36);
-	Frame.NormalTexture:SetHeight(36);
-	Frame.NormalTexture:SetPoint("CENTER", Frame, "CENTER", 0, 0);
+	Frame.NormalTexture = Frame:CreateTexture(nil, "ARTWORK")
+	Frame.NormalTexture:SetWidth(36)
+	Frame.NormalTexture:SetHeight(36)
+	Frame.NormalTexture:SetPoint("CENTER", Frame, "CENTER", 0, 0)
 
-	Frame.HighlightTexture = Frame:CreateTexture(nil, "HIGHLIGHT");
-	Frame.HighlightTexture:SetTexture("Interface\\Buttons\\ButtonHilight-Square");
-	Frame.HighlightTexture:SetWidth(36);
-	Frame.HighlightTexture:SetHeight(36);
-	Frame.HighlightTexture:SetPoint("CENTER", Frame, "CENTER", 0, 0);
-	Frame.HighlightTexture:SetBlendMode("ADD");
-	Frame.HighlightTexture:Hide();
+	Frame.HighlightTexture = Frame:CreateTexture(nil, "HIGHLIGHT")
+	Frame.HighlightTexture:SetTexture("Interface\\Buttons\\ButtonHilight-Square")
+	Frame.HighlightTexture:SetWidth(36)
+	Frame.HighlightTexture:SetHeight(36)
+	Frame.HighlightTexture:SetPoint("CENTER", Frame, "CENTER", 0, 0)
+	Frame.HighlightTexture:SetBlendMode("ADD")
+	Frame.HighlightTexture:Hide()
 	
-	Frame.SelectedTexture = Frame:CreateTexture(nil, "OVERLAY");
-	Frame.SelectedTexture:SetTexture("Interface\\Buttons\\CheckButtonHilight");
-	Frame.SelectedTexture:SetWidth(36);
-	Frame.SelectedTexture:SetHeight(36);
-	Frame.SelectedTexture:SetPoint("CENTER", Frame, "CENTER", 0, 0);
-	Frame.SelectedTexture:SetBlendMode("ADD");
-	Frame.SelectedTexture:Hide();
+	Frame.SelectedTexture = Frame:CreateTexture(nil, "OVERLAY")
+	Frame.SelectedTexture:SetTexture("Interface\\Buttons\\CheckButtonHilight")
+	Frame.SelectedTexture:SetWidth(36)
+	Frame.SelectedTexture:SetHeight(36)
+	Frame.SelectedTexture:SetPoint("CENTER", Frame, "CENTER", 0, 0)
+	Frame.SelectedTexture:SetBlendMode("ADD")
+	Frame.SelectedTexture:Hide()
 	
-	return Frame;
+	return Frame
 end
 
 local function HighlightIcon(Frame, IconNum, Hide)
-	Frame.SelectedIcon = IconNum;
+	Frame.SelectedIcon = IconNum
 	for Index = 1, IconChoice.NumColumns do
 		if ( Index == IconNum ) then
 			Frame["Icon"..Index].SelectedTexture:Show()
@@ -2230,45 +2230,45 @@ local function HighlightIcon(Frame, IconNum, Hide)
 end
 
 function Addon:CreateIconChoiceScrollLine()
-	local Frame = CreateFrame("Frame");
-	local Spacing = 8;
-	Frame:SetHeight(36);
-	Frame:SetWidth(36 * IconChoice.NumColumns + Spacing * (IconChoice.NumColumns - 1));
+	local Frame = CreateFrame("Frame")
+	local Spacing = 8
+	Frame:SetHeight(36)
+	Frame:SetWidth(36 * IconChoice.NumColumns + Spacing * (IconChoice.NumColumns - 1))
 
-	Frame.Icon1 = self:CreateIconButton();
-	Frame.Icon1:SetParent(Frame);
-	Frame.Icon1:SetPoint("TOPLEFT", Frame, "TOPLEFT", 0, 0);
-	Frame.Icon1:SetScript("OnClick", function() Frame:GetParent():SetChoice(Frame.LineNum, 1) end);
+	Frame.Icon1 = self:CreateIconButton()
+	Frame.Icon1:SetParent(Frame)
+	Frame.Icon1:SetPoint("TOPLEFT", Frame, "TOPLEFT", 0, 0)
+	Frame.Icon1:SetScript("OnClick", function() Frame:GetParent():SetChoice(Frame.LineNum, 1) end)
 	for Index = 2, IconChoice.NumColumns do
-		Frame["Icon"..Index] = self:CreateIconButton();
-		Frame["Icon"..Index]:SetParent(Frame);
-		Frame["Icon"..Index]:SetPoint("TOPLEFT", Frame["Icon"..(Index - 1)], "TOPRIGHT", Spacing, 0);
-		Frame["Icon"..Index]:SetScript("OnClick", function() Frame:GetParent():SetChoice(Frame.LineNum, Index) end);
+		Frame["Icon"..Index] = self:CreateIconButton()
+		Frame["Icon"..Index]:SetParent(Frame)
+		Frame["Icon"..Index]:SetPoint("TOPLEFT", Frame["Icon"..(Index - 1)], "TOPRIGHT", Spacing, 0)
+		Frame["Icon"..Index]:SetScript("OnClick", function() Frame:GetParent():SetChoice(Frame.LineNum, Index) end)
 	end
 	
-	Frame.HighlightIcon = HighlightIcon;
-	Frame.SelectedIcon = 0;
-	return Frame;
+	Frame.HighlightIcon = HighlightIcon
+	Frame.SelectedIcon = 0
+	return Frame
 end
 
 local function SetChoice(Frame, Line, Icon)
-	local OldLineNum = math.ceil(Frame.Choice / IconChoice.NumColumns) - FauxScrollFrame_GetOffset(Frame.ScrollFrame);
+	local OldLineNum = math.ceil(Frame.Choice / IconChoice.NumColumns) - FauxScrollFrame_GetOffset(Frame.ScrollFrame)
 	if ( 1 <= OldLineNum and OldLineNum <= IconChoice.NumLines ) then
-		Frame["ScrollLine"..OldLineNum]:HighlightIcon(0);
+		Frame["ScrollLine"..OldLineNum]:HighlightIcon(0)
 	end  
-	local LineOffset = Line + FauxScrollFrame_GetOffset(Frame.ScrollFrame);
-	Frame.Choice = (LineOffset - 1) * IconChoice.NumColumns + Icon;
-	Frame["ScrollLine"..Line]:HighlightIcon(Icon);
+	local LineOffset = Line + FauxScrollFrame_GetOffset(Frame.ScrollFrame)
+	Frame.Choice = (LineOffset - 1) * IconChoice.NumColumns + Icon
+	Frame["ScrollLine"..Line]:HighlightIcon(Icon)
 end
 
 function Addon:CreateIconChoiceFrame()
-	local Frame = CreateFrame("Frame");
-	Frame:SetPoint("CENTER", UIParent, "CENTER");
-	Frame:SetHeight(36 * IconChoice.NumLines + 8 * (IconChoice.NumLines - 1) + 62);  -- 230 with 4 lines
-	Frame:SetWidth(36 * IconChoice.NumColumns + 8 * (IconChoice.NumColumns - 1) + 58);  -- 270 with 5 columns
-	Frame:SetToplevel(true);
-	Frame:SetFrameStrata("DIALOG");
-	Frame:EnableMouse(true);
+	local Frame = CreateFrame("Frame")
+	Frame:SetPoint("CENTER", UIParent, "CENTER")
+	Frame:SetHeight(36 * IconChoice.NumLines + 8 * (IconChoice.NumLines - 1) + 62)  -- 230 with 4 lines
+	Frame:SetWidth(36 * IconChoice.NumColumns + 8 * (IconChoice.NumColumns - 1) + 58)  -- 270 with 5 columns
+	Frame:SetToplevel(true)
+	Frame:SetFrameStrata("DIALOG")
+	Frame:EnableMouse(true)
 	Frame:SetBackdrop({
 		["bgFile"] = "Interface\\DialogFrame\\UI-DialogBox-Background",
 		["edgeFile"] = "Interface\\DialogFrame\\UI-DialogBox-Border",
@@ -2281,7 +2281,7 @@ function Addon:CreateIconChoiceFrame()
 		},
 		["tileSize"] = 32,
 		["edgeSize"] = 32,
-	});
+	})
 	Frame:SetScript("OnShow", function()
 		local CategoryTable, MacroIndex, Expanded, Indent = self:GetMacroIndex(self.CurrentMacro)
 		Frame.Choice = CategoryTable[2][MacroIndex][3]
@@ -2294,54 +2294,54 @@ function Addon:CreateIconChoiceFrame()
 		local Offset = math.ceil(Frame.Choice / IconChoice.NumColumns) - 1 -- with 1044 entries, # Offsets is 0-205  (1044/5 = 208.8)
 		_G[Frame.ScrollFrame:GetName().."ScrollBar"]:SetValue(Offset * LineHeight) -- Triggers OnVerticalScroll only if the value changes, so need to call OnScroll
 		self:IconChoice_OnScroll()
-	end);
-	Frame:Hide();
+	end)
+	Frame:Hide()
 	
-	Frame.ScrollFrame = CreateFrame("ScrollFrame", "MacroBank_IconChoiceScrollFrame", Frame, "FauxScrollFrameTemplate");
-	Frame.ScrollFrame:SetPoint("TOPLEFT", Frame, "TOPLEFT", 18, -18);
-	Frame.ScrollFrame:SetHeight(36 * IconChoice.NumLines + 8 * (IconChoice.NumLines - 1));  -- 168 with 4 lines
-	Frame.ScrollFrame:SetWidth(36 * IconChoice.NumColumns + 8 * (IconChoice.NumColumns - 1));  -- 212 with 5 columns
+	Frame.ScrollFrame = CreateFrame("ScrollFrame", "MacroBank_IconChoiceScrollFrame", Frame, "FauxScrollFrameTemplate")
+	Frame.ScrollFrame:SetPoint("TOPLEFT", Frame, "TOPLEFT", 18, -18)
+	Frame.ScrollFrame:SetHeight(36 * IconChoice.NumLines + 8 * (IconChoice.NumLines - 1))  -- 168 with 4 lines
+	Frame.ScrollFrame:SetWidth(36 * IconChoice.NumColumns + 8 * (IconChoice.NumColumns - 1))  -- 212 with 5 columns
 	if ( select(4, GetBuildInfo()) < 30000 ) then
-		Frame.ScrollFrame:SetScript("OnVerticalScroll", function() FauxScrollFrame_OnVerticalScroll(36, function() self:IconChoice_OnScroll() end) end);
+		Frame.ScrollFrame:SetScript("OnVerticalScroll", function() FauxScrollFrame_OnVerticalScroll(36, function() self:IconChoice_OnScroll() end) end)
 	else
-		Frame.ScrollFrame:SetScript("OnVerticalScroll", function(frame, offset) FauxScrollFrame_OnVerticalScroll(frame, offset, 36, function() self:IconChoice_OnScroll() end) end);
+		Frame.ScrollFrame:SetScript("OnVerticalScroll", function(frame, offset) FauxScrollFrame_OnVerticalScroll(frame, offset, 36, function() self:IconChoice_OnScroll() end) end)
 	end
 	
-	Frame.ScrollLine1 = self:CreateIconChoiceScrollLine();
-	Frame.ScrollLine1:SetParent(Frame);
-	Frame.ScrollLine1:SetPoint("TOPLEFT", Frame.ScrollFrame, "TOPLEFT", 0, 0);
-	Frame.ScrollLine1.LineNum = 1;
+	Frame.ScrollLine1 = self:CreateIconChoiceScrollLine()
+	Frame.ScrollLine1:SetParent(Frame)
+	Frame.ScrollLine1:SetPoint("TOPLEFT", Frame.ScrollFrame, "TOPLEFT", 0, 0)
+	Frame.ScrollLine1.LineNum = 1
 	for Index = 2, IconChoice.NumLines do
-		Frame["ScrollLine"..Index] = self:CreateIconChoiceScrollLine();
-		Frame["ScrollLine"..Index]:SetParent(Frame);
-		Frame["ScrollLine"..Index]:SetPoint("TOPLEFT", Frame["ScrollLine"..(Index - 1)], "BOTTOMLEFT", 0, -7);
-		Frame["ScrollLine"..Index].LineNum = Index;
+		Frame["ScrollLine"..Index] = self:CreateIconChoiceScrollLine()
+		Frame["ScrollLine"..Index]:SetParent(Frame)
+		Frame["ScrollLine"..Index]:SetPoint("TOPLEFT", Frame["ScrollLine"..(Index - 1)], "BOTTOMLEFT", 0, -7)
+		Frame["ScrollLine"..Index].LineNum = Index
 	end
 	
-	Frame.AcceptButton = CreateFrame("Button", nil, Frame, "GameMenuButtonTemplate");
-	Frame.AcceptButton:SetWidth(60);
-	Frame.AcceptButton:SetHeight(21);
-	Frame.AcceptButton:SetPoint("BOTTOMRIGHT", Frame, "BOTTOM", -10, 10);
+	Frame.AcceptButton = CreateFrame("Button", nil, Frame, "GameMenuButtonTemplate")
+	Frame.AcceptButton:SetWidth(60)
+	Frame.AcceptButton:SetHeight(21)
+	Frame.AcceptButton:SetPoint("BOTTOMRIGHT", Frame, "BOTTOM", -10, 10)
 	Frame.AcceptButton:SetScript("OnClick", function()
 		self:SetMacroIcon(Frame.Choice)
-		Frame:Hide();
-		self:DisplayMacro();
-	end);
-	Frame.AcceptButton:SetScript("OnEnter", function() self:ShowTooltip(L["AcceptIcon"], L["AcceptIconDesc"]) end);
-	Frame.AcceptButton:SetScript("OnLeave", function() GameTooltip:Hide() end);
-	Frame.AcceptButton:SetText(L["AcceptIcon"]);
+		Frame:Hide()
+		self:DisplayMacro()
+	end)
+	Frame.AcceptButton:SetScript("OnEnter", function() self:ShowTooltip(L["AcceptIcon"], L["AcceptIconDesc"]) end)
+	Frame.AcceptButton:SetScript("OnLeave", function() GameTooltip:Hide() end)
+	Frame.AcceptButton:SetText(L["AcceptIcon"])
 	
-	Frame.CancelButton = CreateFrame("Button", nil, Frame, "GameMenuButtonTemplate");
-	Frame.CancelButton:SetWidth(60);
-	Frame.CancelButton:SetHeight(21);
-	Frame.CancelButton:SetPoint("BOTTOMLEFT", Frame, "BOTTOM", 10, 10);
-	Frame.CancelButton:SetScript("OnClick", function() Frame:Hide() end);
-	Frame.CancelButton:SetScript("OnEnter", function() self:ShowTooltip(CANCEL, L["CancelDesc"]) end);
-	Frame.CancelButton:SetScript("OnLeave", function() GameTooltip:Hide() end);
-	Frame.CancelButton:SetText(CANCEL);
+	Frame.CancelButton = CreateFrame("Button", nil, Frame, "GameMenuButtonTemplate")
+	Frame.CancelButton:SetWidth(60)
+	Frame.CancelButton:SetHeight(21)
+	Frame.CancelButton:SetPoint("BOTTOMLEFT", Frame, "BOTTOM", 10, 10)
+	Frame.CancelButton:SetScript("OnClick", function() Frame:Hide() end)
+	Frame.CancelButton:SetScript("OnEnter", function() self:ShowTooltip(CANCEL, L["CancelDesc"]) end)
+	Frame.CancelButton:SetScript("OnLeave", function() GameTooltip:Hide() end)
+	Frame.CancelButton:SetText(CANCEL)
 
-	Frame.SetChoice = SetChoice;
-	return Frame;
+	Frame.SetChoice = SetChoice
+	return Frame
 end
 
 function Addon:UpgradeDatabase()
@@ -2350,35 +2350,35 @@ function Addon:UpgradeDatabase()
 			for CategoryKey, CategoryValue in pairs(self.db.profile.Macros) do
 				for MacroKey, MacroValue in pairs(CategoryValue[2]) do
 					if ( MacroValue[3] ) then
-						MacroValue[3] = GetMacroIconInfo(MacroValue[3]);
+						MacroValue[3] = GetMacroIconInfo(MacroValue[3])
 					end
 				end
 			end
 		end
-		MacroBankDB.DBVersion = 2;
+		MacroBankDB.DBVersion = 2
 	end
 	if ( MacroBankDB.DBVersion == 2 ) then
 		if ( self.db.profile.AutoLoad ) then
-			self.db.profile.Options.AutoLoad = self.db.profile.AutoLoad;
-			self.db.profile.AutoLoad = nil;
+			self.db.profile.Options.AutoLoad = self.db.profile.AutoLoad
+			self.db.profile.AutoLoad = nil
 		end
 		if ( self.db.profile.Macros ) then
-			self.db.global.Macros = self.db.profile.Macros;
-			self.db.profile.Macros = nil;
+			self.db.global.Macros = self.db.profile.Macros
+			self.db.profile.Macros = nil
 		end
-		MacroBankDB.DBVersion = 3;
+		MacroBankDB.DBVersion = 3
 	end
 	if ( MacroBankDB.DBVersion == 3 ) then
 		if ( self.db.global.Macros ) then
-			local CategoryTable;
+			local CategoryTable
 			for Index = #self.db.global.Macros, 1, -1 do
 				if ( string.find(self.db.global.Macros[Index][1], "\\") ) then
-					CategoryTable = self:FindOrCreateCategory(self.db.global.Macros[Index][1]);
-					CategoryTable[2] = self.db.global.Macros[Index][2];
-					table.remove(self.db.global.Macros, Index);
+					CategoryTable = self:FindOrCreateCategory(self.db.global.Macros[Index][1])
+					CategoryTable[2] = self.db.global.Macros[Index][2]
+					table.remove(self.db.global.Macros, Index)
 				end
 			end
 		end
-		MacroBankDB.DBVersion = 4;
+		MacroBankDB.DBVersion = 4
 	end
 end

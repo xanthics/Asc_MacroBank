@@ -1,4 +1,4 @@
-﻿local L = LibStub("AceLocale-3.0"):NewLocale("MacroBank", "koKR", false);
+﻿local L = LibStub("AceLocale-3.0"):NewLocale("MacroBank", "koKR", false)
 if not L then return end
 L["AcceptIcon"] = "적용"
 L["AcceptIconDesc"] = "이 아이콘을 적용합니다."
