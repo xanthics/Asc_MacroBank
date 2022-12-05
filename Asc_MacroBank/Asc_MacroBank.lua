@@ -141,27 +141,27 @@ local MenuOptions = {
 			["set"] = "SetAutoLoadOptions",
 			["get"] = "GetAutoLoadOptions",
 			["args"] = {
-				["OnTalentSwap"] = {
-					["name"] = L["On Talent Swap"],
+				["OnSpecSwap"] = {
+					["name"] = L["On Spec Swap"],
 					["type"] = "group",
 					["inline"] = true,
 					["order"] = 0,
 					["set"] = "OptionsSet",
 					["get"] = "OptionsGet",
 					["args"] = {
-						["DeleteGlobalOnTalentSwap"] = {
+						["DeleteGlobalOnSpecSwap"] = {
 							["name"] = L["Delete Global Macros"],
 							["desc"] = L["Delete Macros On AutoLoad Desc"],
 							["type"] = "toggle",
 							["order"] = 0,
-							["arg"] = { "AutoLoad", "DeleteGlobalOnTalentSwap" }
+							["arg"] = { "AutoLoad", "DeleteGlobalOnSpecSwap" }
 						},
-						["DeleteCharOnTalentSwap"] = {
+						["DeleteCharOnSpecSwap"] = {
 							["name"] = L["Delete Char Macros"],
 							["desc"] = L["Delete Macros On AutoLoad Desc"],
 							["type"] = "toggle",
 							["order"] = 10,
-							["arg"] = { "AutoLoad", "DeleteCharOnTalentSwap" }
+							["arg"] = { "AutoLoad", "DeleteCharOnSpecSwap" }
 						},
 					},
 				},
@@ -189,9 +189,9 @@ local MenuOptions = {
 						},
 					},
 				},
-				["PrimaryTalents"] = {
-					["name"] = L["Primary Talent Spec Group"],
-					["desc"] = L["Primary Talent Spec Group Desc"],
+				["Spec_I"] = {
+					["name"] = L["Specialization I Group"],
+					["desc"] = L["Specialization I Group Desc"],
 					["type"] = "group",
 					["order"] = 100,
 					["args"] = {
@@ -201,7 +201,7 @@ local MenuOptions = {
 							["type"] = "multiselect",
 							["order"] = 0,
 							["values"] = "GetMacroGroupList",
-							["arg"] = "PrimaryTalentsChar",
+							["arg"] = "Spec_I_Char",
 						},
 						["Global"] = {
 							["name"] = L["GlobalCategory"],
@@ -209,13 +209,329 @@ local MenuOptions = {
 							["type"] = "multiselect",
 							["order"] = 10,
 							["values"] = "GetMacroGroupList",
-							["arg"] = "PrimaryTalentsGlobal",
+							["arg"] = "Spec_I_Global",
+						},
+						["ABS"] = {
+							["name"] = L["ABSGroups"],
+							["desc"] = L["ABSGroupsDesc"],
+							["type"] = "select",
+							["order"] = 20,
+							["values"] = "GetABSGroupList",
+							["set"] = "SetABSSelect",
+							["get"] = "GetABSSelect",
+							["arg"] = "Spec_I_ABS",
 						},
 					},
 				},
-				["SecondaryTalents"] = {
-					["name"] = L["Secondary Talent Spec Group"],
-					["desc"] = L["Secondary Talent Spec Group Desc"],
+				["Spec_II"] = {
+					["name"] = L["Specialization II Group"],
+					["desc"] = L["Specialization II Group Desc"],
+					["type"] = "group",
+					["order"] = 101,
+					["args"] = {
+						["Char"] = {
+							["name"] = L["CharCategory"],
+							["desc"] = L["CharCategoryDesc"],
+							["type"] = "multiselect",
+							["order"] = 0,
+							["values"] = "GetMacroGroupList",
+							["arg"] = "Spec_II_Char",
+						},
+						["Global"] = {
+							["name"] = L["GlobalCategory"],
+							["desc"] = L["GlobalCategoryDesc"],
+							["type"] = "multiselect",
+							["order"] = 10,
+							["values"] = "GetMacroGroupList",
+							["arg"] = "Spec_II_Global",
+						},
+						["ABS"] = {
+							["name"] = L["ABSGroups"],
+							["desc"] = L["ABSGroupsDesc"],
+							["type"] = "select",
+							["order"] = 20,
+							["values"] = "GetABSGroupList",
+							["set"] = "SetABSSelect",
+							["get"] = "GetABSSelect",
+							["arg"] = "Spec_II_ABS",
+						},
+					},
+				},
+				["Spec_III"] = {
+					["name"] = L["Specialization III Group"],
+					["desc"] = L["Specialization III Group Desc"],
+					["type"] = "group",
+					["order"] = 102,
+					["args"] = {
+						["Char"] = {
+							["name"] = L["CharCategory"],
+							["desc"] = L["CharCategoryDesc"],
+							["type"] = "multiselect",
+							["order"] = 0,
+							["values"] = "GetMacroGroupList",
+							["arg"] = "Spec_III_Char",
+						},
+						["Global"] = {
+							["name"] = L["GlobalCategory"],
+							["desc"] = L["GlobalCategoryDesc"],
+							["type"] = "multiselect",
+							["order"] = 10,
+							["values"] = "GetMacroGroupList",
+							["arg"] = "Spec_III_Global",
+						},
+						["ABS"] = {
+							["name"] = L["ABSGroups"],
+							["desc"] = L["ABSGroupsDesc"],
+							["type"] = "select",
+							["order"] = 20,
+							["values"] = "GetABSGroupList",
+							["set"] = "SetABSSelect",
+							["get"] = "GetABSSelect",
+							["arg"] = "Spec_III_ABS",
+						},
+					},
+				},
+				["Spec_IV"] = {
+					["name"] = L["Specialization IV Group"],
+					["desc"] = L["Specialization IV Group Desc"],
+					["type"] = "group",
+					["order"] = 103,
+					["args"] = {
+						["Char"] = {
+							["name"] = L["CharCategory"],
+							["desc"] = L["CharCategoryDesc"],
+							["type"] = "multiselect",
+							["order"] = 0,
+							["values"] = "GetMacroGroupList",
+							["arg"] = "Spec_IV_Char",
+						},
+						["Global"] = {
+							["name"] = L["GlobalCategory"],
+							["desc"] = L["GlobalCategoryDesc"],
+							["type"] = "multiselect",
+							["order"] = 10,
+							["values"] = "GetMacroGroupList",
+							["arg"] = "Spec_IV_Global",
+						},
+						["ABS"] = {
+							["name"] = L["ABSGroups"],
+							["desc"] = L["ABSGroupsDesc"],
+							["type"] = "select",
+							["order"] = 20,
+							["values"] = "GetABSGroupList",
+							["set"] = "SetABSSelect",
+							["get"] = "GetABSSelect",
+							["arg"] = "Spec_IV_ABS",
+						},
+					},
+				},
+				["Spec_V"] = {
+					["name"] = L["Specialization V Group"],
+					["desc"] = L["Specialization V Group Desc"],
+					["type"] = "group",
+					["order"] = 104,
+					["args"] = {
+						["Char"] = {
+							["name"] = L["CharCategory"],
+							["desc"] = L["CharCategoryDesc"],
+							["type"] = "multiselect",
+							["order"] = 0,
+							["values"] = "GetMacroGroupList",
+							["arg"] = "Spec_V_Char",
+						},
+						["Global"] = {
+							["name"] = L["GlobalCategory"],
+							["desc"] = L["GlobalCategoryDesc"],
+							["type"] = "multiselect",
+							["order"] = 10,
+							["values"] = "GetMacroGroupList",
+							["arg"] = "Spec_V_Global",
+						},
+						["ABS"] = {
+							["name"] = L["ABSGroups"],
+							["desc"] = L["ABSGroupsDesc"],
+							["type"] = "select",
+							["order"] = 20,
+							["values"] = "GetABSGroupList",
+							["set"] = "SetABSSelect",
+							["get"] = "GetABSSelect",
+							["arg"] = "Spec_V_ABS",
+						},
+					},
+				},
+				["Spec_VI"] = {
+					["name"] = L["Specialization VI Group"],
+					["desc"] = L["Specialization VI Group Desc"],
+					["type"] = "group",
+					["order"] = 105,
+					["args"] = {
+						["Char"] = {
+							["name"] = L["CharCategory"],
+							["desc"] = L["CharCategoryDesc"],
+							["type"] = "multiselect",
+							["order"] = 0,
+							["values"] = "GetMacroGroupList",
+							["arg"] = "Spec_VI_Char",
+						},
+						["Global"] = {
+							["name"] = L["GlobalCategory"],
+							["desc"] = L["GlobalCategoryDesc"],
+							["type"] = "multiselect",
+							["order"] = 10,
+							["values"] = "GetMacroGroupList",
+							["arg"] = "Spec_VI_Global",
+						},
+						["ABS"] = {
+							["name"] = L["ABSGroups"],
+							["desc"] = L["ABSGroupsDesc"],
+							["type"] = "select",
+							["order"] = 20,
+							["values"] = "GetABSGroupList",
+							["set"] = "SetABSSelect",
+							["get"] = "GetABSSelect",
+							["arg"] = "Spec_VI_ABS",
+						},
+					},
+				},
+				["Spec_VII"] = {
+					["name"] = L["Specialization VII Group"],
+					["desc"] = L["Specialization VII Group Desc"],
+					["type"] = "group",
+					["order"] = 106,
+					["args"] = {
+						["Char"] = {
+							["name"] = L["CharCategory"],
+							["desc"] = L["CharCategoryDesc"],
+							["type"] = "multiselect",
+							["order"] = 0,
+							["values"] = "GetMacroGroupList",
+							["arg"] = "Spec_VII_Char",
+						},
+						["Global"] = {
+							["name"] = L["GlobalCategory"],
+							["desc"] = L["GlobalCategoryDesc"],
+							["type"] = "multiselect",
+							["order"] = 10,
+							["values"] = "GetMacroGroupList",
+							["arg"] = "Spec_VII_Global",
+						},
+						["ABS"] = {
+							["name"] = L["ABSGroups"],
+							["desc"] = L["ABSGroupsDesc"],
+							["type"] = "select",
+							["order"] = 20,
+							["values"] = "GetABSGroupList",
+							["set"] = "SetABSSelect",
+							["get"] = "GetABSSelect",
+							["arg"] = "Spec_VII_ABS",
+						},
+					},
+				},
+				["Spec_VIII"] = {
+					["name"] = L["Specialization VIII Group"],
+					["desc"] = L["Specialization VIII Group Desc"],
+					["type"] = "group",
+					["order"] = 107,
+					["args"] = {
+						["Char"] = {
+							["name"] = L["CharCategory"],
+							["desc"] = L["CharCategoryDesc"],
+							["type"] = "multiselect",
+							["order"] = 0,
+							["values"] = "GetMacroGroupList",
+							["arg"] = "Spec_VIII_Char",
+						},
+						["Global"] = {
+							["name"] = L["GlobalCategory"],
+							["desc"] = L["GlobalCategoryDesc"],
+							["type"] = "multiselect",
+							["order"] = 10,
+							["values"] = "GetMacroGroupList",
+							["arg"] = "Spec_VIII_Global",
+						},
+						["ABS"] = {
+							["name"] = L["ABSGroups"],
+							["desc"] = L["ABSGroupsDesc"],
+							["type"] = "select",
+							["order"] = 20,
+							["values"] = "GetABSGroupList",
+							["set"] = "SetABSSelect",
+							["get"] = "GetABSSelect",
+							["arg"] = "Spec_VIII_ABS",
+						},
+					},
+				},
+				["Spec_IX"] = {
+					["name"] = L["Specialization IX Group"],
+					["desc"] = L["Specialization IX Group Desc"],
+					["type"] = "group",
+					["order"] = 108,
+					["args"] = {
+						["Char"] = {
+							["name"] = L["CharCategory"],
+							["desc"] = L["CharCategoryDesc"],
+							["type"] = "multiselect",
+							["order"] = 0,
+							["values"] = "GetMacroGroupList",
+							["arg"] = "Spec_IX_Char",
+						},
+						["Global"] = {
+							["name"] = L["GlobalCategory"],
+							["desc"] = L["GlobalCategoryDesc"],
+							["type"] = "multiselect",
+							["order"] = 10,
+							["values"] = "GetMacroGroupList",
+							["arg"] = "Spec_IX_Global",
+						},
+						["ABS"] = {
+							["name"] = L["ABSGroups"],
+							["desc"] = L["ABSGroupsDesc"],
+							["type"] = "select",
+							["order"] = 20,
+							["values"] = "GetABSGroupList",
+							["set"] = "SetABSSelect",
+							["get"] = "GetABSSelect",
+							["arg"] = "Spec_IX_ABS",
+						},
+					},
+				},
+				["Spec_X"] = {
+					["name"] = L["Specialization X Group"],
+					["desc"] = L["Specialization X Group Desc"],
+					["type"] = "group",
+					["order"] = 109,
+					["args"] = {
+						["Char"] = {
+							["name"] = L["CharCategory"],
+							["desc"] = L["CharCategoryDesc"],
+							["type"] = "multiselect",
+							["order"] = 0,
+							["values"] = "GetMacroGroupList",
+							["arg"] = "Spec_X_Char",
+						},
+						["Global"] = {
+							["name"] = L["GlobalCategory"],
+							["desc"] = L["GlobalCategoryDesc"],
+							["type"] = "multiselect",
+							["order"] = 10,
+							["values"] = "GetMacroGroupList",
+							["arg"] = "Spec_X_Global",
+						},
+						["ABS"] = {
+							["name"] = L["ABSGroups"],
+							["desc"] = L["ABSGroupsDesc"],
+							["type"] = "select",
+							["order"] = 20,
+							["values"] = "GetABSGroupList",
+							["set"] = "SetABSSelect",
+							["get"] = "GetABSSelect",
+							["arg"] = "Spec_X_ABS",
+						},
+					},
+				},
+				["Spec_XI"] = {
+					["name"] = L["Specialization XI Group"],
+					["desc"] = L["Specialization XI Group Desc"],
 					["type"] = "group",
 					["order"] = 110,
 					["args"] = {
@@ -225,7 +541,7 @@ local MenuOptions = {
 							["type"] = "multiselect",
 							["order"] = 0,
 							["values"] = "GetMacroGroupList",
-							["arg"] = "SecondaryTalentsChar",
+							["arg"] = "Spec_XI_Char",
 						},
 						["Global"] = {
 							["name"] = L["GlobalCategory"],
@@ -233,7 +549,51 @@ local MenuOptions = {
 							["type"] = "multiselect",
 							["order"] = 10,
 							["values"] = "GetMacroGroupList",
-							["arg"] = "SecondaryTalentsGlobal",
+							["arg"] = "Spec_XI_Global",
+						},
+						["ABS"] = {
+							["name"] = L["ABSGroups"],
+							["desc"] = L["ABSGroupsDesc"],
+							["type"] = "select",
+							["order"] = 20,
+							["values"] = "GetABSGroupList",
+							["set"] = "SetABSSelect",
+							["get"] = "GetABSSelect",
+							["arg"] = "Spec_XI_ABS",
+						},
+				},
+				},
+				["Spec_XII"] = {
+					["name"] = L["Specialization XII Group"],
+					["desc"] = L["Specialization XII Group Desc"],
+					["type"] = "group",
+					["order"] = 111,
+					["args"] = {
+						["Char"] = {
+							["name"] = L["CharCategory"],
+							["desc"] = L["CharCategoryDesc"],
+							["type"] = "multiselect",
+							["order"] = 0,
+							["values"] = "GetMacroGroupList",
+							["arg"] = "Spec_XII_Char",
+						},
+						["Global"] = {
+							["name"] = L["GlobalCategory"],
+							["desc"] = L["GlobalCategoryDesc"],
+							["type"] = "multiselect",
+							["order"] = 10,
+							["values"] = "GetMacroGroupList",
+							["arg"] = "Spec_XII_Global",
+						},
+						["ABS"] = {
+							["name"] = L["ABSGroups"],
+							["desc"] = L["ABSGroupsDesc"],
+							["type"] = "select",
+							["order"] = 20,
+							["values"] = "GetABSGroupList",
+							["set"] = "SetABSSelect",
+							["get"] = "GetABSSelect",
+							["arg"] = "Spec_XII_ABS",
 						},
 					},
 				},
@@ -282,18 +642,19 @@ local MenuOptions = {
 local defaults = {
 	["global"] = {
 		["Macros"] = {
-			-- [1] = {  -- CategoryIndex
+			-- [1] = { -- CategoryIndex
 				-- [1] = "Category", -- Category
 				-- [2] = {
-					-- { "Description", "MacroName", 3, "/wave" }, -- Macro #1  (Description, MacroName Icon, MacroBody)
-					-- { "Description2", "MacroName", 5, "/lol" }, -- Macro #2  (Description, MacroName, Icon, MacroBody)
+					-- { "Description", "MacroName", 3, "/wave" }, -- Macro #1 (Description, MacroName Icon, MacroBody)
+					-- { "Description2", "MacroName", 5, "/lol" }, -- Macro #2 (Description, MacroName, Icon, MacroBody)
 				-- }, -- Sorted list of macros under this name
-				-- [3] = {},  -- List of Sub-CategoryIndex's
+				-- [3] = {}, -- List of Sub-CategoryIndex's
 			-- },
 		},
 	},
 	["profile"] = {
 		["Options"] = {
+			["ABSOptions"] = {},
 			["AutoOpenMacroBank"] = true,
 			["Anchor"] = {
 				["Remember"] = false,
@@ -308,18 +669,50 @@ local defaults = {
 			["ReplaceName"] = true,
 			["ReplaceIcon"] = true,
 			["AutoLoad"] = {
-				["DeleteGlobalOnTalentSwap"] = false,
-				["DeleteCharOnTalentSwap"] = false,
+				["DeleteGlobalOnSpecSwap"] = false,
+				["DeleteCharOnSpecSwap"] = false,
 				["DeleteGlobalOnLogin"] = false,
 				["DeleteCharOnLogin"] = false,
-				["PrimaryTalentsChar"] = {  -- A list in case we want to load multiple categories in the future (Won't have to upgrade DB)
+				["Spec_I_Char"] = { -- A list in case we want to load multiple categories in the future (Won't have to upgrade DB)
 					-- [1] = "Category Name 1",
 				},
-				["PrimaryTalentsGlobal"] = {
+				["Spec_I_Global"] = {
 					-- [1] = "Category Name 3",
 				},
-				["SecondaryTalentsChar"] = {},
-				["SecondaryTalentsGlobal"] = {},
+				["Spec_I_ABS"] = "none",
+				["Spec_II_Char"] = {},
+				["Spec_II_Global"] = {},
+				["Spec_II_ABS"] = "none",
+				["Spec_III_Char"] = {},
+				["Spec_III_Global"] = {},
+				["Spec_III_ABS"] = "none",
+				["Spec_IV_Char"] = {},
+				["Spec_IV_Global"] = {},
+				["Spec_IV_ABS"] = "none",
+				["Spec_V_Char"] = {},
+				["Spec_V_Global"] = {},
+				["Spec_V_ABS"] = "none",
+				["Spec_VI_Char"] = {},
+				["Spec_VI_Global"] = {},
+				["Spec_VI_ABS"] = "none",
+				["Spec_VII_Char"] = {},
+				["Spec_VII_Global"] = {},
+				["Spec_VII_ABS"] = "none",
+				["Spec_VIII_Char"] = {},
+				["Spec_VIII_Global"] = {},
+				["Spec_VIII_ABS"] = "none",
+				["Spec_IX_Char"] = {},
+				["Spec_IX_Global"] = {},
+				["Spec_IX_ABS"] = "none",
+				["Spec_X_Char"] = {},
+				["Spec_X_Global"] = {},
+				["Spec_X_ABS"] = "none",
+				["Spec_XI_Char"] = {},
+				["Spec_XI_Global"] = {},
+				["Spec_XI_ABS"] = "none",
+				["Spec_XII_Char"] = {},
+				["Spec_XII_Global"] = {},
+				["Spec_XII_ABS"] = "none",
 				["LoginGlobal"] = {},
 				["LoginChar"] = {},
 			},
@@ -470,7 +863,7 @@ Addon.EasyMenu_Send = {
 		["notCheckable"] = true,
 	},
 	{
-		["text"] = "",  -- Spacer
+		["text"] = "", -- Spacer
 		["disabled"] = true,
 		["notCheckable"] = true,
 	},
@@ -504,7 +897,7 @@ Addon.EasyMenu_Send = {
 		["notCheckable"] = true,
 	},
 	{
-		["text"] = "",  -- Spacer
+		["text"] = "",	-- Spacer
 		["disabled"] = true,
 		["notCheckable"] = true,
 	},
@@ -543,7 +936,7 @@ Addon.EasyMenu_Category = {
 				local Dialog = StaticPopup_Show("MacroBank_ChangeCategory")
 				if Dialog then
 					Dialog.MacroBankData = arg
-					Dialog.editBox:SetScript("OnEnterPressed",  function(t) Dialog.button1:Click() end)
+					Dialog.editBox:SetScript("OnEnterPressed", function(t) Dialog.button1:Click() end)
 				end
 			end
 			Addon.EasyMenu_Category.arg1 = nil
@@ -552,7 +945,7 @@ Addon.EasyMenu_Category = {
 		["notCheckable"] = true,
 	},
 	{
-		["text"] = "",  -- Spacer
+		["text"] = "",	-- Spacer
 		["disabled"] = true,
 		["notCheckable"] = true,
 	},
@@ -565,7 +958,7 @@ Addon.EasyMenu_Category = {
 
 function Addon:OnInitialize()
 -- self:Print("OnInit()")
-	self.db = LibStub("AceDB-3.0"):New("MacroBankDB", defaults, L["Default"])
+	self.db = LibStub("AceDB-3.0"):New("AscMacroBankDB", defaults, L["Default"])
 	-- self.db.RegisterCallback(self, "OnProfileChanged", "OnProfileChanged")
 	-- self.db.RegisterCallback(self, "OnProfileCopied", "OnProfileChanged")
 	-- self.db.RegisterCallback(self, "OnProfileReset", "OnProfileChanged")
@@ -579,8 +972,8 @@ function Addon:OnInitialize()
 	self.ExpandedTree = {
 		-- [CategoryTable] = nil or true,
 	}
-	self.CategoryList = {}  -- A list of Category Names   ie - [1] = "Category1", [2] = "Category2\Category3"
-	self.CategoryNameToTable = {  -- A list of Category names to the CategoryIndex tables.
+	self.CategoryList = {} -- A list of Category Names - ie - [1] = "Category1", [2] = "Category2\Category3"
+	self.CategoryNameToTable = { -- A list of Category names to the CategoryIndex tables.
 		-- ["Category Name1\Name2"] = CategoryTable,
 	}
 	self.CategoryTableToName = {
@@ -589,7 +982,7 @@ function Addon:OnInitialize()
 	self.CurrentMacro = 0
 	self:UpgradeDatabase()
 	self:RegisterEvent("ADDON_LOADED")
-	self:RegisterEvent("PLAYER_TALENT_UPDATE")
+	self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
 	self:RegisterEvent("CHAT_MSG_ADDON")
 	self:RegisterEvent("PLAYER_ENTERING_WORLD")
 end
@@ -607,8 +1000,8 @@ function Addon:OnEnable()
 	-- self:SetStartingEndingIndex()
 	-- self:BuildMacroGroupList()
 	-- self:CheckAutoLoad()
-	-- self.CurrentTalents = GetActiveTalentGroup()
-	-- self.AllowAutoLoadTalents = true
+	-- self.CurrentSpec = CA_GetActiveSpecId()
+	-- self.AllowAutoLoadSpecs = true
 end
 
 function Addon:PLAYER_ENTERING_WORLD()
@@ -624,8 +1017,8 @@ function Addon:PLAYER_ENTERING_WORLD()
 	self:SetStartingEndingIndex()
 	self:BuildMacroGroupList()
 	self:CheckAutoLoad()
-	self.CurrentTalents = GetActiveTalentGroup()
-	self.AllowAutoLoadTalents = true
+	self.CurrentSpec = CA_GetActiveSpecId()
+	self.AllowAutoLoadSpecs = true
 	self:AutoLoadOnLogin()
 	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 end
@@ -676,7 +1069,7 @@ function Addon:ADDON_LOADED(Event, Addon)
 		end)
 		self.MacroBankToggleButton:Show()
 		
-		self.OnShowFrame = CreateFrame("Frame", nil, MacroFrame)  -- Instead of hooking the OnShow event.  (Less intrusive)
+		self.OnShowFrame = CreateFrame("Frame", nil, MacroFrame) -- Instead of hooking the OnShow event. (Less intrusive)
 		self.OnShowFrame:SetScript("OnShow", function(...)
 			if ( self.db.profile.Options.AutoOpenMacroBank ) then
 				self.MainFrame:Show()
@@ -691,40 +1084,75 @@ function Addon:ADDON_LOADED(Event, Addon)
 	end
 end
 
-function Addon:PLAYER_TALENT_UPDATE(Event)
-	if ( GetActiveTalentGroup() ~= self.CurrentTalents and self.AllowAutoLoadTalents ) then  -- We switched talents
-		self.CurrentTalents = GetActiveTalentGroup()
-		local DeletedGlobal, DeletedChar
-		if ( self.CurrentTalents == 1 ) then  -- Primary Talents
-			for Key, Value in pairs(self.db.profile.Options.AutoLoad.PrimaryTalentsChar) do
-				if ( self.db.profile.Options.AutoLoad.DeleteCharOnTalentSwap and not DeletedChar ) then
-					self:DeleteActiveMacros("Char")
-					DeletedChar = true
-				end
-				self:LoadCategory(Value, "Char")
+local SpecIdx = {["I"] = 0, ["II"] = 1, ["III"] = 2, ["IV"] = 3, ["V"] = 4, ["VI"] = 5, ["VII"] = 6, ["VIII"] = 7, ["IX"] = 8, ["X"] = 9, ["XI"] = 10, ["XII"] = 11}
+
+function Addon:update_macros(rank)
+	local idx = rank + 1 -- rank is 0 indexed, SpecRef is 1 indexed
+	local SpecRefChar = { -- TODO There has to be a better way
+		self.db.profile.Options.AutoLoad.Spec_I_Char,
+		self.db.profile.Options.AutoLoad.Spec_II_Char,
+		self.db.profile.Options.AutoLoad.Spec_III_Char,
+		self.db.profile.Options.AutoLoad.Spec_IV_Char,
+		self.db.profile.Options.AutoLoad.Spec_V_Char,
+		self.db.profile.Options.AutoLoad.Spec_VI_Char,
+		self.db.profile.Options.AutoLoad.Spec_VII_Char,
+		self.db.profile.Options.AutoLoad.Spec_VIII_Char,
+		self.db.profile.Options.AutoLoad.Spec_IX_Char,
+		self.db.profile.Options.AutoLoad.Spec_X_Char,
+		self.db.profile.Options.AutoLoad.Spec_XI_Char,
+		self.db.profile.Options.AutoLoad.Spec_XII_Char
+	}
+	local SpecRefGlobal = { -- TODO There has to be a better way
+		self.db.profile.Options.AutoLoad.Spec_I_Global,
+		self.db.profile.Options.AutoLoad.Spec_II_Global,
+		self.db.profile.Options.AutoLoad.Spec_III_Global,
+		self.db.profile.Options.AutoLoad.Spec_IV_Global,
+		self.db.profile.Options.AutoLoad.Spec_V_Global,
+		self.db.profile.Options.AutoLoad.Spec_VI_Global,
+		self.db.profile.Options.AutoLoad.Spec_VII_Global,
+		self.db.profile.Options.AutoLoad.Spec_VIII_Global,
+		self.db.profile.Options.AutoLoad.Spec_IX_Global,
+		self.db.profile.Options.AutoLoad.Spec_X_Global,
+		self.db.profile.Options.AutoLoad.Spec_XI_Global,
+		self.db.profile.Options.AutoLoad.Spec_XII_Global
+	}
+
+	if ( self.db.profile.Options.AutoLoad.DeleteCharOnSpecSwap) then
+		self:DeleteActiveMacros("Char")
+	end
+	if ( self.db.profile.Options.AutoLoad.DeleteGlobalOnSpecSwap) then
+		self:DeleteActiveMacros("Global")
+	end
+	for Key, Value in pairs(SpecRefChar[idx]) do
+		self:LoadCategory(Value, "Char")
+	end
+	for Key, Value in pairs(SpecRefGlobal[idx]) do
+		self:LoadCategory(Value, "Global")
+	end
+
+end
+
+function Addon:UNIT_SPELLCAST_SUCCEEDED(event, unit, spellName, spellRank)
+	if spellName:find("Specialization") and unit == "player" then
+		local rn_rank = spellName:match(" (.*)$")
+		local rank = SpecIdx[rn_rank]
+		if ( rank ~= self.CurrentSpec and self.AllowAutoLoadSpecs ) then -- We switched specs
+			self.CurrentSpec = rank
+			Addon:update_macros(rank)
+			if ActionBarSaver then -- if we have a saved ABS profile, restore it after updaing the macros
+				self:RegisterEvent("CHAT_MSG_SYSTEM")
 			end
-			for Key, Value in pairs(self.db.profile.Options.AutoLoad.PrimaryTalentsGlobal) do
-				if ( self.db.profile.Options.AutoLoad.DeleteGlobalOnTalentSwap and not DeletedGlobal ) then
-					self:DeleteActiveMacros("Global")
-					DeletedGlobal = true
-				end
-				self:LoadCategory(Value, "Global")
-			end
-		else  -- Secondary Talents
-			for Key, Value in pairs (self.db.profile.Options.AutoLoad.SecondaryTalentsChar) do
-				if ( self.db.profile.Options.AutoLoad.DeleteCharOnTalentSwap and not DeletedChar ) then
-					self:DeleteActiveMacros("Char")
-					DeletedChar = true
-				end
-				self:LoadCategory(Value, "Char")
-			end
-			for Key, Value in pairs (self.db.profile.Options.AutoLoad.SecondaryTalentsGlobal) do
-				if ( self.db.profile.Options.AutoLoad.DeleteGlobalOnTalentSwap and not DeletedGlobal ) then
-					self:DeleteActiveMacros("Global")
-					DeletedGlobal = true
-				end
-				self:LoadCategory(Value, "Global")
-			end
+		end
+	end
+end
+
+function Addon:CHAT_MSG_SYSTEM(event, msg)
+	local rank = msg:match("changed to Specialization (.*)%.")
+	if rank then
+		print(rank)
+		self:UnregisterEvent("CHAT_MSG_SYSTEM")
+		if self.db.profile.Options.AutoLoad["Spec_"..rank.."_ABS"] ~= "none" then
+			ActionBarSaver:RestoreProfile(self.db.profile.Options.AutoLoad["Spec_"..rank.."_ABS"])
 		end
 	end
 end
@@ -831,11 +1259,11 @@ function Addon:SendMacro(Data, Channel, Name)
 		for Index = 1, string.len(Data.Body), DataSize do
 			SendAddonMessage(MessageID, string.sub(Data.Body, Index, Index + DataSize - 1), Channel, Name)
 		end
-		SendAddonMessage(MessageID, "", Channel, Name)  -- Signal that we are done sending the macro body text.
+		SendAddonMessage(MessageID, "", Channel, Name) -- Signal that we are done sending the macro body text.
 	else
-		local Message = string.gsub(Data.Body, string.char(13), string.char(10))  -- Convert \013 to \010
-		-- Message = string.gsub(Message, "|", "||")  -- Convert | to ||
-		local Segments, NumSegments = self:StringSplit(Message, string.char(10))  -- Split on \010
+		local Message = string.gsub(Data.Body, string.char(13), string.char(10)) -- Convert \013 to \010
+		-- Message = string.gsub(Message, "|", "||") -- Convert | to ||
+		local Segments, NumSegments = self:StringSplit(Message, string.char(10)) -- Split on \010
 		for i = 1, NumSegments do
 			if ( Segments[i] and Segments[i] ~= "" ) then
 				SendChatMessage(Segments[i], Channel, nil, Name)
@@ -845,7 +1273,7 @@ function Addon:SendMacro(Data, Channel, Name)
 end
 
 function Addon:SendMacro_ToPlayer(OtherMacroBankUser)
-	self.MainFrame.Macros.MacroBody.Text:ClearFocus()  -- Save current body text.
+	self.MainFrame.Macros.MacroBody.Text:ClearFocus() -- Save current body text.
 	local CategoryTable, MacroIndex, Expanded, Indent = self:GetMacroIndex(self.CurrentMacro)
 	if ( self.CurrentMacro == 0 or MacroIndex == 0 ) then
 		return
@@ -859,12 +1287,12 @@ function Addon:SendMacro_ToPlayer(OtherMacroBankUser)
 			["Body"] = CategoryTable[2][MacroIndex][4],
 			["OtherMacroBankUser"] = OtherMacroBankUser,
 		}
-		Dialog.editBox:SetScript("OnEnterPressed",  function(t) Dialog.button1:Click() end)
+		Dialog.editBox:SetScript("OnEnterPressed", function(t) Dialog.button1:Click() end)
 	end
 end
 
 function Addon:SendMacro_ToChannel(Channel, OtherMacroBankUser)
-	self.MainFrame.Macros.MacroBody.Text:ClearFocus()  -- Save current body text.
+	self.MainFrame.Macros.MacroBody.Text:ClearFocus() -- Save current body text.
 	local CategoryTable, MacroIndex, Expanded, Indent = self:GetMacroIndex(self.CurrentMacro)
 	if ( self.CurrentMacro == 0 or MacroIndex == 0 ) then
 		return
@@ -922,10 +1350,37 @@ function Addon:GetAutoLoadOptions(Info, Index)
 	end
 end
 
+function Addon:SetABSSelect(Info, Index)
+	self.db.profile.Options.AutoLoad[Info.arg] = self.db.profile.Options.ABSOptions[Index]
+end
+
+function Addon:GetABSSelect(Info)
+	for k, v in pairs(self.db.profile.Options.ABSOptions) do
+		if v == self.db.profile.Options.AutoLoad[Info.arg] then
+			return k
+		end
+	end
+	return 1
+end
+
 function Addon:GetMacroGroupList()
 	return self.CategoryList
 end
 
+function Addon:GetABSGroupList()
+	local ABSvals = {}
+	if ActionBarSaver then -- if we have a saved ABS profile, restore it after updaing the macros
+		for k, v in pairs(ActionBarSaverDB["sets"][select(2, UnitClass("player"))]) do
+			ABSvals[#ABSvals + 1] = k
+		end
+		table.sort(ABSvals)
+		table.insert(ABSvals, 1, "none")
+	else
+		ABSvals = {"ABS Not Loaded"}
+	end
+	self.db.profile.Options.ABSOptions = ABSvals
+	return ABSvals
+end
 
 function Addon:BuildMacroGroupList()
 	for Key, Value in pairs(self.CategoryList) do
@@ -983,7 +1438,7 @@ end
 
 function Addon:LoadCategory(CategoryName, MacroSet)
 	-- Save the macro in the macro bank first.
-	self.MainFrame.Macros.MacroBody.Text:ClearFocus()  -- Save by clearing focus (the on focus clear will save it)
+	self.MainFrame.Macros.MacroBody.Text:ClearFocus() -- Save by clearing focus (the on focus clear will save it)
 	if ( UnitAffectingCombat("player") ) then
 		self:Print(L["Can't load macros in combat"])
 		return
@@ -1057,7 +1512,7 @@ end
 
 function Addon:Load_OnClick(ReplaceSelected)
 	-- Save the macro in the macro bank first.
-	self.MainFrame.Macros.MacroBody.Text:ClearFocus()  -- Save by clearing focus (the on focus clear will save it)
+	self.MainFrame.Macros.MacroBody.Text:ClearFocus() -- Save by clearing focus (the on focus clear will save it)
 	-- Now load/replace
 	if ( UnitAffectingCombat("player") ) then
 		self:Print(L["Can't load macros in combat"])
@@ -1107,7 +1562,7 @@ function Addon:Save_OnClick()
 	if ( not MacroFrame.selectedMacro ) then
 		return
 	end
-	MacroFrame_SaveMacro()  -- Save whatever changes they have done, so they don't have to press escape to save
+	MacroFrame_SaveMacro() -- Save whatever changes they have done, so they don't have to press escape to save
 	if ( IsShiftKeyDown() ) then
 		local Dialog = StaticPopup_Show("MacroBank_SaveAllMacros")
 		return
@@ -1235,7 +1690,7 @@ function Addon:FindOrCreateCategory(Category)
 	for i = 1, NumSegments do
 		CategorySegment = Segments[i]
 		if ( CategorySegment and CategorySegment ~= "" ) then
-			-- Create an ever increasing CategoryName:  "Category1" -> "Category1\Category2" -> "Category1\Category2\Category3"
+			-- Create an ever increasing CategoryName: "Category1" -> "Category1\Category2" -> "Category1\Category2\Category3"
 			if ( CurrentCategory ) then
 				CurrentCategory = CurrentCategory.."\\"..CategorySegment
 			else
@@ -1484,7 +1939,7 @@ function Addon:FindMacroIndex(CategoryTable, Description, Name, Icon, Body)
 					end
 				end
 			else
-				return 0  -- Line isn't expanded, but this was the category we were given.
+				return 0 -- Line isn't expanded, but this was the category we were given.
 			end
 		end
 	end
@@ -1545,7 +2000,7 @@ end
 ]=]
 
 function Addon:ScrollLineLeftClick(LineNum)
-	self.MainFrame.Macros.MacroBody.Text:ClearFocus()  -- Save by clearing focus (the on focus clear will save it)
+	self.MainFrame.Macros.MacroBody.Text:ClearFocus() -- Save by clearing focus (the on focus clear will save it)
 	local LineOffset = LineNum + FauxScrollFrame_GetOffset(self.MainFrame.Macros.MacroList.ScrollFrame)
 	local CategoryTable, MacroIndex, Expanded, Indent = self:GetMacroIndex(LineOffset)
 	self.CurrentMacro = LineOffset
@@ -1557,7 +2012,7 @@ function Addon:ScrollLineLeftClick(LineNum)
 end
 
 function Addon:ScrollLineRightClick(LineNum)
-	self.MainFrame.Macros.MacroBody.Text:ClearFocus()  -- Save by clearing focus (the on focus clear will save it)
+	self.MainFrame.Macros.MacroBody.Text:ClearFocus() -- Save by clearing focus (the on focus clear will save it)
 	local LineOffset = LineNum + FauxScrollFrame_GetOffset(self.MainFrame.Macros.MacroList.ScrollFrame)
 	local CategoryTable, MacroIndex, Expanded, Indent = self:GetMacroIndex(LineOffset)
 	self.CurrentMacro = LineOffset
@@ -1580,7 +2035,7 @@ end
 
 --[=[ No longer used, as it was deemed to confusing for people saving/creating macros and not know where they are ending up.
 function Addon:ExpandCollapse_OnClick(LineNum)
-	self.MainFrame.Macros.MacroBody.Text:ClearFocus()  -- Save by clearing focus (the on focus clear will save it)
+	self.MainFrame.Macros.MacroBody.Text:ClearFocus() -- Save by clearing focus (the on focus clear will save it)
 	local LineOffset = LineNum + FauxScrollFrame_GetOffset(self.MainFrame.Macros.MacroList.ScrollFrame)
 	local CategoryTable, MacroIndex, Expanded, Indent = self:GetMacroIndex(LineOffset)
 	local CurrentlySelected = {}
@@ -1593,7 +2048,7 @@ function Addon:ExpandCollapse_OnClick(LineNum)
 		CurrentlySelected.Body = CurrentlySelected.CategoryTable[2][CurrentlySelected.MacroIndex][4]
 	end
 	self.ExpandedTree[CategoryTable] = not self.ExpandedTree[CategoryTable]
-	if ( self.CurrentMacro ~= 0 ) then  -- We had something selected (category or specific macro)
+	if ( self.CurrentMacro ~= 0 ) then -- We had something selected (category or specific macro)
 		if ( CurrentlySelected.MacroIndex > 0 ) then -- We had a specific macro selected
 			self.CurrentMacro = self:FindMacroIndex(CurrentlySelected.Category, CurrentlySelected.Description, CurrentlySelected.Name, CurrentlySelected.Icon, CurrentlySelected.Body)
 		else -- We had a category selected
@@ -1606,15 +2061,29 @@ end
 
 function Addon:CheckAutoLoad()
 	local Found
-	local Categories = { "PrimaryTalentsChar", "PrimaryTalentsGlobal", "SecondaryTalentsChar", "SecondaryTalentsGlobal", "LoginGlobal", "LoginChar" }
+	local Categories = { 
+		"Spec_I_Char", "Spec_I_Global",
+		"Spec_II_Char", "Spec_II_Global",
+		"Spec_III_Char", "Spec_III_Global",
+		"Spec_IV_Char", "Spec_IV_Global",
+		"Spec_V_Char", "Spec_V_Global",
+		"Spec_VI_Char", "Spec_VI_Global",
+		"Spec_VII_Char", "Spec_VII_Global",
+		"Spec_VIII_Char", "Spec_VIII_Global",
+		"Spec_IX_Char", "Spec_IX_Global",
+		"Spec_X_Char", "Spec_X_Global",
+		"Spec_XI_Char", "Spec_XI_Global",
+		"Spec_XII_Char", "Spec_XII_Global",
+		"LoginGlobal", "LoginChar" 
+	}
 	for CategoryKey, CategoryValue in pairs(Categories) do
 		for CategoryIndex = #self.db.profile.Options.AutoLoad[CategoryValue], 1, -1 do
 			-- Found = false
 			-- for Key, Value in pairs(self.db.global.Macros) do
-				-- if ( Value[1] == self.db.profile.Options.AutoLoad[CategoryValue][CategoryIndex] ) then
-					-- Found = true
-					-- break
-				-- end
+			-- if ( Value[1] == self.db.profile.Options.AutoLoad[CategoryValue][CategoryIndex] ) then
+			-- Found = true
+			-- break
+			-- end
 			-- end
 			-- if ( not Found ) then
 			if ( not self.CategoryNameToTable[self.db.profile.Options.AutoLoad[CategoryValue][CategoryIndex]] ) then
@@ -1631,7 +2100,7 @@ end
 	-- self:SetMacroCategory(self.MainFrame.Macros.MacroCategory:GetText())
 	-- self:SetMacroDescription(self.MainFrame.Macros.MacroDescription:GetText())
 	-- self:SetMacroName(self.MainFrame.Macros.MacroName:GetText())
-	-- self.MainFrame.Macros.MacroBody.Text:ClearFocus()  -- Save by clearing focus (the on focus clear will save it)
+	-- self.MainFrame.Macros.MacroBody.Text:ClearFocus() -- Save by clearing focus (the on focus clear will save it)
 -- end
 
 function Addon:ResetAnchor()
@@ -1710,7 +2179,7 @@ function Addon:IconChoice_OnScroll()
 	for LineNum = 1, NumScrollLines do
 		LineOffset = LineNum + FauxScrollFrame_GetOffset(self.MainFrame.Macros.IconChoice.ScrollFrame)
 		if ( LineOffset <= NumEntries) then
-			-- If Start of each line <= Icon Choice <= End of each line   ( LineOffset * 5 - 4 <= Choice <= LineOffset * 5)
+			-- If Start of each line <= Icon Choice <= End of each line ( LineOffset * 5 - 4 <= Choice <= LineOffset * 5)
 			if ( LineOffset * IconChoice.NumColumns - (IconChoice.NumColumns - 1) <= self.MainFrame.Macros.IconChoice.Choice and self.MainFrame.Macros.IconChoice.Choice <= LineOffset * IconChoice.NumColumns ) then
 				self.MainFrame.Macros.IconChoice["ScrollLine"..LineNum]:HighlightIcon(self.MainFrame.Macros.IconChoice.Choice - (LineOffset - 1) * IconChoice.NumColumns)
 			else
@@ -1956,7 +2425,7 @@ function Addon:CreateMacrosFrame()
 	Frame.MacroIcon:SetParent(Frame)
 	Frame.MacroIcon:SetPoint("BOTTOMLEFT", Frame.MacroName, "BOTTOMRIGHT", 10, 0)
 	Frame.MacroIcon:SetScript("OnClick", function()
-		self.MainFrame.Macros.MacroBody.Text:ClearFocus()  -- Save current body text.
+		self.MainFrame.Macros.MacroBody.Text:ClearFocus() -- Save current body text.
 		Frame.IconChoice:Show()
 	end)
 	Frame.MacroIcon:SetScript("OnEnter", function(frame)
@@ -2025,7 +2494,7 @@ function Addon:CreateToMacroBankFrame()
 	Frame.SaveButton:SetScript("OnEnter", function() self:ShowTooltip(L["Save"], L["SaveDesc"]) end)
 	Frame.SaveButton:SetScript("OnLeave", function() GameTooltip:Hide() end)
 	Frame.SaveButton:SetScript("OnClick", function() self:Save_OnClick() end)
-	return Frame  
+	return Frame
 end
 
 function Addon:CreateFromMacroBankFrame()
@@ -2131,16 +2600,16 @@ function Addon:CreateMacroBody()
 	
 	Frame.ScrollFrame = CreateFrame("ScrollFrame", "MacroBank_MacroBodyScrollFrame", Frame, "UIPanelScrollFrameTemplate")
 	Frame.ScrollFrame:SetHeight(85)
-	Frame.ScrollFrame:SetWidth(286)  -- WowUI was 286
+	Frame.ScrollFrame:SetWidth(286) -- WowUI was 286
 	Frame.ScrollFrame:SetPoint("TOPLEFT", Frame, "TOPLEFT", 7, -5)
 
 	Frame.Text = CreateFrame("EditBox", nil, Frame.ScrollFrame)
 	Frame.Text:SetHeight(85)
-	Frame.Text:SetWidth(286)  -- WowUI was 286
+	Frame.Text:SetWidth(286) -- WowUI was 286
 	Frame.Text:SetAllPoints(Frame.ScrollFrame)
 	Frame.Text:SetMultiLine(true)
 	Frame.Text:SetAutoFocus(false)
-	Frame.Text:SetMaxLetters(255)  -- Can't use MACROFRAME_CHAR_LIMIT at creation, as the MacroUI hasn't loaded.
+	Frame.Text:SetMaxLetters(255) -- Can't use MACROFRAME_CHAR_LIMIT at creation, as the MacroUI hasn't loaded.
 	Frame.Text:SetFontObject(GameFontHighlightSmall)
 	Frame.Text:SetScript("OnEscapePressed", function(frame) frame:ClearFocus() end)
 	Frame.Text:SetScript("OnEditFocusLost", function(frame) frame:HighlightText(0, 0) self:SetMacroBody(frame:GetText()) end)
@@ -2255,7 +2724,7 @@ local function SetChoice(Frame, Line, Icon)
 	local OldLineNum = math.ceil(Frame.Choice / IconChoice.NumColumns) - FauxScrollFrame_GetOffset(Frame.ScrollFrame)
 	if ( 1 <= OldLineNum and OldLineNum <= IconChoice.NumLines ) then
 		Frame["ScrollLine"..OldLineNum]:HighlightIcon(0)
-	end  
+	end	
 	local LineOffset = Line + FauxScrollFrame_GetOffset(Frame.ScrollFrame)
 	Frame.Choice = (LineOffset - 1) * IconChoice.NumColumns + Icon
 	Frame["ScrollLine"..Line]:HighlightIcon(Icon)
@@ -2264,8 +2733,8 @@ end
 function Addon:CreateIconChoiceFrame()
 	local Frame = CreateFrame("Frame")
 	Frame:SetPoint("CENTER", UIParent, "CENTER")
-	Frame:SetHeight(36 * IconChoice.NumLines + 8 * (IconChoice.NumLines - 1) + 62)  -- 230 with 4 lines
-	Frame:SetWidth(36 * IconChoice.NumColumns + 8 * (IconChoice.NumColumns - 1) + 58)  -- 270 with 5 columns
+	Frame:SetHeight(36 * IconChoice.NumLines + 8 * (IconChoice.NumLines - 1) + 62) -- 230 with 4 lines
+	Frame:SetWidth(36 * IconChoice.NumColumns + 8 * (IconChoice.NumColumns - 1) + 58) -- 270 with 5 columns
 	Frame:SetToplevel(true)
 	Frame:SetFrameStrata("DIALOG")
 	Frame:EnableMouse(true)
@@ -2291,7 +2760,7 @@ function Addon:CreateIconChoiceFrame()
 		local NumScrollLines = IconChoice.NumLines
 		local LineHeight = 36
 		FauxScrollFrame_Update(Frame.ScrollFrame, NumEntries, NumScrollLines, LineHeight)
-		local Offset = math.ceil(Frame.Choice / IconChoice.NumColumns) - 1 -- with 1044 entries, # Offsets is 0-205  (1044/5 = 208.8)
+		local Offset = math.ceil(Frame.Choice / IconChoice.NumColumns) - 1 -- with 1044 entries, # Offsets is 0-205 (1044/5 = 208.8)
 		_G[Frame.ScrollFrame:GetName().."ScrollBar"]:SetValue(Offset * LineHeight) -- Triggers OnVerticalScroll only if the value changes, so need to call OnScroll
 		self:IconChoice_OnScroll()
 	end)
@@ -2299,8 +2768,8 @@ function Addon:CreateIconChoiceFrame()
 	
 	Frame.ScrollFrame = CreateFrame("ScrollFrame", "MacroBank_IconChoiceScrollFrame", Frame, "FauxScrollFrameTemplate")
 	Frame.ScrollFrame:SetPoint("TOPLEFT", Frame, "TOPLEFT", 18, -18)
-	Frame.ScrollFrame:SetHeight(36 * IconChoice.NumLines + 8 * (IconChoice.NumLines - 1))  -- 168 with 4 lines
-	Frame.ScrollFrame:SetWidth(36 * IconChoice.NumColumns + 8 * (IconChoice.NumColumns - 1))  -- 212 with 5 columns
+	Frame.ScrollFrame:SetHeight(36 * IconChoice.NumLines + 8 * (IconChoice.NumLines - 1)) -- 168 with 4 lines
+	Frame.ScrollFrame:SetWidth(36 * IconChoice.NumColumns + 8 * (IconChoice.NumColumns - 1)) -- 212 with 5 columns
 	if ( select(4, GetBuildInfo()) < 30000 ) then
 		Frame.ScrollFrame:SetScript("OnVerticalScroll", function() FauxScrollFrame_OnVerticalScroll(36, function() self:IconChoice_OnScroll() end) end)
 	else
@@ -2345,7 +2814,7 @@ function Addon:CreateIconChoiceFrame()
 end
 
 function Addon:UpgradeDatabase()
-	if ( not MacroBankDB.DBVersion ) then -- Version 1
+	if ( not AscMacroBankDB.DBVersion ) then -- Version 1
 		if ( self.db.profile.Macros ) then
 			for CategoryKey, CategoryValue in pairs(self.db.profile.Macros) do
 				for MacroKey, MacroValue in pairs(CategoryValue[2]) do
@@ -2355,9 +2824,9 @@ function Addon:UpgradeDatabase()
 				end
 			end
 		end
-		MacroBankDB.DBVersion = 2
+		AscMacroBankDB.DBVersion = 2
 	end
-	if ( MacroBankDB.DBVersion == 2 ) then
+	if ( AscMacroBankDB.DBVersion == 2 ) then
 		if ( self.db.profile.AutoLoad ) then
 			self.db.profile.Options.AutoLoad = self.db.profile.AutoLoad
 			self.db.profile.AutoLoad = nil
@@ -2366,9 +2835,9 @@ function Addon:UpgradeDatabase()
 			self.db.global.Macros = self.db.profile.Macros
 			self.db.profile.Macros = nil
 		end
-		MacroBankDB.DBVersion = 3
+		AscMacroBankDB.DBVersion = 3
 	end
-	if ( MacroBankDB.DBVersion == 3 ) then
+	if ( AscMacroBankDB.DBVersion == 3 ) then
 		if ( self.db.global.Macros ) then
 			local CategoryTable
 			for Index = #self.db.global.Macros, 1, -1 do
@@ -2379,6 +2848,6 @@ function Addon:UpgradeDatabase()
 				end
 			end
 		end
-		MacroBankDB.DBVersion = 4
+		AscMacroBankDB.DBVersion = 4
 	end
 end

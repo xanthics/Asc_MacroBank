@@ -1,18 +1,12 @@
 ﻿## Interface: 30300
-## Title: MacroBank
-## Author: Odlaw
+## Title: Asc_MacroBank
+## Author: Odlaw, Xan(Ascension Updates)
 ## Version: 1.6
 ## Notes: Save and load macros.
-## SavedVariables: MacroBankDB
+## SavedVariables: AscMacroBankDB
 ## OptionalDeps: Ace3
 ## X-Compatibile-With: 40000
 ## X-Category: Interface Enhancements
-## X-Website: http://www.wowace.com/projects/macro-bank/
-## X-WoWI-ID: 10835
-## X-Curse-Packaged-Version: r54
-## X-Curse-Project-Name: MacroBank
-## X-Curse-Project-ID: macro-bank
-## X-Curse-Repository-ID: wow/macro-bank/mainline
 
 #@no-lib-strip@
 Libs\LibStub\LibStub.lua
@@ -27,5 +21,5 @@ Libs\AceGUI-3.0\AceGUI-3.0.xml
 Libs\AceConfig-3.0\AceConfig-3.0.xml
 #@end-no-lib-strip@
 Locales.xml
-MacroBank.lua
+Asc_MacroBank.lua
 PreMadeMacros.lua

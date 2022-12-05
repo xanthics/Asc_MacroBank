@@ -250,6 +250,7 @@ end
 -- @param name The name of the table to be validated (shown in any error message)
 -- @param errlvl (optional number) error level offset, default 0 (=errors point to the function calling :ValidateOptionsTable)
 function AceConfigRegistry:ValidateOptionsTable(options,name,errlvl)
+	
 	errlvl=(errlvl or 0)+1
 	name = name or "Optionstable"
 	if not options.name then
