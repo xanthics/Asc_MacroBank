@@ -1086,60 +1086,25 @@ end
 
 local SpecIdx = {["I"] = 0, ["II"] = 1, ["III"] = 2, ["IV"] = 3, ["V"] = 4, ["VI"] = 5, ["VII"] = 6, ["VIII"] = 7, ["IX"] = 8, ["X"] = 9, ["XI"] = 10, ["XII"] = 11}
 
-function Addon:update_macros(rank)
-	local idx = rank + 1 -- rank is 0 indexed, SpecRef is 1 indexed
-	local SpecRefChar = { -- TODO There has to be a better way
-		self.db.profile.Options.AutoLoad.Spec_I_Char,
-		self.db.profile.Options.AutoLoad.Spec_II_Char,
-		self.db.profile.Options.AutoLoad.Spec_III_Char,
-		self.db.profile.Options.AutoLoad.Spec_IV_Char,
-		self.db.profile.Options.AutoLoad.Spec_V_Char,
-		self.db.profile.Options.AutoLoad.Spec_VI_Char,
-		self.db.profile.Options.AutoLoad.Spec_VII_Char,
-		self.db.profile.Options.AutoLoad.Spec_VIII_Char,
-		self.db.profile.Options.AutoLoad.Spec_IX_Char,
-		self.db.profile.Options.AutoLoad.Spec_X_Char,
-		self.db.profile.Options.AutoLoad.Spec_XI_Char,
-		self.db.profile.Options.AutoLoad.Spec_XII_Char
-	}
-	local SpecRefGlobal = { -- TODO There has to be a better way
-		self.db.profile.Options.AutoLoad.Spec_I_Global,
-		self.db.profile.Options.AutoLoad.Spec_II_Global,
-		self.db.profile.Options.AutoLoad.Spec_III_Global,
-		self.db.profile.Options.AutoLoad.Spec_IV_Global,
-		self.db.profile.Options.AutoLoad.Spec_V_Global,
-		self.db.profile.Options.AutoLoad.Spec_VI_Global,
-		self.db.profile.Options.AutoLoad.Spec_VII_Global,
-		self.db.profile.Options.AutoLoad.Spec_VIII_Global,
-		self.db.profile.Options.AutoLoad.Spec_IX_Global,
-		self.db.profile.Options.AutoLoad.Spec_X_Global,
-		self.db.profile.Options.AutoLoad.Spec_XI_Global,
-		self.db.profile.Options.AutoLoad.Spec_XII_Global
-	}
-
-	if ( self.db.profile.Options.AutoLoad.DeleteCharOnSpecSwap) then
-		self:DeleteActiveMacros("Char")
-	end
-	if ( self.db.profile.Options.AutoLoad.DeleteGlobalOnSpecSwap) then
-		self:DeleteActiveMacros("Global")
-	end
-	for Key, Value in pairs(SpecRefChar[idx]) do
-		self:LoadCategory(Value, "Char")
-	end
-	for Key, Value in pairs(SpecRefGlobal[idx]) do
-		self:LoadCategory(Value, "Global")
-	end
-
-end
-
 function Addon:UNIT_SPELLCAST_SUCCEEDED(event, unit, spellName, spellRank)
 	if spellName:find("Specialization") and unit == "player" then
 		local rn_rank = spellName:match(" (.*)$")
 		local rank = SpecIdx[rn_rank]
 		if ( rank ~= self.CurrentSpec and self.AllowAutoLoadSpecs ) then -- We switched specs
 			self.CurrentSpec = rank
-			Addon:update_macros(rank)
-			if ActionBarSaver then -- if we have a saved ABS profile, restore it after updaing the macros
+			if ( self.db.profile.Options.AutoLoad.DeleteCharOnSpecSwap) then
+				self:DeleteActiveMacros("Char")
+			end
+			if ( self.db.profile.Options.AutoLoad.DeleteGlobalOnSpecSwap) then
+				self:DeleteActiveMacros("Global")
+			end
+			for Key, Value in pairs(self.db.profile.Options.AutoLoad["Spec_"..rn_rank.."_Char"]) do
+				self:LoadCategory(Value, "Char")
+			end
+			for Key, Value in pairs(self.db.profile.Options.AutoLoad["Spec_"..rn_rank.."_Global"]) do
+				self:LoadCategory(Value, "Global")
+			end
+			if ActionBarSaver then -- if we have a saved ABS profile, restore it after updating the macros
 				self:RegisterEvent("CHAT_MSG_SYSTEM")
 			end
 		end
@@ -1149,7 +1114,6 @@ end
 function Addon:CHAT_MSG_SYSTEM(event, msg)
 	local rank = msg:match("changed to Specialization (.*)%.")
 	if rank then
-		print(rank)
 		self:UnregisterEvent("CHAT_MSG_SYSTEM")
 		if self.db.profile.Options.AutoLoad["Spec_"..rank.."_ABS"] ~= "none" then
 			ActionBarSaver:RestoreProfile(self.db.profile.Options.AutoLoad["Spec_"..rank.."_ABS"])
