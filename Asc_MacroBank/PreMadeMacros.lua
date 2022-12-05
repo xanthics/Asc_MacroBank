@@ -4,21 +4,21 @@
 -- Anything between [=[  and ]=]  is treated as literal text, so you can use single or double quotes (' or ") without it messing up LUA.
 
 Addon.PreMadeMacros = {
-  {
-    name = "Macro1",
-    category = "Test Macros",
-    desc = "was just testing",
-    body = [=[/script print("blah")]=],
-  },
-  {
-    name = "Macro2",
-    category = "Test Macros",
-    desc = "pet passive",
-    body = "/petpassive",
-  },
-  {
-    name = "Macro3",
-    body = [=[/cast [target=focus] Hunter's Mark
+	{
+		name = "Macro1",
+		category = "Test Macros",
+		desc = "was just testing",
+		body = [=[/script print("blah")]=],
+	},
+	{
+		name = "Macro2",
+		category = "Test Macros",
+		desc = "pet passive",
+		body = "/petpassive",
+	},
+	{
+		name = "Macro3",
+		body = [=[/cast [target=focus] Hunter's Mark
 /petattack]=],
-  },
+	},
 };
