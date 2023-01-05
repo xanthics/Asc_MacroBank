@@ -982,7 +982,7 @@ function Addon:OnInitialize()
 	self.CurrentMacro = 0
 	self:UpgradeDatabase()
 	self:RegisterEvent("ADDON_LOADED")
-	self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
+	self:RegisterEvent("COMMENTATOR_SKIRMISH_QUEUE_REQUEST")
 	self:RegisterEvent("CHAT_MSG_ADDON")
 	self:RegisterEvent("PLAYER_ENTERING_WORLD")
 end
@@ -1084,30 +1084,27 @@ function Addon:ADDON_LOADED(Event, Addon)
 	end
 end
 
-local SpecIdx = {["I"] = 0, ["II"] = 1, ["III"] = 2, ["IV"] = 3, ["V"] = 4, ["VI"] = 5, ["VII"] = 6, ["VIII"] = 7, ["IX"] = 8, ["X"] = 9, ["XI"] = 10, ["XII"] = 11}
+local SpecIdx = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"}
 
-function Addon:UNIT_SPELLCAST_SUCCEEDED(event, unit, spellName, spellRank)
-	if spellName:find("Specialization") and unit == "player" then
-		local rn_rank = spellName:match(" (.*)$")
-		local rank = SpecIdx[rn_rank]
-		if ( rank ~= self.CurrentSpec and self.AllowAutoLoadSpecs ) then -- We switched specs
-			self.CurrentSpec = rank
-			if ( self.db.profile.Options.AutoLoad.DeleteCharOnSpecSwap) then
-				self:DeleteActiveMacros("Char")
-			end
-			if ( self.db.profile.Options.AutoLoad.DeleteGlobalOnSpecSwap) then
-				self:DeleteActiveMacros("Global")
-			end
-			for Key, Value in pairs(self.db.profile.Options.AutoLoad["Spec_"..rn_rank.."_Char"]) do
-				self:LoadCategory(Value, "Char")
-			end
-			for Key, Value in pairs(self.db.profile.Options.AutoLoad["Spec_"..rn_rank.."_Global"]) do
-				self:LoadCategory(Value, "Global")
-			end
-			if ActionBarSaver then -- if we have a saved ABS profile, restore it after updating the macros
-				Addon:GetABSGroupList() -- Make sure we have the latest list of saved profiles
-				self:RegisterEvent("CHAT_MSG_SYSTEM") -- wait for spec swap to finish
-			end
+function Addon:COMMENTATOR_SKIRMISH_QUEUE_REQUEST(event, eventType, rank)
+	if eventType ~= "ASCENSION_CA_SPECIALIZATION_ACTIVE_ID_CHANGED" then return end
+	if ( rank ~= self.CurrentSpec and self.AllowAutoLoadSpecs ) then -- We switched specs
+		self.CurrentSpec = rank
+		if ( self.db.profile.Options.AutoLoad.DeleteCharOnSpecSwap) then
+			self:DeleteActiveMacros("Char")
+		end
+		if ( self.db.profile.Options.AutoLoad.DeleteGlobalOnSpecSwap) then
+			self:DeleteActiveMacros("Global")
+		end
+		for Key, Value in pairs(self.db.profile.Options.AutoLoad["Spec_"..SpecIdx[rank+1].."_Char"]) do
+			self:LoadCategory(Value, "Char")
+		end
+		for Key, Value in pairs(self.db.profile.Options.AutoLoad["Spec_"..SpecIdx[rank+1].."_Global"]) do
+			self:LoadCategory(Value, "Global")
+		end
+		if ActionBarSaver then -- if we have a saved ABS profile, restore it after updating the macros
+			Addon:GetABSGroupList() -- Make sure we have the latest list of saved profiles
+			self:RegisterEvent("CHAT_MSG_SYSTEM") -- wait for spec swap to finish
 		end
 	end
 end
