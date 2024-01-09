@@ -982,7 +982,7 @@ function Addon:OnInitialize()
 	self.CurrentMacro = 0
 	self:UpgradeDatabase()
 	self:RegisterEvent("ADDON_LOADED")
-	self:RegisterEvent("COMMENTATOR_SKIRMISH_QUEUE_REQUEST")
+	self:RegisterEvent("ASCENSION_CA_SPECIALIZATION_ACTIVE_ID_CHANGED")
 	self:RegisterEvent("CHAT_MSG_ADDON")
 	self:RegisterEvent("PLAYER_ENTERING_WORLD")
 end
@@ -1086,8 +1086,7 @@ end
 
 local SpecIdx = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"}
 
-function Addon:COMMENTATOR_SKIRMISH_QUEUE_REQUEST(event, eventType, rank)
-	if eventType ~= "ASCENSION_CA_SPECIALIZATION_ACTIVE_ID_CHANGED" then return end
+function Addon:ASCENSION_CA_SPECIALIZATION_ACTIVE_ID_CHANGED(event, rank)
 	if ( rank ~= self.CurrentSpec and self.AllowAutoLoadSpecs ) then -- We switched specs
 		self.CurrentSpec = rank
 		if ( self.db.profile.Options.AutoLoad.DeleteCharOnSpecSwap) then
@@ -1096,10 +1095,10 @@ function Addon:COMMENTATOR_SKIRMISH_QUEUE_REQUEST(event, eventType, rank)
 		if ( self.db.profile.Options.AutoLoad.DeleteGlobalOnSpecSwap) then
 			self:DeleteActiveMacros("Global")
 		end
-		for Key, Value in pairs(self.db.profile.Options.AutoLoad["Spec_"..SpecIdx[rank+1].."_Char"]) do
+		for Key, Value in pairs(self.db.profile.Options.AutoLoad["Spec_"..SpecIdx[rank].."_Char"]) do
 			self:LoadCategory(Value, "Char")
 		end
-		for Key, Value in pairs(self.db.profile.Options.AutoLoad["Spec_"..SpecIdx[rank+1].."_Global"]) do
+		for Key, Value in pairs(self.db.profile.Options.AutoLoad["Spec_"..SpecIdx[rank].."_Global"]) do
 			self:LoadCategory(Value, "Global")
 		end
 		if ActionBarSaver then -- if we have a saved ABS profile, restore it after updating the macros
