@@ -1,4 +1,4 @@
-﻿## Interface: 30300
+## Interface: 30300
 ## Title: Asc_MacroBank
 ## Author: Odlaw, Xan(Ascension Updates)
 ## Version: 1.6
