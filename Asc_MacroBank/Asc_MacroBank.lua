@@ -555,6 +555,7 @@ function Addon:initSpecTable()
 	end
 end
 
+local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 function Addon:OnInitialize()
 	for i = 1, 20 do
 		defaults.profile.Options.AutoLoad["Spec_" .. SpecIdx[i] .. "_Char"] = {}
@@ -571,6 +572,11 @@ function Addon:OnInitialize()
 	LibStub("AceConfig-3.0"):RegisterOptionsTable("MacroBank CmdLine", CmdOptions, { L["SlashCmd1"], L["SlashCmd2"] })
 	MenuOptions.args.Profiles = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db)
 	LibStub("AceConfig-3.0"):RegisterOptionsTable(L["MacroBank"], MenuOptions)
+	self.optionsFrame = AceConfigDialog:AddToBlizOptions(L["MacroBank"], L["MacroBank"], nil, "MacroOptions")
+	self.optionsFrame.AutoLoad = AceConfigDialog:AddToBlizOptions(L["MacroBank"], "AutoLoad", L["MacroBank"], "AutoLoad")
+	self.optionsFrame.PreMadeMacros = AceConfigDialog:AddToBlizOptions(L["MacroBank"], "PreMadeMacros", L["MacroBank"], "PreMadeMacros")
+	self.optionsFrame.Profiles = AceConfigDialog:AddToBlizOptions(L["MacroBank"], "Profiles", L["MacroBank"], "Profiles")
+
 	self.MainFrame = self:CreateMainFrame()
 	self.DropDownFrame = CreateFrame("Frame", "MacroBank_DropDownMenu", nil, "UIDropDownMenuTemplate")
 	self.ExpandedTree = {
@@ -1940,7 +1946,13 @@ function Addon:CreateMacrosFrame()
 	Frame.OptionsButton:SetScript("OnEnter", function() self:ShowTooltip(L["Options"], L["OptionsDesc"]) end)
 	Frame.OptionsButton:SetScript("OnLeave", function() GameTooltip:Hide() end)
 	Frame.OptionsButton:SetScript("OnClick", function()
-		LibStub("AceConfigDialog-3.0"):Open(L["MacroBank"])
+		if InterfaceOptionsFrame:IsVisible() then
+			InterfaceOptionsFrame_Show()
+		else
+			InterfaceAddOnsList_Update()
+			InterfaceOptionsFrame_OpenToCategory(self.optionsFrame.AutoLoad)
+		end
+--		LibStub("AceConfigDialog-3.0"):Open(L["MacroBank"])
 	end)
 
 	Frame.MacroList = self:CreateMacroList()
